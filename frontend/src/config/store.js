@@ -8,7 +8,8 @@ export default new Vuex.Store({
     state: {
         isMenuVisible: false,
         user: null,
-        tittle: 'ODIN'
+        tittle: 'ODIN',
+        client: null
     },
     mutations: {
         toggleMenu(state, isVisible) {
@@ -35,6 +36,9 @@ export default new Vuex.Store({
         },
         setTittle(state, tittle2){
             state.tittle = tittle2
+        },
+        setClient(state, client){
+            state.client = client
         }
     }
 })

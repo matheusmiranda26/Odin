@@ -1,32 +1,38 @@
 const queries = require('./queries')
 
 module.exports = app => {
-    const { existsOrError } = app.api.validation
+    const {
+        existsOrError
+    } = app.api.validation
 
     const save = (req, res) => {
-        const client = { ...req.body }
-        if(req.params.id) client.id = req.params.id
+        const client = {
+            ...req.body
+        }
+        if (req.params.id) client.id = req.params.id
 
         try {
-            if(client.tipoCliente == 'juridico'){
-                existsOrError(client.razaoSocial, 'Razão Social não informado')
-                existsOrError(client.cnpj, 'CNPJ não informado')
-                existsOrError(client.inscricaoEstadual, 'Inscrição Estadual não informada')
-            }
-            if(client.tipoCliente == 'fisico'){
-                existsOrError(client.nomeCliente, 'Nome cliente não informado')
-                existsOrError(client.cpf, 'CPF não informado')
-            }
+            existsOrError(client.nomeCliente, 'Nome Cliente não informado')
+            existsOrError(client.cnpj_cpf, 'CNPJ/CPF não informado')
+            existsOrError(client.inscricaoEstadual_rg, 'Inscrição Estadual não informada')
             existsOrError(client.email, 'E-mail não informado')
-        
-        } catch(msg) {
+            existsOrError(client.cep, 'CEP não informado')
+            existsOrError(client.endereco, 'Endereço não informado')
+            existsOrError(client.numero, 'Número não informado')
+            existsOrError(client.bairro, 'Bairro não informado')
+            existsOrError(client.cidade, 'Cidade não informada')
+            existsOrError(client.estado, 'Estado não informado')
+
+        } catch (msg) {
             res.status(400).send(msg)
         }
 
-        if(client.id) {
+        if (client.id) {
             app.db('clients')
                 .update(client)
-                .where({ id: client.id })
+                .where({
+                    id: client.id
+                })
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
@@ -40,16 +46,18 @@ module.exports = app => {
     const remove = async (req, res) => {
         try {
             const rowsDeleted = await app.db('clients')
-                .where({ id: req.params.id }).del()
-            
+                .where({
+                    id: req.params.id
+                }).del()
+
             try {
                 existsOrError(rowsDeleted, 'Cliente não foi encontrado.')
-            } catch(msg) {
-                return res.status(400).send(msg)    
+            } catch (msg) {
+                return res.status(400).send(msg)
             }
 
             res.status(204).send()
-        } catch(msg) {
+        } catch (msg) {
             res.status(500).send(msg)
         }
     }
@@ -62,38 +70,30 @@ module.exports = app => {
         const count = parseInt(result.count)
 
         app.db('clients')
-            .select('id', 'name', 'description')
+            .select('id', 'nomeCliente', 'nomeFantasia', 'cnpj_cpf', 'inscricaoEstadual_rg', 'email', 'dataFundacao', 'telefoneComercial', 'telefoneCelular', 'tipoCliente', 'observacoes', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado')
             .limit(limit).offset(page * limit - limit)
-            .then(articles => res.json({ data: articles, count, limit }))
+            .then(clients => res.json(clients))
             .catch(err => res.status(500).send(err))
     }
 
     const getById = (req, res) => {
         app.db('clients')
-            .where({ id: req.params.id })
+            .where({
+                id: req.params.id
+            })
             .first()
             .then(client => {
-                article.content = article.content.toString()
-                return res.json(article)
+                client.content = client.content.toString()
+                return res.json(client)
             })
             .catch(err => res.status(500).send(err))
     }
 
-    const getByCategory = async (req, res) => {
-        const categoryId = req.params.id
-        const page = req.query.page || 1
-        const categories = await app.db.raw(queries.categoryWithChildren, categoryId)
-        const ids = categories.rows.map(c => c.id)
 
-        app.db({a: 'articles', u: 'users'})
-            .select('a.id', 'a.name', 'a.description', 'a.imageUrl', { author: 'u.name' })
-            .limit(limit).offset(page * limit - limit)
-            .whereRaw('?? = ??', ['u.id', 'a.userId'])
-            .whereIn('categoryId', ids)
-            .orderBy('a.id', 'desc')
-            .then(articles => res.json(articles))
-            .catch(err => res.status(500).send(err))
+    return {
+        save,
+        remove,
+        get,
+        getById
     }
-
-    return { save, remove, get, getById, getByCategory }
 }

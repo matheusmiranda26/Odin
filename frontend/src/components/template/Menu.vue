@@ -11,6 +11,9 @@
       <router-link to="/clients" @click.native="activeItem = 2">
         <b-list-group-item :action="true" :class="activeItem === 2 && 'active'">Clientes</b-list-group-item>
       </router-link>
+      <router-link to="/newClient" @click.native="activeItem = 6">
+        <b-list-group-item :action="true" :class="activeItem === 6 && 'active'">Novo Cliente</b-list-group-item>
+      </router-link>
       <router-link to="/tables" @click.native="activeItem = 3">
         <b-list-group-item :action="true" :class="activeItem === 3 && 'active'">Tables</b-list-group-item>
       </router-link>
@@ -18,7 +21,7 @@
         <b-list-group-item :action="true" :class="activeItem === 4 && 'active'">Admin</b-list-group-item>
       </router-link>
       <router-link to="/404" @click.native="activeItem = 5">
-        <b-list-group-item :action="true" :class="activeItem === 5 && 'active'">tESTE</b-list-group-item>
+        <b-list-group-item :action="true" :class="activeItem === 5 && 'active'">Teste</b-list-group-item>
       </router-link>
     </b-list-group>
   </aside>
@@ -35,14 +38,14 @@
 
 <script>
 import { mapState } from "vuex";
-import { mdbListGroup, mdbListGroupItem } from "mdbvue";
+// import { mdbListGroup, mdbListGroupItem } from "mdbvue";
 
 import { baseApiUrl } from "@/global";
 import axios from "axios";
 
 export default {
   name: "Menu",
-  components: { mdbListGroup, mdbListGroupItem },
+  // components: { mdbListGroup, mdbListGroupItem },
   computed: mapState(["isMenuVisible"]),
   data() {  
     return {
@@ -79,7 +82,7 @@ export default {
   flex-direction: column;
   flex-wrap: wrap;
 
-  z-index: 1050;
+  z-index: 1010;
   height: 100vh;
 
   /* box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12); */

@@ -9,12 +9,9 @@
           <b-form-input v-model="filter" placeholder="Pesquise"/>
         </b-col>
         <b-col md="3" sm="3">
-          <router-link to="/newClient">
-            <b-button variant="success">
-              Novo
-              <i class="fas fa-user-plus"></i>
-            </b-button>
-          </router-link>
+           <b-button variant="success" @click=" reset(); showModal();">
+            Novo   <i class="fas fa-user-plus"></i>
+          </b-button>
         </b-col>
       </b-row>
     </b-card>
@@ -29,12 +26,14 @@
         :per-page="perPage"
       >
         <div slot="actions" slot-scope="data">
-          <router-link to="/newClient">
-            <b-button variant="warning" @click="emitMethod(data.item)" class="mr-2">
-              <i class="fas fa-edit"></i>
-            </b-button>
-          </router-link>
-          <b-button variant="danger" @click=" emitMethod(data.item)">
+          <b-button
+            variant="warning"
+            @click="loadclient(data.item); this.$refs['modal-form-client'].show();"
+            class="mr-2"
+          >
+            <i class="fas fa-edit"></i>
+          </b-button>
+          <b-button variant="danger" @click="loadclient(data.item, 'remove')">
             <i class="fa fa-trash"></i>
           </b-button>
         </div>
@@ -69,122 +68,57 @@
         <input id="client-id" type="hidden" v-model="client.id">
         <b-row>
           <b-col md="6" sm="12">
-            <b-form-group label="Nome do cliente:" label-for="client-nome">
+            <b-form-group label="Nome:" label-for="client-name">
               <b-form-input
-                id="client-nome"
+                id="client-name"
                 type="text"
-                v-model="client.nomeCliente"
+                v-model="client.name"
                 required
                 :readonly="mode === 'remove'"
+                placeholder="Informe o Nome do Usuário..."
               />
             </b-form-group>
-            {{ client.nomeCliente}}
           </b-col>
           <b-col md="6" sm="12">
-            <b-form-group label="Nome Fantasia:" label-for="client-fantasia">
+            <b-form-group label="E-mail:" label-for="client-email">
               <b-form-input
-                id="client-fantasia"
+                id="client-email"
                 type="text"
-                v-model="client.nomeFantasia"
+                v-model="client.email"
                 required
                 :readonly="mode === 'remove'"
+                placeholder="Informe o E-mail do Usuário..."
               />
             </b-form-group>
           </b-col>
         </b-row>
+        <b-form-checkbox
+          id="client-admin"
+          v-show="mode === 'save'"
+          v-model="client.admin"
+          class="mt-3 mb-3"
+        >Administrador?</b-form-checkbox>
         <b-row v-show="mode === 'save'">
           <b-col md="6" sm="12">
-            <b-form-group label="CNPJ:" label-for="client-cnpj">
-              <b-form-input id="client-cnpj" type="text" v-model="client.cnpj_cpf" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Inscrição Estadual:" label-for="client-inscricao-estadual">
+            <b-form-group label="Senha:" label-for="client-password">
               <b-form-input
-                id="client-inscricao-estadual"
-                type="text"
-                v-model="client.inscricaoEstadual_rg"
+                id="client-password"
+                type="password"
+                v-model="client.password"
+                required
+                placeholder="Informe a Senha do Usuário..."
               />
             </b-form-group>
           </b-col>
-        </b-row>
-        <b-row v-show="mode === 'save'">
           <b-col md="6" sm="12">
-            <b-form-group label="Data Fundação:" label-for="client-data">
-              <b-form-input id="client-data" type="date" v-model="client.dataFundacao" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Telefone Comercial:" label-for="client-telefone-comercial">
+            <b-form-group label="Confirmação de Senha:" label-for="client-confirm-password">
               <b-form-input
-                id="client-telefone-comercial"
-                type="text"
-                v-model="client.telefoneComercial"
+                id="client-confirm-password"
+                type="password"
+                v-model="client.confirmPassword"
+                required
+                placeholder="Confirme a Senha do Usuário..."
               />
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row v-show="mode === 'save'">
-          <b-col md="6" sm="12">
-            <b-form-group label="Tipo Cliente:" label-for="client-tipo-cliente">
-              <b-form-select id="client-tipo-cliente" options v-model="client.tipoCliente" required>
-                <option value="fisica">Fisica</option>
-                <option value="juridica">Juridica</option>
-              </b-form-select>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Observações:" label-for="client-observacoes">
-              <b-form-input id="client-observacoes" type="text" v-model="client.observacoes"/>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <hr>
-        <b-row v-show="mode === 'save'">
-          <b-col md="6" sm="12">
-            <b-form-group label="CEP:" label-for="client-cep">
-              <b-form-input id="client-cep" type="text" v-model="client.cep" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Endereço:" label-for="client-endereco">
-              <b-form-input id="client-endereco" type="text" v-model="client.endereco"/>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row v-show="mode === 'save'">
-          <b-col md="6" sm="12">
-            <b-form-group label="Numero:" label-for="client-numero">
-              <b-form-input id="client-numero" type="text" v-model="client.numero" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Complemento:" label-for="client-complemento">
-              <b-form-input id="client-complemento" type="text" v-model="client.complemento"/>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row v-show="mode === 'save'">
-          <b-col md="6" sm="12">
-            <b-form-group label="Bairro:" label-for="client-bairro">
-              <b-form-input id="client-bairro" type="text" v-model="client.bairro" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Cidade:" label-for="client-cidade">
-              <b-form-input id="client-cidade" type="text" v-model="client.cidade"/>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row v-show="mode === 'save'">
-          <b-col md="6" sm="12">
-            <b-form-group label="Estado:" label-for="client-estado">
-              <b-form-input id="client-estado" type="text" v-model="client.estado" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Email:" label-for="client-email">
-              <b-form-input id="client-email" type="text" v-model="client.email" required/>
             </b-form-group>
           </b-col>
         </b-row>
@@ -204,28 +138,27 @@
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 import PageTitle from "../template/PageTitle";
-import { EventBus } from "../../config/eventBus"
-// import { mdbBtn } from "mdbvue";
+import { mdbBtn } from "mdbvue";
 
 export default {
   name: "Client",
-  components: { PageTitle },
+  components: { PageTitle, mdbBtn },
   data: function() {
     return {
       mode: "save",
       isLoading: false,
       client: {},
-      clients: [
-        {
-          id: 1,
-          nomeCliente: "teste",
-          email: "email"
-        }
-      ],
+      clients: [],
       fields: [
         { key: "id", label: "Código", sortable: true },
-        { key: "nomeCliente", label: "Nome", sortable: true },
+        { key: "name", label: "Nome", sortable: true },
         { key: "email", label: "E-mail", sortable: true },
+        {
+          key: "admin",
+          label: "Administrador",
+          sortable: true,
+          formatter: value => (value ? "Sim" : "Não")
+        },
         { key: "actions", label: "Ações" }
       ],
       items: [
@@ -240,18 +173,18 @@ export default {
       ],
       filter: null,
       currentPage: 1,
-      perPage: 10,
-      pageOptions: [10, 20, 30],
+      perPage: 1,
+      pageOptions: [1, 2, 3],
       totalRows: 1
     };
   },
   methods: {
     loadclients() {
-      // this.isLoading = true;
-      const url = `${baseApiUrl}/clients`;
+      this.isLoading = true;
+      const url = `${baseApiUrl}/users`;
       axios.get(url).then(res => {
         this.clients = res.data;
-        // this.isLoading = false;
+        this.isLoading = false;
       });
     },
     reset() {
@@ -295,10 +228,6 @@ export default {
     onFiltered(filteredItems) {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
-    },
-    emitMethod(client2) {
-      this.$store.commit("setClient", client2)
-      // EventBus.$emit("editarCliente", client2);
     }
   },
   computed: {
@@ -312,13 +241,14 @@ export default {
   },
   mounted() {
     this.loadclients();
-    this.$store.commit("setClient", null);
+    this.$store.commit("setTittle", "CLIENTES");
     this.totalRows = this.items.length + 1;
   }
 };
 </script>
 
 <style>
+
 .btn-circle.btn-lg {
   width: 50px;
   height: 50px;

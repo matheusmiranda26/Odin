@@ -43,6 +43,7 @@ module.exports = app => {
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
+            user.deletedAt = null
             app.db('users')
                 .insert(user)
                 .then(_ => res.status(204).send())
@@ -53,7 +54,7 @@ module.exports = app => {
     const get = (req, res) => {
         app.db('users')
             .select('id', 'name', 'email', 'admin')
-            // .whereNull('deletedAt')
+            .whereNull('deletedAt')
             .then(users => res.json(users))
             .catch(err => res.status(500).send(err))
     }
@@ -70,9 +71,9 @@ module.exports = app => {
 
     const remove = async (req, res) => {
         try {
-            const articles = await app.db('articles')
-                .where({ userId: req.params.id })
-            notExistsOrError(articles, 'Usuário possui artigos.')
+            // const articles = await app.db('articles')
+            //     .where({ userId: req.params.id })
+            // notExistsOrError(articles, 'Usuário possui artigos.')
 
             const rowsUpdated = await app.db('users')
                 .update({deletedAt: new Date()})

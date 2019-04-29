@@ -4,7 +4,7 @@
     <div class="menu"><Menu v-if="user"/></div>
     <Loading v-if="validatingToken"/>
     <Content v-else/>
-    <Footer/>
+    <!-- <Footer/> -->
   </div>
 </template>
 
@@ -78,24 +78,18 @@ body {
 
   height: 100vh;
   display: grid;
-  grid-template-rows: 60px 1fr 40px;
+  grid-template-rows: 60px 1fr;
   grid-template-columns: 300px 1fr;
   grid-template-areas:
-    "menu header"
-    "menu content"
-    "menu footer";
+    "header header"
+    "menu content";
 } 
 
 #app.hide-menu {
   grid-template-areas:
     "header header"
-    "content content"
-    "footer footer";
+    "content content";
 }
 
-.menu{
-   /* box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12); */
-}
-
-@import "assets/css/index.css";
+/* @import "assets/css/index.css"; */
 </style>

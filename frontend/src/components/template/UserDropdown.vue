@@ -1,17 +1,17 @@
 <template>
     <div class="user-dropdown">
         <div class="user-button">
-            <span class="d-none d-sm-block">{{ user.name }}</span>
+            <span class="d-none d-sm-block text-primary">{{ user.name }}</span>
             <div class="user-dropdown-img">
                 <Gravatar :email="user.email" alt="User" />
             </div>
             <i class="fa fa-angle-down"></i>
         </div>
-        <div class="user-dropdown-content">
+        <div class="user-dropdown-content bg-dark text-white">
             <router-link to="/admin" v-if="user.admin">
                 <i class="fa fa-cogs"></i> Administração
             </router-link>
-            <a href @click.prevent="logout"><i class="fa fa-sign-out"></i> Sair</a>
+            <a href @click.prevent="logout"><span class="oi oi-account-logout"></span> Sair</a>
         </div>
     </div>
 </template>
@@ -89,13 +89,14 @@ export default {
 
     .user-dropdown-content a {
         text-decoration: none;
-        color: #000;
+        /* color: #000; */
         padding: 10px;
     }
 
     .user-dropdown-content a:hover {
         text-decoration: none;
-        color: #000;
-        background-color: #EDEDED;
+        /* color: #000; */
+        /* background-color: #EDEDED; */
+        background-color: rgba(0, 0, 0, 0.2);
     }
 </style>
