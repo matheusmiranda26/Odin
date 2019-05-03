@@ -23,6 +23,7 @@ module.exports = app => {
     app.route('/clients/:id')
         .put(app.api.client.save)
         .delete(app.api.client.remove)
+        .get(app.api.client.getById)
     
         
 //     app.route('/categories')
