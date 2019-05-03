@@ -78,14 +78,13 @@ module.exports = app => {
 
     const getById = (req, res) => {
         app.db('clients')
+            .select('id', 'nomeCliente', 'nomeFantasia', 'cnpj_cpf', 'inscricaoEstadual_rg', 'email', 'dataFundacao', 'telefoneComercial', 'telefoneCelular', 'tipoCliente', 'observacoes', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado')
             .where({
                 id: req.params.id
             })
+            // .whereNull('deletedAt')
             .first()
-            .then(client => {
-                client.content = client.content.toString()
-                return res.json(client)
-            })
+            .then(user => res.json(user))
             .catch(err => res.status(500).send(err))
     }
 
