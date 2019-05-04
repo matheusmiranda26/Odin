@@ -1,27 +1,30 @@
 <template>
   <aside class="menu z-depth-5" v-show="isMenuVisible">
     <!-- <a class="logo-wrapper"><img alt="" class="img-fluid" src=""/></a> -->
-    <a class="logo-wrapper">
+    <!-- <a class="logo-wrapper">
       <p class="text-default">ODIN</p>
-    </a>
-    <b-list-group class="list-group-flush">
+    </a> -->
+    <b-list-group class="list-group-flush mt-3">
       <router-link to="/dashboard" @click.native="activeItem = 1">
         <b-list-group-item :action="true" :class="activeItem === 1 && 'active'">Dashboard</b-list-group-item>
       </router-link>
       <router-link to="/clients" @click.native="activeItem = 2">
         <b-list-group-item :action="true" :class="activeItem === 2 && 'active'">Clientes</b-list-group-item>
       </router-link>
-      <router-link to="/newClient" @click.native="activeItem = 6">
-        <b-list-group-item :action="true" :class="activeItem === 6 && 'active'">Novo Cliente</b-list-group-item>
+      <router-link to="/newClient" @click.native="activeItem = 3">
+        <b-list-group-item :action="true" :class="activeItem === 3 && 'active'">Novo Cliente</b-list-group-item>
       </router-link>
-      <router-link to="/tables" @click.native="activeItem = 3">
-        <b-list-group-item :action="true" :class="activeItem === 3 && 'active'">Tables</b-list-group-item>
+      <router-link to="/tables" @click.native="activeItem = 4">
+        <b-list-group-item :action="true" :class="activeItem === 4 && 'active'">Tables</b-list-group-item>
       </router-link>
-      <router-link to="/admin" @click.native="activeItem = 4">
-        <b-list-group-item :action="true" :class="activeItem === 4 && 'active'">Admin</b-list-group-item>
+      <router-link to="/admin" @click.native="activeItem = 5">
+        <b-list-group-item :action="true" :class="activeItem === 5 && 'active'">Admin</b-list-group-item>
       </router-link>
-      <router-link to="/404" @click.native="activeItem = 5">
-        <b-list-group-item :action="true" :class="activeItem === 5 && 'active'">Teste</b-list-group-item>
+      <router-link to="/404" @click.native="activeItem = 6">
+        <b-list-group-item :action="true" :class="activeItem === 6 && 'active'">Teste</b-list-group-item>
+      </router-link>
+       <router-link to="/client" @click.native="activeItem = 7">
+        <b-list-group-item :action="true" :class="activeItem === 7 && 'active'">Client</b-list-group-item>
       </router-link>
     </b-list-group>
   </aside>
