@@ -134,7 +134,6 @@
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
-import { EventBus } from "../../config/eventBus";
 
 export default {
   name: "EditClient",
