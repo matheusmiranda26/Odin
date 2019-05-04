@@ -16,14 +16,17 @@ module.exports = app => {
         .get(app.api.user.getById)
         .delete(app.api.user.remove)
 
-    app.route('/clients')
-        .get(app.api.client.get)
-        .post(app.api.client.save)
+    app.route('/clientes')
+        .get(app.api.cliente.get)
+        .post(app.api.cliente.save)
 
-    app.route('/clients/:id')
-        .put(app.api.client.save)
-        .delete(app.api.client.remove)
-        .get(app.api.client.getById)
+    app.route('/clientes/:id')
+        .put(app.api.cliente.save)
+        .delete(app.api.cliente.remove)
+        .get(app.api.cliente.getById)
+
+    app.route('/vendedores')
+        .get(app.api.vendedor.get)
     
         
 //     app.route('/categories')
