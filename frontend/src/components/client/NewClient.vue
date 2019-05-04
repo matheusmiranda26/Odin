@@ -97,9 +97,14 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col md="12" sm="12">
+          <b-col md="8" sm="12">
             <b-form-group label="Observações:" label-for="client-observacoes">
               <b-form-input id="client-observacoes" type="text" v-model="client.observacoes"/>
+            </b-form-group>
+          </b-col>
+          <b-col md="4" sm="12">
+            <b-form-group label="Vendedor:" label-for="client-vendedor">
+              <b-form-input id="client-vendedor" type="text" v-model="client.observacoes"/>
             </b-form-group>
           </b-col>
         </b-row>
