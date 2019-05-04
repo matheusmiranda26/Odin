@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 
 import './config/bootstrap'
+import './config/vue-awesome'
 import './config/msgs'
 import './config/axios'
 import './config/mq'
