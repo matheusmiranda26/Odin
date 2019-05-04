@@ -1,7 +1,8 @@
 <template>
   <header class="header bg-dark">
     <a class="toggle text-primary" @click="toggleMenu" v-if="!hideToggle">
-      <i class="fa fa-lg" :class="icon"></i>
+       <v-icon name="bars"></v-icon>
+      <!-- <i class="fa fa-lg" :class="icon"></i> -->
     </a>
     <h1 class="title text-primary">
       <router-link to="/">{{ title }}</router-link>
