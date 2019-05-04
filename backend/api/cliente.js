@@ -6,38 +6,38 @@ module.exports = app => {
     } = app.api.validation
 
     const save = (req, res) => {
-        const client = {
+        const cliente = {
             ...req.body
         }
-        if (req.params.id) client.id = req.params.id
+        if (req.params.id) cliente.id = req.params.id
 
         try {
-            existsOrError(client.nomeCliente, 'Nome Cliente não informado')
-            existsOrError(client.cnpj_cpf, 'CNPJ/CPF não informado')
-            existsOrError(client.inscricaoEstadual_rg, 'Inscrição Estadual não informada')
-            existsOrError(client.email, 'E-mail não informado')
-            existsOrError(client.cep, 'CEP não informado')
-            existsOrError(client.endereco, 'Endereço não informado')
-            existsOrError(client.numero, 'Número não informado')
-            existsOrError(client.bairro, 'Bairro não informado')
-            existsOrError(client.cidade, 'Cidade não informada')
-            existsOrError(client.estado, 'Estado não informado')
+            existsOrError(cliente.nomeCliente, 'Nome Cliente não informado')
+            existsOrError(cliente.cnpj_cpf, 'CNPJ/CPF não informado')
+            existsOrError(cliente.inscricaoEstadual_rg, 'Inscrição Estadual não informada')
+            existsOrError(cliente.email, 'E-mail não informado')
+            existsOrError(cliente.cep, 'CEP não informado')
+            existsOrError(cliente.endereco, 'Endereço não informado')
+            existsOrError(cliente.numero, 'Número não informado')
+            existsOrError(cliente.bairro, 'Bairro não informado')
+            existsOrError(cliente.cidade, 'Cidade não informada')
+            existsOrError(cliente.estado, 'Estado não informado')
 
         } catch (msg) {
             res.status(400).send(msg)
         }
 
-        if (client.id) {
-            app.db('clients')
-                .update(client)
+        if (cliente.id) {
+            app.db('clientes')
+                .update(cliente)
                 .where({
-                    id: client.id
+                    id: cliente.id
                 })
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
-            app.db('clients')
-                .insert(client)
+            app.db('clientes')
+                .insert(cliente)
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         }
@@ -45,7 +45,7 @@ module.exports = app => {
 
     const remove = async (req, res) => {
         try {
-            const rowsDeleted = await app.db('clients')
+            const rowsDeleted = await app.db('clientes')
                 .where({
                     id: req.params.id
                 }).del()
@@ -66,18 +66,18 @@ module.exports = app => {
     const get = async (req, res) => {
         const page = req.query.page || 1
 
-        const result = await app.db('clients').count('id').first()
+        const result = await app.db('clientes').count('id').first()
         const count = parseInt(result.count)
 
-        app.db('clients')
+        app.db('clientes')
             .select('id', 'nomeCliente', 'nomeFantasia', 'cnpj_cpf', 'inscricaoEstadual_rg', 'email', 'dataFundacao', 'telefoneComercial', 'telefoneCelular', 'tipoCliente', 'observacoes', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado')
             .limit(limit).offset(page * limit - limit)
-            .then(clients => res.json(clients))
+            .then(clientes => res.json(clientes))
             .catch(err => res.status(500).send(err))
     }
 
     const getById = (req, res) => {
-        app.db('clients')
+        app.db('clientes')
             .select('id', 'nomeCliente', 'nomeFantasia', 'cnpj_cpf', 'inscricaoEstadual_rg', 'email', 'dataFundacao', 'telefoneComercial', 'telefoneCelular', 'tipoCliente', 'observacoes', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado')
             .where({
                 id: req.params.id
