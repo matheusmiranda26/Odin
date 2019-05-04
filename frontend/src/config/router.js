@@ -6,8 +6,10 @@ import AdminPages from '@/components/admin/AdminPages'
 import ArticlesByCategory from '@/components/article/ArticlesByCategory'
 import ArticleById from '@/components/article/ArticleById'
 import Auth from '@/components/auth/Auth'
-import Client from '@/components/client/Client'
+import ListClients from '@/components/client/ListClients'
 import NewClient from '@/components/client/NewClient'
+import Client from '@/components/client/Client'
+import EditClient from '@/components/client/EditClient'
 
 import { userKey } from '@/global'
 
@@ -35,13 +37,21 @@ const routes = [{
     path: '/auth',
     component: Auth
 }, {
-    name: 'client',
+    name: 'listClients',
     path: '/clients',
-    component: Client
+    component: ListClients
 }, {
     name: 'newClient',
     path: '/newClient',
     component: NewClient
+}, {
+    name: 'client',
+    path: '/client/:id',
+    component: Client
+}, {
+    name: 'editClient',
+    path: '/editClient/:id',
+    component: EditClient
 }]
 
 const router = new VueRouter({
