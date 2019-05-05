@@ -1,10 +1,10 @@
 <template>
-  <div class="client">
+  <div class="cliente">
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card class="m-3">
       <b-row>
         <b-col cols="auto" class="mr-auto">
-          <router-link :to="{ name: 'editClient', params: { id: client.id }}">
+          <router-link :to="{ name: 'editarCliente', params: { id: cliente.id }}">
             <b-button variant="warning">
               Editar
               <v-icon name="pen"></v-icon>
@@ -20,15 +20,15 @@
       </b-row>
     </b-card>
     <b-card class="p-4 m-3">
-      <input id="client-id" type="hidden" v-model="client.id">
+      <input id="cliente-id" type="hidden" v-model="cliente.id">
       <b-row>
         <b-col md="12" sm="12">
-          <p class="text-primary titulo text-uppercase">{{ client.nomeCliente }}</p>
+          <p class="text-primary titulo text-uppercase">{{ cliente.nomeCliente }}</p>
         </b-col>
       </b-row>
       <b-row>
         <b-col md="12" sm="12">
-          <p class="text-black-50 dado">CNPJ: {{ client.cnpj_cpf }}</p>
+          <p class="text-black-50 dado">CNPJ: {{ cliente.cnpj_cpf }}</p>
         </b-col>
       </b-row>
       <hr>
@@ -38,7 +38,7 @@
             <p class="label text-secondary">Telefone Comercial:</p>
           </b-row>
           <b-row>
-            <p class="dado text-muted">{{ client.telefoneComercial }}</p>
+            <p class="dado text-muted">{{ cliente.telefoneComercial }}</p>
           </b-row>
         </b-col>
         <b-col md="4" sm="12">
@@ -46,7 +46,7 @@
             <p class="label text-secondary">Celular:</p>
           </b-row>
           <b-row>
-            <p class="dado text-muted">{{ client.telefoneCelular }}</p>
+            <p class="dado text-muted">{{ cliente.telefoneCelular }}</p>
           </b-row>
         </b-col>
         <b-col md="4" sm="12">
@@ -54,7 +54,7 @@
             <p class="label text-secondary">Email:</p>
           </b-row>
           <b-row>
-            <p class="dado text-muted">{{ client.email }}</p>
+            <p class="dado text-muted">{{ cliente.email }}</p>
           </b-row>
         </b-col>
       </b-row>
@@ -66,7 +66,7 @@
           <b-row>
             <p
               class="dado text-muted"
-            >{{ client.endereco }}, {{ client.numero }}, {{ client.complemento }}, {{ client.numero }}, {{ client.cep }}</p>
+            >{{ cliente.endereco }}, {{ cliente.numero }}, {{ cliente.complemento }}, {{ cliente.numero }}, {{ cliente.cep }}</p>
           </b-row>
         </b-col>
         <b-col md="4" sm="12">
@@ -74,7 +74,7 @@
             <p class="label text-secondary">Cidade:</p>
           </b-row>
           <b-row>
-            <p class="dado text-muted">{{ client.cidade }} - {{ client.estado }}</p>
+            <p class="dado text-muted">{{ cliente.cidade }} - {{ cliente.estado }}</p>
           </b-row>
         </b-col>
       </b-row>
@@ -84,7 +84,7 @@
                 <p>Status:</p>
             </b-row>
             <b-row>
-                {{ client.status }}, 
+                {{ cliente.status }}, 
             </b-row>
            </b-col>
            <b-col md="4" sm="12">
@@ -92,7 +92,7 @@
                 <p>Data de Cadastro:</p>
             </b-row>
             <b-row>
-                {{ client.dataDeCadastro }} 
+                {{ cliente.dataDeCadastro }} 
             </b-row>
            </b-col>
       </b-row>-->
@@ -100,7 +100,7 @@
     <b-card class="bg-transparent border-0">
       <b-row>
         <b-col cols="auto" class="mr-auto">
-          <router-link to="/clients">
+          <router-link to="/clientes">
             <b-button variant="secondary">
               Voltar
               <v-icon name="long-arrow-alt-left"></v-icon>
@@ -117,10 +117,10 @@ import { baseApiUrl } from "@/global";
 import axios from "axios";
 
 export default {
-  name: "Client",
+  name: "Cliente",
   data: function() {
     return {
-      client: {},
+      cliente: {},
       items: [
         {
           text: "Inicio",
@@ -128,7 +128,7 @@ export default {
         },
         {
           text: "Clientes",
-          to: "/clients"
+          to: "/clientes"
         },
         {
           text: "Perfil",
@@ -138,8 +138,8 @@ export default {
     };
   },
   mounted() {
-    const url = `${baseApiUrl}/clients/${this.$route.params.id}`;
-    axios.get(url).then(res => (this.client = res.data));
+    const url = `${baseApiUrl}/clientes/${this.$route.params.id}`;
+    axios.get(url).then(res => (this.cliente = res.data));
   }
 };
 </script>

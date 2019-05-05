@@ -10,38 +10,6 @@
               <b-form-input id="client-nome" type="text" v-model="client.nomeCliente" required/>
             </b-form-group>
           </b-col>
-
-          <b-col md="3" sm="12">
-            <b-form-group label="Tipo Cliente:" label-for="client-tipo-cliente">
-              <b-form-select id="client-tipo-cliente" options v-model="client.tipoCliente" required>
-                <option value="fisica">Fisica</option>
-                <option value="juridica">Juridica</option>
-              </b-form-select>
-            </b-form-group>
-          </b-col>
-          <b-col md="3" sm="12">
-            <b-form-group label="Status:" label-for="client-status">
-              <!-- <bootstrap-toggle
-                id="client-status"
-                :options="{ ativo: 'Ativo', off: 'Inativo' }"
-                :disabled="false"
-              />-->
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="3" sm="12">
-            <b-form-group
-              v-if="client.tipoCliente === 'fisica'"
-              label="CPF:"
-              label-for="client-cpf"
-            >
-              <b-form-input id="client-cpf" type="text" v-model="client.cnpj_cpf" required/>
-            </b-form-group>
-            <b-form-group v-else label="CNPJ:" label-for="client-cnpj">
-              <b-form-input id="client-cnpj" type="text" v-model="client.cnpj_cpf" required/>
-            </b-form-group>
-          </b-col>
           <b-col md="6" sm="12">
             <b-form-group label="Nome Fantasia:" label-for="client-fantasia">
               <b-form-input
@@ -52,18 +20,15 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="3" sm="12">
-            <b-form-group label="Data Fundação:" label-for="client-data">
-              <b-form-input id="client-data" type="date" v-model="client.dataFundacao" required/>
-            </b-form-group>
-          </b-col>
         </b-row>
         <b-row>
-          <b-col md="3" sm="12">
-            <b-form-group v-if="client.tipoCliente === 'fisica'" label="RG:" label-for="client-rg">
-              <b-form-input id="client-rg" type="text" v-model="client.inscricaoEstadual_rg"/>
+          <b-col md="6" sm="12">
+            <b-form-group label="CNPJ:" label-for="client-cnpj">
+              <b-form-input id="client-cnpj" type="text" v-model="client.cnpj_cpf" required/>
             </b-form-group>
-            <b-form-group v-else label="Inscrição Estadual:" label-for="client-inscricao-estadual">
+          </b-col>
+          <b-col md="6" sm="12">
+            <b-form-group label="Inscrição Estadual:" label-for="client-inscricao-estadual">
               <b-form-input
                 id="client-inscricao-estadual"
                 type="text"
@@ -71,8 +36,14 @@
               />
             </b-form-group>
           </b-col>
-
-          <b-col md="3" sm="12">
+        </b-row>
+        <b-row>
+          <b-col md="6" sm="12">
+            <b-form-group label="Data Fundação:" label-for="client-data">
+              <b-form-input id="client-data" type="date" v-model="client.dataFundacao" required/>
+            </b-form-group>
+          </b-col>
+          <b-col md="6" sm="12">
             <b-form-group label="Telefone Comercial:" label-for="client-telefone-comercial">
               <b-form-input
                 id="client-telefone-comercial"
@@ -81,73 +52,68 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="3" sm="12">
-            <b-form-group label="Telefone Celular:" label-for="client-telefone-celular">
-              <b-form-input
-                id="client-telefone-celular"
-                type="text"
-                v-model="client.telefoneCelular"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="3" sm="12">
-            <b-form-group label="Email:" label-for="client-email">
-              <b-form-input id="client-email" type="text" v-model="client.email"/>
-            </b-form-group>
-          </b-col>
         </b-row>
         <b-row>
-          <b-col md="8" sm="12">
+          <b-col md="6" sm="12">
+            <b-form-group label="Tipo Cliente:" label-for="client-tipo-cliente">
+              <b-form-select id="client-tipo-cliente" options v-model="client.tipoCliente" required>
+                <option value="fisica">Fisica</option>
+                <option value="juridica">Juridica</option>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+          <b-col md="6" sm="12">
             <b-form-group label="Observações:" label-for="client-observacoes">
               <b-form-input id="client-observacoes" type="text" v-model="client.observacoes"/>
             </b-form-group>
           </b-col>
-          <b-col md="4" sm="12">
-            <b-form-group label="Vendedor:" label-for="client-vendedor">
-              <b-form-input id="client-vendedor" type="text" v-model="client.observacoes"/>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-            <p class="p-3 endereco">Endereço do Cliente</p>            
         </b-row>
         <hr>
         <b-row>
-          <b-col md="4" sm="12">
+          <b-col md="6" sm="12">
             <b-form-group label="CEP:" label-for="client-cep">
               <b-form-input id="client-cep" type="text" v-model="client.cep" required/>
             </b-form-group>
           </b-col>
-          <b-col md="5" sm="12">
+          <b-col md="6" sm="12">
             <b-form-group label="Endereço:" label-for="client-endereco">
               <b-form-input id="client-endereco" type="text" v-model="client.endereco"/>
             </b-form-group>
           </b-col>
-          <b-col md="3" sm="12">
+        </b-row>
+        <b-row>
+          <b-col md="6" sm="12">
             <b-form-group label="Numero:" label-for="client-numero">
               <b-form-input id="client-numero" type="text" v-model="client.numero" required/>
             </b-form-group>
           </b-col>
-        </b-row>
-        <b-row>          
-          <b-col md="4" sm="12">
+          <b-col md="6" sm="12">
             <b-form-group label="Complemento:" label-for="client-complemento">
               <b-form-input id="client-complemento" type="text" v-model="client.complemento"/>
             </b-form-group>
           </b-col>
-          <b-col md="4" sm="12">
+        </b-row>
+        <b-row>
+          <b-col md="6" sm="12">
             <b-form-group label="Bairro:" label-for="client-bairro">
               <b-form-input id="client-bairro" type="text" v-model="client.bairro" required/>
             </b-form-group>
           </b-col>
-          <b-col md="3" sm="12">
+          <b-col md="6" sm="12">
             <b-form-group label="Cidade:" label-for="client-cidade">
               <b-form-input id="client-cidade" type="text" v-model="client.cidade"/>
             </b-form-group>
           </b-col>
-           <b-col md="1" sm="12">
+        </b-row>
+        <b-row>
+          <b-col md="6" sm="12">
             <b-form-group label="Estado:" label-for="client-estado">
               <b-form-input id="client-estado" type="text" v-model="client.estado" required/>
+            </b-form-group>
+          </b-col>
+          <b-col md="6" sm="12">
+            <b-form-group label="Email:" label-for="client-email">
+              <b-form-input id="client-email" type="text" v-model="client.email" required/>
             </b-form-group>
           </b-col>
         </b-row>
@@ -168,18 +134,15 @@
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
-// import BootstrapToggle from "vue-bootstrap-toggle";
 
 export default {
-  name: "NewClient",
-  //   components: { BootstrapToggle },
+  name: "EditarCliente",
   data: function() {
     return {
       mode: "save",
       isLoading: false,
       client: {},
       clients: [],
-      //   status: 'ativo',
       items: [
         {
           text: "Inicio",
@@ -187,10 +150,10 @@ export default {
         },
         {
           text: "Clientes",
-          to: "Clients"
+          to: "/clients"
         },
         {
-          text: "Novo",
+          text: "Editar",
           active: true
         }
       ]
@@ -207,40 +170,16 @@ export default {
         })
         .catch(showError);
     },
-    loadclient() {
-      this.client = { ...this.$store.state.client };
-      if (this.client.id) {
-        this.mode = "edit";
-      }
-      //   if (this.client !== null) {
-      //     this.mode = "edit";
-      //   }
-    },
     resetClient() {
       this.$store.commit("setClient", null);
     }
   },
   mounted() {
-    this.loadclient();
-    //   var vm = this
-    // EventBus.$on("editarCliente", function(client2) {
-    //     alert(client2.nomeCliente + " " + client2.email)
-    //   vm.client = { ...client }
-    //   alert('aqui sim')
-    // });
+    const url = `${baseApiUrl}/clients/${this.$route.params.id}`;
+    axios.get(url).then(res => (this.client = res.data));
   }
 };
 </script>
 
 <style>
-.endereco{
-    font-size: 1.5em;
-    padding: 0;
-    margin-bottom: 0;
-}
-hr{
-    margin: 0;
-    margin-bottom: 10px;
-    padding: 0;
-}
 </style>

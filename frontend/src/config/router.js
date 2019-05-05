@@ -3,15 +3,15 @@ import VueRouter from 'vue-router'
 
 import Home from '@/components/home/Home'
 import AdminPages from '@/components/admin/AdminPages'
-import ArticlesByCategory from '@/components/article/ArticlesByCategory'
-import ArticleById from '@/components/article/ArticleById'
 import Auth from '@/components/auth/Auth'
-import ListClients from '@/components/client/ListClients'
-import NewClient from '@/components/client/NewClient'
-import Client from '@/components/client/Client'
-import EditClient from '@/components/client/EditClient'
+import ListaClientes from '@/components/cliente/ListaClientes'
+import NovoCliente from '@/components/cliente/NovoCliente'
+import Cliente from '@/components/cliente/Cliente'
+import EditarCliente from '@/components/cliente/EditarCliente'
 
-import { userKey } from '@/global'
+import {
+    userKey
+} from '@/global'
 
 Vue.use(VueRouter)
 
@@ -25,33 +25,25 @@ const routes = [{
     component: AdminPages
     // meta: { requiresAdmin: true }
 }, {
-    name: 'articlesByCategory',
-    path: '/categories/:id/articles',
-    component: ArticlesByCategory
-}, {
-    name: 'articleById',
-    path: '/articles/:id',
-    component: ArticleById
-}, {
     name: 'auth',
     path: '/auth',
     component: Auth
 }, {
-    name: 'listClients',
-    path: '/clients',
-    component: ListClients
+    name: 'listaClientes',
+    path: '/clientes',
+    component: ListaClientes
 }, {
-    name: 'newClient',
-    path: '/newClient',
-    component: NewClient
+    name: 'novoCliente',
+    path: '/novoCliente',
+    component: NovoCliente
 }, {
-    name: 'client',
-    path: '/client/:id',
-    component: Client
+    name: 'cliente',
+    path: '/cliente/:id',
+    component: Cliente
 }, {
-    name: 'editClient',
-    path: '/editClient/:id',
-    component: EditClient
+    name: 'editarCliente',
+    path: '/editarCliente/:id',
+    component: EditarCliente
 }]
 
 const router = new VueRouter({
@@ -62,9 +54,11 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     const json = localStorage.getItem(userKey)
 
-    if(to.matched.some(record => record.meta.requiresAdmin)) {
+    if (to.matched.some(record => record.meta.requiresAdmin)) {
         const user = JSON.parse(json)
-        user && user.admin ? next() : next({ path: '/' })
+        user && user.admin ? next() : next({
+            path: '/'
+        })
     } else {
         next()
     }

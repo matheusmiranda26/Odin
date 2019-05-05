@@ -8,10 +8,10 @@
       <router-link to="/dashboard" @click.native="activeItem = 1">
         <b-list-group-item :action="true" :class="activeItem === 1 && 'active'">Dashboard</b-list-group-item>
       </router-link>
-      <router-link to="/clients" @click.native="activeItem = 2">
+      <router-link to="/clientes" @click.native="activeItem = 2">
         <b-list-group-item :action="true" :class="activeItem === 2 && 'active'">Clientes</b-list-group-item>
       </router-link>
-      <router-link to="/newClient" @click.native="activeItem = 3">
+      <router-link to="/novoCliente" @click.native="activeItem = 3">
         <b-list-group-item :action="true" :class="activeItem === 3 && 'active'">Novo Cliente</b-list-group-item>
       </router-link>
       <router-link to="/tables" @click.native="activeItem = 4">
@@ -23,7 +23,7 @@
       <router-link to="/404" @click.native="activeItem = 6">
         <b-list-group-item :action="true" :class="activeItem === 6 && 'active'">Teste</b-list-group-item>
       </router-link>
-       <router-link to="/client" @click.native="activeItem = 7">
+       <router-link to="/cliente" @click.native="activeItem = 7">
         <b-list-group-item :action="true" :class="activeItem === 7 && 'active'">Client</b-list-group-item>
       </router-link>
     </b-list-group>

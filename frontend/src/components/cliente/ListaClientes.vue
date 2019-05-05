@@ -1,5 +1,5 @@
 <template>
-  <div class="client">
+  <div class="cliente">
     <!-- <PageTitle icon="fas fa-user-ninja" main="Clientes"/> -->
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
 
@@ -14,7 +14,7 @@
           </b-input-group>
         </b-col>
         <b-col md="3" sm="3">
-          <router-link to="/newClient">
+          <router-link to="/novoCliente">
             <b-button variant="success">
               Novo
               <v-icon name="plus"></v-icon>
@@ -27,7 +27,7 @@
       <b-table
         hover
         striped
-        :items="clients"
+        :items="clientes"
         :fields="fields"
         :filter="filter"
         :current-page="currentPage"
@@ -35,7 +35,7 @@
         @row-clicked="linhaClicada"
       >
         <div slot="actions" slot-scope="data">
-          <router-link :to="{ name: 'editClient', params: { id: data.item.id }}">
+          <router-link :to="{ name: 'editarCliente', params: { id: data.item.id }}">
             <b-button variant="warning" @click="emitMethod(data.item)" class="mr-2">
               <v-icon name="pen"></v-icon>
             </b-button>
@@ -71,13 +71,13 @@ import axios from "axios";
 import PageTitle from "../template/PageTitle";
 
 export default {
-  name: "ListClients",
+  name: "ListaClientes",
   components: { PageTitle },
   data: function() {
     return {
       mode: "save",
       isLoading: false,
-      clients: [],
+      clientes: [],
       fields: [
         { key: "id", label: "Código", sortable: true },
         { key: "nomeCliente", label: "Nome", sortable: true },
@@ -104,21 +104,21 @@ export default {
   methods: {
     loadclients() {
       // this.isLoading = true;
-      const url = `${baseApiUrl}/clients`;
+      const url = `${baseApiUrl}/clientes`;
       axios.get(url).then(res => {
-        this.clients = res.data;
+        this.clientes = res.data;
         // this.isLoading = false;
       });
     },
     reset() {
       this.mode = "save";
-      this.client = {};
+      this.cliente = {};
       this.loadclients();
     },
     remove() {
-      const id = this.client.id;
+      const id = this.cliente.id;
       axios
-        .delete(`${baseApiUrl}/clients/${id}`)
+        .delete(`${baseApiUrl}/clientes/${id}`)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.reset();
@@ -131,7 +131,7 @@ export default {
       this.currentPage = 1;
     },
     linhaClicada(item, index, event) {
-      this.$router.push({ name: "client", params: { id: item.id } });
+      this.$router.push({ name: "cliente", params: { id: item.id } });
     }
   },
   computed: {
