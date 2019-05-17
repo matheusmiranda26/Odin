@@ -117,12 +117,23 @@
             </b-form-group>
           </b-col>
         </b-row>
+        <b-row>
+          <b-col md="3" sm="12">
+            <b-form-group label="Vendedor:" label-for="cliente-vendedor">
+              <b-form-select
+                id="cliente-vendedor"
+                :options="vendedores"
+                v-model="cliente.idVendedor"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
       </b-form>
       <b-row>
         <b-col xs="12">
           <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
           <b-button variant="warning" v-if="mode === 'edit'" @click="edit()">Salvar</b-button>
-          <router-link to="/clients">
+          <router-link to="/clientes">
             <b-button variant="secondary" class="ml-2 white-text" @click="resetClient()">Cancelar</b-button>
           </router-link>
         </b-col>
@@ -143,6 +154,7 @@ export default {
       isLoading: false,
       client: {},
       clients: [],
+      vendedores: [],
       items: [
         {
           text: "Inicio",
@@ -150,7 +162,7 @@ export default {
         },
         {
           text: "Clientes",
-          to: "/clients"
+          to: "/clientes"
         },
         {
           text: "Editar",
@@ -172,11 +184,33 @@ export default {
     },
     resetClient() {
       this.$store.commit("setClient", null);
+    },
+    carregarVendedores() {
+      const url = `${baseApiUrl}/vendedores`;
+      axios.get(url).then(res => {
+        let vendedoresAtivos = res.data.filter(
+          vendedor => vendedor.status != "1"
+        );
+        vendedoresAtivos.sort(function(a, b) {
+          if (a.nome > b.nome) {
+            return 1;
+          }
+          if (a.nome < b.nome) {
+            return -1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+        this.vendedores = vendedoresAtivos.map(vendedor => {
+          return { value: vendedor.id, text: vendedor.nome };
+        });
+      });
     }
   },
   mounted() {
     const url = `${baseApiUrl}/clients/${this.$route.params.id}`;
     axios.get(url).then(res => (this.client = res.data));
+    this.carregarVendedores();
   }
 };
 </script>

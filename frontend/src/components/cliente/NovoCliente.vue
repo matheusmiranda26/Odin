@@ -13,7 +13,12 @@
 
           <b-col md="3" sm="12">
             <b-form-group label="Tipo Cliente:" label-for="cliente-tipo-cliente">
-              <b-form-select id="cliente-tipo-cliente" options v-model="cliente.tipoCliente" required>
+              <b-form-select
+                id="cliente-tipo-cliente"
+                options
+                v-model="cliente.tipoCliente"
+                required
+              >
                 <option value="fisica">Fisica</option>
                 <option value="juridica">Juridica</option>
               </b-form-select>
@@ -60,7 +65,11 @@
         </b-row>
         <b-row>
           <b-col md="3" sm="12">
-            <b-form-group v-if="cliente.tipoCliente === 'fisica'" label="RG:" label-for="cliente-rg">
+            <b-form-group
+              v-if="cliente.tipoCliente === 'fisica'"
+              label="RG:"
+              label-for="cliente-rg"
+            >
               <b-form-input id="cliente-rg" type="text" v-model="cliente.inscricaoEstadual_rg"/>
             </b-form-group>
             <b-form-group v-else label="Inscrição Estadual:" label-for="cliente-inscricao-estadual">
@@ -109,7 +118,7 @@
           </b-col>
         </b-row>
         <b-row>
-            <p class="p-3 endereco">Endereço do Cliente</p>            
+          <p class="p-3 endereco">Endereço do Cliente</p>
         </b-row>
         <hr>
         <b-row>
@@ -129,7 +138,7 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row>          
+        <b-row>
           <b-col md="4" sm="12">
             <b-form-group label="Complemento:" label-for="cliente-complemento">
               <b-form-input id="cliente-complemento" type="text" v-model="cliente.complemento"/>
@@ -145,13 +154,24 @@
               <b-form-input id="cliente-cidade" type="text" v-model="cliente.cidade"/>
             </b-form-group>
           </b-col>
-           <b-col md="1" sm="12">
+          <b-col md="1" sm="12">
             <b-form-group label="Estado:" label-for="cliente-estado">
               <b-form-input id="cliente-estado" type="text" v-model="cliente.estado" required/>
             </b-form-group>
           </b-col>
         </b-row>
       </b-form>
+      <b-row>
+        <b-col md="3" sm="12">
+          <b-form-group label="Vendedor:" label-for="cliente-vendedor">
+            <b-form-select
+              id="cliente-vendedor"
+              :options="vendedores"
+              v-model="cliente.idVendedor"
+            />
+          </b-form-group>
+        </b-col>
+      </b-row>
       <b-row>
         <b-col xs="12">
           <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
@@ -179,6 +199,7 @@ export default {
       isLoading: false,
       cliente: {},
       clientes: [],
+      vendedores: [],
       //   status: 'ativo',
       items: [
         {
@@ -207,21 +228,33 @@ export default {
         })
         .catch(showError);
     },
-    loadclient() {
-      this.cliente = { ...this.$store.state.cliente };
-      if (this.cliente.id) {
-        this.mode = "edit";
-      }
-      //   if (this.cliente !== null) {
-      //     this.mode = "edit";
-      //   }
-    },
     resetClient() {
       this.$store.commit("setClient", null);
+    },
+    carregarVendedores() {
+      const url = `${baseApiUrl}/vendedores`;
+      axios.get(url).then(res => {
+        let vendedoresAtivos = res.data.filter(
+          vendedor => vendedor.status != "1"
+        );
+        vendedoresAtivos.sort(function(a, b) {
+          if (a.nome > b.nome) {
+            return 1;
+          }
+          if (a.nome < b.nome) {
+            return -1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+        this.vendedores = vendedoresAtivos.map(vendedor => {
+          return { value: vendedor.id, text: vendedor.nome };
+        });
+      });
     }
   },
   mounted() {
-    this.loadclient();
+    this.carregarVendedores();
     //   var vm = this
     // EventBus.$on("editarCliente", function(client2) {
     //     alert(client2.nomeCliente + " " + client2.email)
@@ -233,14 +266,14 @@ export default {
 </script>
 
 <style>
-.endereco{
-    font-size: 1.5em;
-    padding: 0;
-    margin-bottom: 0;
+.endereco {
+  font-size: 1.5em;
+  padding: 0;
+  margin-bottom: 0;
 }
-hr{
-    margin: 0;
-    margin-bottom: 10px;
-    padding: 0;
+hr {
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 0;
 }
 </style>
