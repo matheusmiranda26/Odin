@@ -62,16 +62,17 @@ module.exports = app => {
         }
     }
 
-    const limit = 10 // usado para paginação
+    // const limit = 10 // usado para paginação
     const get = async (req, res) => {
         const page = req.query.page || 1
 
         const result = await app.db('vendedores').count('id').first()
-        const count = parseInt(result.count)
+        // const count = parseInt(result.count)
 
         app.db('vendedores')
             .select('*')
-            .limit(limit).offset(page * limit - limit)
+            // .whereNot('status', '=', 1)
+            // .limit(limit).offset(page * limit - limit)
             .then(vendedores => res.json(vendedores))
             .catch(err => res.status(500).send(err))
     }

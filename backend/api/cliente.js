@@ -15,12 +15,13 @@ module.exports = app => {
             existsOrError(cliente.nomeCliente, 'Nome Cliente não informado')
             existsOrError(cliente.cnpj_cpf, 'CNPJ/CPF não informado')
             existsOrError(cliente.inscricaoEstadual_rg, 'Inscrição Estadual não informada')
-            existsOrError(cliente.email, 'E-mail não informado')
+            // existsOrError(cliente.email, 'E-mail não informado')
             existsOrError(cliente.cep, 'CEP não informado')
             existsOrError(cliente.endereco, 'Endereço não informado')
             existsOrError(cliente.numero, 'Número não informado')
             existsOrError(cliente.bairro, 'Bairro não informado')
             existsOrError(cliente.cidade, 'Cidade não informada')
+            existsOrError(cliente.estado, 'Estado não informado')
             existsOrError(cliente.estado, 'Estado não informado')
 
         } catch (msg) {
@@ -62,15 +63,15 @@ module.exports = app => {
         }
     }
 
-    const limit = 10 // usado para paginação
+    // const limit = 10 // usado para paginação
     const get = async (req, res) => {
         const page = req.query.page || 1
 
         const result = await app.db('clientes').count('id').first()
-        const count = parseInt(result.count)
+        // const count = parseInt(result.count)
 
         app.db('clientes')
-            .select('id', 'nomeCliente', 'nomeFantasia', 'cnpj_cpf', 'inscricaoEstadual_rg', 'email', 'dataFundacao', 'telefoneComercial', 'telefoneCelular', 'tipoCliente', 'observacoes', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado')
+            .select('id', 'nomeCliente', 'nomeFantasia', 'cnpj_cpf', 'inscricaoEstadual_rg', 'email', 'dataFundacao', 'telefoneComercial', 'telefoneCelular', 'tipoCliente', 'observacoes', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'idVendedor')
             .limit(limit).offset(page * limit - limit)
             .then(clientes => res.json(clientes))
             .catch(err => res.status(500).send(err))
@@ -78,7 +79,7 @@ module.exports = app => {
 
     const getById = (req, res) => {
         app.db('clientes')
-            .select('id', 'nomeCliente', 'nomeFantasia', 'cnpj_cpf', 'inscricaoEstadual_rg', 'email', 'dataFundacao', 'telefoneComercial', 'telefoneCelular', 'tipoCliente', 'observacoes', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado')
+            .select('id', 'nomeCliente', 'nomeFantasia', 'cnpj_cpf', 'inscricaoEstadual_rg', 'email', 'dataFundacao', 'telefoneComercial', 'telefoneCelular', 'tipoCliente', 'observacoes', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'idVendedor')
             .where({
                 id: req.params.id
             })
