@@ -22,8 +22,8 @@ const routes = [{
 }, {
     name: 'adminPages',
     path: '/admin',
-    component: AdminPages
-    // meta: { requiresAdmin: true }
+    component: AdminPages,
+    meta: { requiresAdmin: true }
 }, {
     name: 'auth',
     path: '/auth',
