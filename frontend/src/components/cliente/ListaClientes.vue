@@ -36,12 +36,12 @@
       >
         <div slot="actions" slot-scope="data">
           <router-link :to="{ name: 'editarCliente', params: { id: data.item.id }}">
-            <b-button variant="warning" @click="emitMethod(data.item)" class="mr-2">
+            <b-button variant="warning" class="mr-2">
               <v-icon name="pen"></v-icon>
             </b-button>
           </router-link>
 
-          <b-button variant="danger">
+          <b-button variant="danger" @click="remover(data.item.id)">
             <v-icon name="trash"></v-icon>
           </b-button>
         </div>
@@ -79,9 +79,12 @@ export default {
       isLoading: false,
       clientes: [],
       fields: [
-        { key: "id", label: "Código", sortable: true },
+        // { key: "id", label: "Código", sortable: true },
         { key: "nomeCliente", label: "Nome", sortable: true },
-        { key: "email", label: "E-mail", sortable: true },
+        { key: "nomeFantasia", label: "Nome Fantasia", sortable: true },
+        { key: "cidade", label: "Cidade", sortable: true },
+        { key: "estado", label: "Estado", sortable: true },
+        // { key: "email", label: "E-mail", sortable: true },
         { key: "actions", label: "Ações" }
       ],
       items: [
@@ -96,13 +99,13 @@ export default {
       ],
       filter: null,
       currentPage: 1,
-      perPage: 10,
-      pageOptions: [10, 20, 30],
+      perPage: 25,
+      pageOptions: [25, 50, 100],
       totalRows: 1
     };
   },
   methods: {
-    loadclients() {
+    carregarClientes() {
       // this.isLoading = true;
       const url = `${baseApiUrl}/clientes`;
       axios.get(url).then(res => {
@@ -113,16 +116,16 @@ export default {
     reset() {
       this.mode = "save";
       this.cliente = {};
-      this.loadclients();
+      this.carregarClientes();
     },
-    remove() {
-      const id = this.cliente.id;
+    remover(id_cliente) {
+      // alert(id_cliente)
+      const id = id_cliente;
       axios
         .delete(`${baseApiUrl}/clientes/${id}`)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.reset();
-          this.hideModal();
         })
         .catch(showError);
     },
@@ -144,7 +147,7 @@ export default {
     }
   },
   mounted() {
-    this.loadclients();
+    this.carregarClientes();
     this.$store.commit("setClient", null);
     this.totalRows = this.items.length + 1;
   }
