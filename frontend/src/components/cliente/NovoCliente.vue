@@ -111,11 +111,11 @@
               <b-form-input id="cliente-observacoes" type="text" v-model="cliente.observacoes"/>
             </b-form-group>
           </b-col>
-          <b-col md="4" sm="12">
+          <!-- <b-col md="4" sm="12">
             <b-form-group label="Vendedor:" label-for="cliente-vendedor">
               <b-form-input id="cliente-vendedor" type="text" v-model="cliente.observacoes"/>
             </b-form-group>
-          </b-col>
+          </b-col> -->
         </b-row>
         <b-row>
           <p class="p-3 endereco">Endereço do Cliente</p>
@@ -161,7 +161,7 @@
           </b-col>
         </b-row>
       </b-form>
-      <b-row>
+      <b-row> 
         <b-col md="3" sm="12">
           <b-form-group label="Vendedor:" label-for="cliente-vendedor">
             <b-form-select
@@ -219,9 +219,9 @@ export default {
   },
   methods: {
     save() {
-      const method = this.cliente.id ? "put" : "post";
+      // const method = this.cliente.id ? "put" : "post";
       const id = this.cliente.id ? `/${this.cliente.id}` : "";
-      axios[method](`${baseApiUrl}/clientes${id}`, this.cliente)
+      axios.post(`${baseApiUrl}/clientes${id}`, this.cliente)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.$router.push("/clientes");
