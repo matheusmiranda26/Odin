@@ -67,7 +67,7 @@ module.exports = app => {
 
         app.db('vendas')
             .select('*')
-            .limit(limit).offset(page * limit - limit)
+            // .limit(limit).offset(page * limit - limit)
             .then(vendas => res.json(vendas))
             .catch(err => res.status(500).send(err))
     }
