@@ -14,9 +14,9 @@
           </b-input-group>
         </b-col>
         <b-col md="3" sm="3">
-          <router-link to="/novoCliente">
+          <router-link to="/novaVenda">
             <b-button variant="success">
-              Novo
+              Nova Venda
               <v-icon name="plus"></v-icon>
             </b-button>
           </router-link>
@@ -71,7 +71,7 @@ import axios from "axios";
 import PageTitle from "../template/PageTitle";
 
 export default {
-  name: "ListaClientes",
+  name: "ListaVendas",
   components: { PageTitle },
   data: function() {
     return {
@@ -80,10 +80,10 @@ export default {
       vendas: [],
       fields: [
         // { key: "id", label: "Código", sortable: true },
-        { key: "nomeCliente", label: "Nome", sortable: true },
-        { key: "nomeFantasia", label: "Nome Fantasia", sortable: true },
-        { key: "cidade", label: "Cidade", sortable: true },
-        { key: "estado", label: "Estado", sortable: true },
+        { key: "data", label: "Data", sortable: true },
+        { key: "idCliente", label: "Cliente", sortable: true },
+        { key: "valorTotal", label: "Valor", sortable: true },
+        // { key: "estado", label: "Estado", sortable: true },
         // { key: "email", label: "E-mail", sortable: true },
         { key: "actions", label: "Ações" }
       ],
