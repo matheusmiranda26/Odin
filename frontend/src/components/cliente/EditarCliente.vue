@@ -1,138 +1,181 @@
 <template>
-  <div class="new-client">
+   <div class="editar-cliente">
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card>
       <b-form>
-        <input id="client-id" type="hidden" v-model="client.id">
+        <input id="cliente-id" type="hidden" v-model="cliente.id">
         <b-row>
           <b-col md="6" sm="12">
-            <b-form-group label="Nome do cliente:" label-for="client-nome">
-              <b-form-input id="client-nome" type="text" v-model="client.nomeCliente" required/>
+            <b-form-group label="Nome do cliente:" label-for="cliente-nome">
+              <b-form-input id="cliente-nome" type="text" v-model="cliente.nomeCliente" required/>
             </b-form-group>
           </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Nome Fantasia:" label-for="client-fantasia">
-              <b-form-input
-                id="client-fantasia"
-                type="text"
-                v-model="client.nomeFantasia"
+
+          <b-col md="3" sm="12">
+            <b-form-group label="Tipo Cliente:" label-for="cliente-tipo-cliente">
+              <b-form-select
+                id="cliente-tipo-cliente"
+                options
+                v-model="cliente.tipoCliente"
                 required
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="6" sm="12">
-            <b-form-group label="CNPJ:" label-for="client-cnpj">
-              <b-form-input id="client-cnpj" type="text" v-model="client.cnpj_cpf" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Inscrição Estadual:" label-for="client-inscricao-estadual">
-              <b-form-input
-                id="client-inscricao-estadual"
-                type="text"
-                v-model="client.inscricaoEstadual_rg"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="6" sm="12">
-            <b-form-group label="Data Fundação:" label-for="client-data">
-              <b-form-input id="client-data" type="date" v-model="client.dataFundacao" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Telefone Comercial:" label-for="client-telefone-comercial">
-              <b-form-input
-                id="client-telefone-comercial"
-                type="text"
-                v-model="client.telefoneComercial"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="6" sm="12">
-            <b-form-group label="Tipo Cliente:" label-for="client-tipo-cliente">
-              <b-form-select id="client-tipo-cliente" options v-model="client.tipoCliente" required>
+              >
                 <option value="fisica">Fisica</option>
                 <option value="juridica">Juridica</option>
               </b-form-select>
             </b-form-group>
           </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Observações:" label-for="client-observacoes">
-              <b-form-input id="client-observacoes" type="text" v-model="client.observacoes"/>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <hr>
-        <b-row>
-          <b-col md="6" sm="12">
-            <b-form-group label="CEP:" label-for="client-cep">
-              <b-form-input id="client-cep" type="text" v-model="client.cep" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Endereço:" label-for="client-endereco">
-              <b-form-input id="client-endereco" type="text" v-model="client.endereco"/>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="6" sm="12">
-            <b-form-group label="Numero:" label-for="client-numero">
-              <b-form-input id="client-numero" type="text" v-model="client.numero" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Complemento:" label-for="client-complemento">
-              <b-form-input id="client-complemento" type="text" v-model="client.complemento"/>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="6" sm="12">
-            <b-form-group label="Bairro:" label-for="client-bairro">
-              <b-form-input id="client-bairro" type="text" v-model="client.bairro" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Cidade:" label-for="client-cidade">
-              <b-form-input id="client-cidade" type="text" v-model="client.cidade"/>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="6" sm="12">
-            <b-form-group label="Estado:" label-for="client-estado">
-              <b-form-input id="client-estado" type="text" v-model="client.estado" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Email:" label-for="client-email">
-              <b-form-input id="client-email" type="text" v-model="client.email" required/>
+          <b-col md="3" sm="12">
+            <b-form-group label="Status:" label-for="cliente-status">
+              <!-- <bootstrap-toggle
+                id="cliente-status"
+                :options="{ ativo: 'Ativo', off: 'Inativo' }"
+                :disabled="false"
+              />-->
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
           <b-col md="3" sm="12">
-            <b-form-group label="Vendedor:" label-for="cliente-vendedor">
-              <b-form-select
-                id="cliente-vendedor"
-                :options="vendedores"
-                v-model="cliente.idVendedor"
+            <b-form-group
+              v-if="cliente.tipoCliente === 'fisica'"
+              label="CPF:"
+              label-for="cliente-cpf"
+            >
+              <b-form-input id="cliente-cpf" type="text" v-model="cliente.cnpj_cpf" required/>
+            </b-form-group>
+            <b-form-group v-else label="CNPJ:" label-for="cliente-cnpj">
+              <b-form-input id="cliente-cnpj" type="text" v-model="cliente.cnpj_cpf" required/>
+            </b-form-group>
+          </b-col>
+          <b-col md="6" sm="12">
+            <b-form-group label="Nome Fantasia:" label-for="cliente-fantasia">
+              <b-form-input
+                id="cliente-fantasia"
+                type="text"
+                v-model="cliente.nomeFantasia"
+                required
               />
+            </b-form-group>
+          </b-col>
+          <b-col md="3" sm="12">
+            <b-form-group label="Data Fundação:" label-for="cliente-data">
+              <b-form-input id="cliente-data" type="date" v-model="cliente.dataFundacao" required/>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="3" sm="12">
+            <b-form-group
+              v-if="cliente.tipoCliente === 'fisica'"
+              label="RG:"
+              label-for="cliente-rg"
+            >
+              <b-form-input id="cliente-rg" type="text" v-model="cliente.inscricaoEstadual_rg"/>
+            </b-form-group>
+            <b-form-group v-else label="Inscrição Estadual:" label-for="cliente-inscricao-estadual">
+              <b-form-input
+                id="cliente-inscricao-estadual"
+                type="text"
+                v-model="cliente.inscricaoEstadual_rg"
+              />
+            </b-form-group>
+          </b-col>
+
+          <b-col md="3" sm="12">
+            <b-form-group label="Telefone Comercial:" label-for="cliente-telefone-comercial">
+              <b-form-input
+                id="cliente-telefone-comercial"
+                type="text"
+                v-model="cliente.telefoneComercial"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="3" sm="12">
+            <b-form-group label="Telefone Celular:" label-for="cliente-telefone-celular">
+              <b-form-input
+                id="cliente-telefone-celular"
+                type="text"
+                v-model="cliente.telefoneCelular"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="3" sm="12">
+            <b-form-group label="Email:" label-for="cliente-email">
+              <b-form-input id="cliente-email" type="text" v-model="cliente.email"/>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="8" sm="12">
+            <b-form-group label="Observações:" label-for="cliente-observacoes">
+              <b-form-input id="cliente-observacoes" type="text" v-model="cliente.observacoes"/>
+            </b-form-group>
+          </b-col>
+          <!-- <b-col md="4" sm="12">
+            <b-form-group label="Vendedor:" label-for="cliente-vendedor">
+              <b-form-input id="cliente-vendedor" type="text" v-model="cliente.observacoes"/>
+            </b-form-group>
+          </b-col> -->
+        </b-row>
+        <b-row>
+          <p class="p-3 endereco">Endereço do Cliente</p>
+        </b-row>
+        <hr>
+        <b-row>
+          <b-col md="4" sm="12">
+            <b-form-group label="CEP:" label-for="cliente-cep">
+              <b-form-input id="cliente-cep" type="text" v-model="cliente.cep" required/>
+            </b-form-group>
+          </b-col>
+          <b-col md="5" sm="12">
+            <b-form-group label="Endereço:" label-for="cliente-endereco">
+              <b-form-input id="cliente-endereco" type="text" v-model="cliente.endereco"/>
+            </b-form-group>
+          </b-col>
+          <b-col md="3" sm="12">
+            <b-form-group label="Numero:" label-for="cliente-numero">
+              <b-form-input id="cliente-numero" type="text" v-model="cliente.numero" required/>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="4" sm="12">
+            <b-form-group label="Complemento:" label-for="cliente-complemento">
+              <b-form-input id="cliente-complemento" type="text" v-model="cliente.complemento"/>
+            </b-form-group>
+          </b-col>
+          <b-col md="4" sm="12">
+            <b-form-group label="Bairro:" label-for="cliente-bairro">
+              <b-form-input id="cliente-bairro" type="text" v-model="cliente.bairro" required/>
+            </b-form-group>
+          </b-col>
+          <b-col md="3" sm="12">
+            <b-form-group label="Cidade:" label-for="cliente-cidade">
+              <b-form-input id="cliente-cidade" type="text" v-model="cliente.cidade"/>
+            </b-form-group>
+          </b-col>
+          <b-col md="1" sm="12">
+            <b-form-group label="Estado:" label-for="cliente-estado">
+              <b-form-input id="cliente-estado" type="text" v-model="cliente.estado" required/>
             </b-form-group>
           </b-col>
         </b-row>
       </b-form>
+      <b-row> 
+        <b-col md="3" sm="12">
+          <b-form-group label="Vendedor:" label-for="cliente-vendedor">
+            <b-form-select
+              id="cliente-vendedor"
+              :options="vendedores"
+              v-model="cliente.idVendedor"
+            />
+          </b-form-group>
+        </b-col>
+      </b-row>
       <b-row>
         <b-col xs="12">
           <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
-          <b-button variant="warning" v-if="mode === 'edit'" @click="edit()">Salvar</b-button>
+          <b-button variant="warning" v-if="mode === 'edit'" @click="save()">Salvar</b-button>
           <router-link to="/clientes">
             <b-button variant="secondary" class="ml-2 white-text" @click="resetClient()">Cancelar</b-button>
           </router-link>
@@ -150,10 +193,9 @@ export default {
   name: "EditarCliente",
   data: function() {
     return {
-      mode: "save",
+      mode: "edit",
       isLoading: false,
-      client: {},
-      clients: [],
+      cliente: {},
       vendedores: [],
       items: [
         {
@@ -161,24 +203,25 @@ export default {
           to: "/"
         },
         {
-          text: "Clientes",
-          to: "/clientes"
-        },
-        {
-          text: "Editar",
-          active: true
-        }
+            text: "Clientes",
+            to: "/clientes"
+          },
+          {
+            text: "Editar",
+            active: true
+          }
       ]
     };
   },
   methods: {
     save() {
-      const method = this.client.id ? "put" : "post";
-      const id = this.client.id ? `/${this.client.id}` : "";
-      axios[method](`${baseApiUrl}/clients${id}`, this.client)
+      // alert(this.cliente.nomeCliente)
+      // const method = this.cliente.id ? "put" : "post";
+      const id = this.cliente.id //? `/${this.cliente.id}` : "";
+      axios.put(`${baseApiUrl}/clientes/${id}`, this.cliente)
         .then(() => {
           this.$toasted.global.defaultSuccess();
-          this.$router.push("/clients");
+          this.$router.push("/clientes");
         })
         .catch(showError);
     },
@@ -208,8 +251,8 @@ export default {
     }
   },
   mounted() {
-    const url = `${baseApiUrl}/clients/${this.$route.params.id}`;
-    axios.get(url).then(res => (this.client = res.data));
+    const url = `${baseApiUrl}/clientes/${this.$route.params.id}`;
+    axios.get(url).then(res => (this.cliente = res.data));
     this.carregarVendedores();
   }
 };
