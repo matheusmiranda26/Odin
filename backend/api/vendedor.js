@@ -12,13 +12,13 @@ module.exports = app => {
         if (req.params.id) vendedor.id = req.params.id
 
         try {
-            existsOrError(vendedor.nomeCliente, 'Nome vendedor não informado')
-            existsOrError(vendedor.cnpj_cpf, 'CNPJ/CPF não informado')
-            existsOrError(vendedor.inscricaoEstadual_rg, 'Inscrição Estadual não informada')
-            existsOrError(vendedor.email, 'E-mail não informado')
-            existsOrError(vendedor.cep, 'CEP não informado')
+            existsOrError(vendedor.nome, 'Nome vendedor não informado')
+            existsOrError(vendedor.cpf, 'CNPJ/CPF não informado')
+            existsOrError(vendedor.rg, 'Inscrição Estadual não informada')
+            // existsOrError(vendedor.email, 'E-mail não informado')
+            // existsOrError(vendedor.cep, 'CEP não informado')
             existsOrError(vendedor.endereco, 'Endereço não informado')
-            existsOrError(vendedor.numero, 'Número não informado')
+            // existsOrError(vendedor.numero, 'Número não informado')
             existsOrError(vendedor.bairro, 'Bairro não informado')
             existsOrError(vendedor.cidade, 'Cidade não informada')
             existsOrError(vendedor.estado, 'Estado não informado')

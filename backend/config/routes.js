@@ -6,12 +6,12 @@ module.exports = app => {
     app.post('/validateToken', app.api.auth.validateToken)
 
     app.route('/users')
-        // .all(app.config.passport.authenticate())
+        .all(app.config.passport.authenticate())
         .post(app.api.user.save)
         .get(app.api.user.get)
 
     app.route('/users/:id')
-        // .all(app.config.passport.authenticate())
+        .all(app.config.passport.authenticate())
         .put(admin(app.api.user.save))
         .get(app.api.user.getById)
         .delete(app.api.user.remove)
@@ -27,4 +27,10 @@ module.exports = app => {
 
     app.route('/vendedores')
         .get(app.api.vendedor.get)
+        .post(app.api.vendedor.save)
+
+    app.route('/vendedores/:id')
+        .put(app.api.vendedor.save)
+        .get(app.api.vendedor.getById)
+        .delete(app.api.vendedor.remove)        
 }
