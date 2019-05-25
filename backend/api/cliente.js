@@ -65,21 +65,21 @@ module.exports = app => {
 
     // const limit = 10 // usado para paginação
     const get = async (req, res) => {
-        const page = req.query.page || 1
+        // const page = req.query.page || 1
 
-        const result = await app.db('clientes').count('id').first()
+        // const result = await app.db('clientes').count('id').first()
         // const count = parseInt(result.count)
 
         app.db('clientes')
-            .select('id', 'nomeCliente', 'nomeFantasia', 'cnpj_cpf', 'inscricaoEstadual_rg', 'email', 'dataFundacao', 'telefoneComercial', 'telefoneCelular', 'tipoCliente', 'observacoes', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'idVendedor')
-            .limit(limit).offset(page * limit - limit)
+            .select('*')
+            // .limit(limit).offset(page * limit - limit)
             .then(clientes => res.json(clientes))
             .catch(err => res.status(500).send(err))
     }
 
     const getById = (req, res) => {
         app.db('clientes')
-            .select('id', 'nomeCliente', 'nomeFantasia', 'cnpj_cpf', 'inscricaoEstadual_rg', 'email', 'dataFundacao', 'telefoneComercial', 'telefoneCelular', 'tipoCliente', 'observacoes', 'cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'idVendedor')
+            .select('*')
             .where({
                 id: req.params.id
             })
@@ -88,7 +88,6 @@ module.exports = app => {
             .then(user => res.json(user))
             .catch(err => res.status(500).send(err))
     }
-
 
     return {
         save,
