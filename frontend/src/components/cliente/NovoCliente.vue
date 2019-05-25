@@ -77,6 +77,7 @@
                 id="cliente-inscricao-estadual"
                 type="text"
                 v-model="cliente.inscricaoEstadual_rg"
+                required
               />
             </b-form-group>
           </b-col>
@@ -129,7 +130,7 @@
           </b-col>
           <b-col md="5" sm="12">
             <b-form-group label="Endereço:" label-for="cliente-endereco">
-              <b-form-input id="cliente-endereco" type="text" v-model="cliente.endereco"/>
+              <b-form-input id="cliente-endereco" type="text" v-model="cliente.endereco" required/>
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
@@ -151,7 +152,7 @@
           </b-col>
           <b-col md="3" sm="12">
             <b-form-group label="Cidade:" label-for="cliente-cidade">
-              <b-form-input id="cliente-cidade" type="text" v-model="cliente.cidade"/>
+              <b-form-input id="cliente-cidade" type="text" v-model="cliente.cidade" required/>
             </b-form-group>
           </b-col>
           <b-col md="1" sm="12">
