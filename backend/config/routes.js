@@ -24,6 +24,9 @@ module.exports = app => {
         .put(app.api.cliente.save)
         .delete(app.api.cliente.remove)
         .get(app.api.cliente.getById)
+    
+    app.route('/cliente/:nome')
+        .get(app.api.cliente.getByName)
 
     app.route('/vendedores')
         .get(app.api.vendedor.get)
@@ -32,5 +35,8 @@ module.exports = app => {
     app.route('/vendedores/:id')
         .put(app.api.vendedor.save)
         .get(app.api.vendedor.getById)
-        .delete(app.api.vendedor.remove)        
+        .delete(app.api.vendedor.remove)
+        
+    app.route('/vendas')
+        .get(app.api.venda.get)
 }
