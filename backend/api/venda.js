@@ -15,7 +15,9 @@ module.exports = app => {
             existsOrError(venda.valorTotal, 'Valor total não informado')
             existsOrError(venda.data, 'Data não informado')
             existsOrError(venda.quantidadeTotal, 'Quantidade total não informada')
-            existsOrError(venda.idCLiente, 'Cliente não informado')
+            existsOrError(venda.idCliente, 'Cliente não informado')
+            existsOrError(venda.formaPagamento, 'Forma de Pagamento não informado')
+            existsOrError(venda.condicaoPagamento, 'Condição de Pagamento não informada.')
 
         } catch (msg) {
             res.status(400).send(msg)
@@ -60,7 +62,7 @@ module.exports = app => {
     const get = async (req, res) => {
         const page = req.query.page || 1
 
-        const result = await app.db('vendas').count('id').first()
+        // const result = await app.db('vendas').count('id').first()
         // const count = parseInt(result.count)
 
         app.db('vendas')
@@ -71,6 +73,9 @@ module.exports = app => {
     }
 
     const getById = (req, res) => {
+
+        let pagamento = app.db('pagamentos_vendas').where({idVendas : req.params.idVendas})
+
         app.db('vendas')
             .select('*')
             .where({
@@ -78,7 +83,7 @@ module.exports = app => {
             })
             // .whereNull('deletedAt')
             .first()
-            .then(user => res.json(user))
+            .then(venda => res.json({venda, pagamento}))
             .catch(err => res.status(500).send(err))
     }
 
