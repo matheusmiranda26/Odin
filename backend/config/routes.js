@@ -25,7 +25,7 @@ module.exports = app => {
         .delete(app.api.cliente.remove)
         .get(app.api.cliente.getById)
     
-    app.route('/cliente/:nome')
+    app.route('/clientes/nome/:nome')
         .get(app.api.cliente.getByName)
 
     app.route('/vendedores')
