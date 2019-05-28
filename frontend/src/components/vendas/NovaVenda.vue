@@ -12,7 +12,7 @@
                 :data="clientes"
                 v-model="clienteBusca"
                 :serializer="nome => nome.nomeCliente"
-                 @hit="clienteSelecionado = $event"                
+                @hit="clienteSelecionado = $event"
               />
             </b-form-group>
           </b-col>
@@ -22,58 +22,79 @@
             </b-form-group>
           </b-col>
         </b-row>
-        
         <b-row>
-          <p class="p-3 endereco">Carrinho</p>
+          <b-col md="3" sm="12">
+            <b-form-group label="Pedido:" label-for="venda-numero-pedido">
+              <b-form-input
+                id="venda-numero-pedido"
+                type="text"
+                v-model="venda.numeroPedido"
+                required
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="3" sm="12">
+            <b-form-group label="Nota Fiscal:" label-for="venda-nota-fiscal">
+              <b-form-input id="venda-nota-fiscal" type="text" v-model="venda.numeroNF" required/>
+            </b-form-group>
+          </b-col>
+          <b-col md="3" sm="12">
+            <b-form-group label="Condição de Pagamento:" label-for="venda-condicao-pagamento">
+              <b-form-select
+                id="venda-condicao-pagamento"
+                options
+                v-model="venda.condicaoPagamento"
+                required
+                @change="preencherPagamentos()"
+              >
+                <option value="1">1x</option>
+                <option value="2">2x</option>
+                <option value="3">3x</option>
+                <option value="4">4x</option>
+                <option value="5">5x</option>
+                <option value="6">6x</option>
+                <option value="7">7x</option>
+                <option value="8">8x</option>
+                <option value="9">9x</option>
+                <option value="10">10x</option>
+                <option value="11">11x</option>
+                <option value="12">12x</option>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+          <b-col md="3" sm="12">
+            <b-form-group label="Forma de Pagamento:" label-for="venda-forma-pagamento">
+              <b-form-select
+                id="venda-forma-pagamento"
+                options
+                v-model="venda.formaPagamento"
+                required
+              >
+                <option value="boleto">Boleto</option>
+                <option value="cheque">Cheque</option>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
         </b-row>
+
+        <b-row>
+          <p class="p-3 dados-pagamento">Dados Pagamento</p>
+        </b-row>
+        <div v-for="item in pagamentosVendas" :key="item.id">
+          <b-row>
+            <b-col md="3" sm="12">
+              <b-form-group label="Data:" label-for="venda-data-pagamento">
+                <b-form-input id="venda-data-pagamento" type="text" v-model="item.data" required/>
+              </b-form-group>
+            </b-col>
+          </b-row>         
+        </div>
+         <b-row>
+            {{pagamentosVendas}}
+          </b-row>
         <hr>
-        <b-row>
-          <b-col md="4" sm="12">
-            <b-form-group label="CEP:" label-for="venda-cep">
-              <b-form-input id="venda-cep" type="text" v-model="venda.cep" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="5" sm="12">
-            <b-form-group label="Endereço:" label-for="venda-endereco">
-              <b-form-input id="venda-endereco" type="text" v-model="venda.endereco" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="3" sm="12">
-            <b-form-group label="Numero:" label-for="venda-numero">
-              <b-form-input id="venda-numero" type="text" v-model="venda.numero" required/>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="4" sm="12">
-            <b-form-group label="Complemento:" label-for="venda-complemento">
-              <b-form-input id="venda-complemento" type="text" v-model="venda.complemento"/>
-            </b-form-group>
-          </b-col>
-          <b-col md="4" sm="12">
-            <b-form-group label="Bairro:" label-for="venda-bairro">
-              <b-form-input id="venda-bairro" type="text" v-model="venda.bairro" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="3" sm="12">
-            <b-form-group label="Cidade:" label-for="venda-cidade">
-              <b-form-input id="venda-cidade" type="text" v-model="venda.cidade" required/>
-            </b-form-group>
-          </b-col>
-          <b-col md="1" sm="12">
-            <b-form-group label="Estado:" label-for="venda-estado">
-              <b-form-input id="venda-estado" type="text" v-model="venda.estado" required/>
-            </b-form-group>
-          </b-col>
-        </b-row>
+        <b-row></b-row>
       </b-form>
-      <b-row>
-        <b-col md="3" sm="12">
-          <b-form-group label="Vendedor:" label-for="venda-vendedor">
-            <b-form-select id="venda-vendedor" :options="vendedores" v-model="venda.idVendedor"/>
-          </b-form-group>
-        </b-col>
-      </b-row>
       <b-row>
         <b-col xs="12">
           <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
@@ -102,8 +123,11 @@ export default {
     return {
       mode: "save",
       isLoading: false,
-      venda: {},
+      venda: {
+        condicaoPagamento: 1
+      },
       vendas: [],
+      pagamentosVendas: [{}],
       clientes: [],
       clienteBusca: "",
       clienteSelecionado: null,
@@ -140,12 +164,20 @@ export default {
       this.$store.commit("setClient", null);
     },
     async getClientes(nome) {
-      const url = `${baseApiUrl}/cliente/${nome}`;
+      const url = `${baseApiUrl}/clientes/nome/${nome}`;
       await axios.get(url).then(res => (this.clientes = res.data));
 
       // const res = await fetch(`${baseApiUrl}/cliente/:nome`.replace(':nome', nome))
       // const sugestoes = await res.json()
       // this.clientes = sugestoes
+    },
+    preencherPagamentos(){
+      // alert(this.venda.condicaoPagamento)
+      this.pagamentosVendas = []
+      for(let i = 0; i < parseInt(this.venda.condicaoPagamento); i++){
+        // alert("aqui")
+        this.pagamentosVendas.push({})
+      }
     }
   },
   mounted() {
@@ -165,7 +197,7 @@ export default {
 </script>
 
 <style>
-.endereco {
+.dados-pagamento {
   font-size: 1.5em;
   padding: 0;
   margin-bottom: 0;
