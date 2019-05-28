@@ -8,6 +8,7 @@ import './config/vue-awesome'
 import './config/msgs'
 import './config/axios'
 import './config/mq'
+import './config/vee-validate'
 
 import store from './config/store'
 import router from './config/router'
