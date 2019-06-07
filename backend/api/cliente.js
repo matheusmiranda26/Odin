@@ -70,11 +70,22 @@ module.exports = app => {
         // const result = await app.db('clientes').count('id').first()
         // const count = parseInt(result.count)
 
-        app.db('clientes')
-            .select('*')
+         const clientes = await app.db('clientes')
+            // .select('*')
             // .limit(limit).offset(page * limit - limit)
-            .then(clientes => res.json(clientes))
-            .catch(err => res.status(500).send(err))
+            // .replace(clientes => clientes.dataFundacao = "teste")   
+            // .forEach(element => {
+            //     dataFundacao = "teste"
+            // // })        
+            // .then(clientes => res.json(clientes))
+            // .catch(err => res.status(500).send(err))
+
+            // clientes.forEach(element => {
+            //     console.log(element.dataFundacao.split("T")[0])
+            // });
+
+            console.log(clientes)
+            return res.json(clientes)
     }
 
     const getById = (req, res) => {
@@ -85,7 +96,7 @@ module.exports = app => {
             })
             // .whereNull('deletedAt')
             .first()
-            .then(user => res.json(user))
+            .then(cliente => res.json(cliente))
             .catch(err => res.status(500).send(err))
     }
 
@@ -96,7 +107,7 @@ module.exports = app => {
             )
             // .whereNull('deletedAt')
             // .first()
-            .then(user => res.json(user))
+            .then(cliente => res.json(cliente))
             .catch(err => res.status(500).send(err))
     }
 
