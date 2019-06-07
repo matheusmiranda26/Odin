@@ -137,8 +137,8 @@
       </b-form>
       <b-row>
         <b-col xs="12">
-          <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
-          <b-button variant="warning" v-if="mode === 'edit'" @click="edit()">Salvar</b-button>
+          <b-button variant="primary" @click="save()">Salvar</b-button>
+          <b-button variant="success" class="ml-2 white-text" @click="edit()">Imprimir</b-button>
           <router-link to="/vendas">
             <b-button variant="secondary" class="ml-2 white-text" @click="resetClient()">Cancelar</b-button>
           </router-link>
@@ -153,6 +153,7 @@ import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import _ from "underscore";
+import moment from 'moment'
 
 // import BootstrapToggle from "vue-bootstrap-toggle";
 
@@ -164,7 +165,8 @@ export default {
       mode: "save",
       isLoading: false,
       venda: {
-        condicaoPagamento: 1
+        condicaoPagamento: 1,
+        formaPagamento: 'boleto'
       },
       money: {
         decimal: ",",
