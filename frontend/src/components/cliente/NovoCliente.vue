@@ -24,15 +24,15 @@
               </b-form-select>
             </b-form-group>
           </b-col>
-          <b-col md="3" sm="12">
+          <!-- <b-col md="3" sm="12">
             <b-form-group label="Status:" label-for="cliente-status">
-              <!-- <bootstrap-toggle
+              <bootstrap-toggle
                 id="cliente-status"
                 :options="{ ativo: 'Ativo', off: 'Inativo' }"
                 :disabled="false"
-              />-->
+              />
             </b-form-group>
-          </b-col>
+          </b-col>-->
         </b-row>
         <b-row>
           <b-col md="3" sm="12">
@@ -41,10 +41,22 @@
               label="CPF:"
               label-for="cliente-cpf"
             >
-              <b-form-input id="cliente-cpf" type="text" v-model="cliente.cnpj_cpf" required/>
+              <b-form-input
+                id="cliente-cpf"
+                v-model="cliente.cnpj_cpf"
+                type="tel"
+                v-mask="'###.###.###-##'"
+                required
+              />
             </b-form-group>
             <b-form-group v-else label="CNPJ:" label-for="cliente-cnpj">
-              <b-form-input id="cliente-cnpj" type="text" v-model="cliente.cnpj_cpf" required/>
+              <b-form-input
+                id="cliente-cnpj"
+                v-model="cliente.cnpj_cpf"
+                type="tel"
+                v-mask="'##.###.###/####-##'"
+                required
+              />
             </b-form-group>
           </b-col>
           <b-col md="6" sm="12">
@@ -86,8 +98,9 @@
             <b-form-group label="Telefone Comercial:" label-for="cliente-telefone-comercial">
               <b-form-input
                 id="cliente-telefone-comercial"
-                type="text"
                 v-model="cliente.telefoneComercial"
+                type="tel"
+                v-mask="['(##) ####-####', '(##) #####-####']"
               />
             </b-form-group>
           </b-col>
@@ -95,8 +108,9 @@
             <b-form-group label="Telefone Celular:" label-for="cliente-telefone-celular">
               <b-form-input
                 id="cliente-telefone-celular"
-                type="text"
                 v-model="cliente.telefoneCelular"
+                type="tel"
+                v-mask="['(##) ####-####', '(##) #####-####']"
               />
             </b-form-group>
           </b-col>
@@ -107,9 +121,9 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col md="8" sm="12">
+          <b-col md="12" sm="12">
             <b-form-group label="Observações:" label-for="cliente-observacoes">
-              <b-form-input id="cliente-observacoes" type="text" v-model="cliente.observacoes" />
+              <b-form-input id="cliente-observacoes" type="text" v-model="cliente.observacoes"/>
             </b-form-group>
           </b-col>
           <!-- <b-col md="4" sm="12">
@@ -125,7 +139,14 @@
         <b-row>
           <b-col md="4" sm="12">
             <b-form-group label="CEP:" label-for="cliente-cep">
-              <b-form-input id="cliente-cep" type="text" v-model="cliente.cep" required/>
+              <b-form-input
+                id="cliente-cep"
+                v-model="cliente.cep"
+                type="tel"
+                 v-mask="'#####-###'"
+                required
+                 @keyup="buscarCep"
+              />
             </b-form-group>
           </b-col>
           <b-col md="5" sm="12">
@@ -160,25 +181,26 @@
               <b-form-input id="cliente-estado" type="text" v-model="cliente.estado" required/>
             </b-form-group>
           </b-col>
+          {{cliente.endereco}}
+        </b-row>
+
+        <b-row>
+          <b-col md="3" sm="12">
+            <b-form-group label="Vendedor:" label-for="cliente-vendedor">
+              <b-form-select
+                id="cliente-vendedor"
+                :options="vendedores"
+                v-model="cliente.idVendedor"
+              />
+            </b-form-group>
+          </b-col>
         </b-row>
       </b-form>
       <b-row>
-        <b-col md="3" sm="12">
-          <b-form-group label="Vendedor:" label-for="cliente-vendedor">
-            <b-form-select
-              id="cliente-vendedor"
-              :options="vendedores"
-              v-model="cliente.idVendedor"
-            />
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
         <b-col xs="12">
           <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
-          <b-button variant="warning" v-if="mode === 'edit'" @click="edit()">Salvar</b-button>
           <router-link to="/clientes">
-            <b-button variant="secondary" class="ml-2 white-text" @click="resetClient()">Cancelar</b-button>
+            <b-button variant="secondary" class="ml-2 white-text">Cancelar</b-button>
           </router-link>
         </b-col>
       </b-row>
@@ -189,6 +211,7 @@
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
+var buscaCep = require("busca-cep");
 // import BootstrapToggle from "vue-bootstrap-toggle";
 
 export default {
@@ -198,8 +221,10 @@ export default {
     return {
       mode: "save",
       isLoading: false,
-      cliente: {},
-      clientes: [],
+      cliente: {
+        status: 1,
+        endereco: 'teste'
+      },
       vendedores: [],
       //   status: 'ativo',
       items: [
@@ -230,9 +255,6 @@ export default {
         })
         .catch(showError);
     },
-    resetClient() {
-      this.$store.commit("setClient", null);
-    },
     carregarVendedores() {
       const url = `${baseApiUrl}/vendedores`;
       axios.get(url).then(res => {
@@ -255,14 +277,22 @@ export default {
       });
     }
   },
+  buscarCep() {
+    alert("aqui");
+    this.cliente.endereco = buscaCep('01001-000', {sync: true});
+    // buscaCep('86803-370', { sync: true })
+    //   .then(enderecos => {
+        
+    //     this.cliente.endereco = enderecos;
+    //   })
+    //   .catch(erro => {
+    //     // console.log(
+    //     //   `Erro: statusCode ${erro.statusCode} e mensagem ${erro.message}`
+    //     // );
+    //   });
+  },
   mounted() {
     this.carregarVendedores();
-    //   var vm = this
-    // EventBus.$on("editarCliente", function(client2) {
-    //     alert(client2.nomeCliente + " " + client2.email)
-    //   vm.cliente = { ...cliente }
-    //   alert('aqui sim')
-    // });
   }
 };
 </script>
