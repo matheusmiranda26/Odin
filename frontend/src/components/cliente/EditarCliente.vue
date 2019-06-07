@@ -1,5 +1,5 @@
 <template>
-   <div class="editar-cliente">
+  <div class="editar-cliente">
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card>
       <b-form>
@@ -25,12 +25,11 @@
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
-            <b-form-group label="Status:" label-for="cliente-status">
-              <!-- <bootstrap-toggle
-                id="cliente-status"
-                :options="{ ativo: 'Ativo', off: 'Inativo' }"
-                :disabled="false"
-              />-->
+            <b-form-group label="Status:">
+              <b-form-radio-group id="cliente-status" v-model="cliente.status" name="cliente.status">
+                <b-form-radio value="1">Ativo</b-form-radio>
+                <b-form-radio value="0">Inativo</b-form-radio>
+              </b-form-radio-group>
             </b-form-group>
           </b-col>
         </b-row>
@@ -106,7 +105,7 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col md="8" sm="12">
+          <b-col md="12" sm="12">
             <b-form-group label="Observações:" label-for="cliente-observacoes">
               <b-form-input id="cliente-observacoes" type="text" v-model="cliente.observacoes"/>
             </b-form-group>
@@ -115,7 +114,7 @@
             <b-form-group label="Vendedor:" label-for="cliente-vendedor">
               <b-form-input id="cliente-vendedor" type="text" v-model="cliente.observacoes"/>
             </b-form-group>
-          </b-col> -->
+          </b-col>-->
         </b-row>
         <b-row>
           <p class="p-3 endereco">Endereço do Cliente</p>
@@ -161,7 +160,7 @@
           </b-col>
         </b-row>
       </b-form>
-      <b-row> 
+      <b-row>
         <b-col md="3" sm="12">
           <b-form-group label="Vendedor:" label-for="cliente-vendedor">
             <b-form-select
@@ -188,6 +187,7 @@
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
+var  moment = require("moment")
 
 export default {
   name: "EditarCliente",
@@ -197,19 +197,20 @@ export default {
       isLoading: false,
       cliente: {},
       vendedores: [],
+      datat:'1995-02-26',
       items: [
         {
           text: "Inicio",
           to: "/"
         },
         {
-            text: "Clientes",
-            to: "/clientes"
-          },
-          {
-            text: "Editar",
-            active: true
-          }
+          text: "Clientes",
+          to: "/clientes"
+        },
+        {
+          text: "Editar",
+          active: true
+        }
       ]
     };
   },
@@ -217,16 +218,18 @@ export default {
     save() {
       // alert(this.cliente.nomeCliente)
       // const method = this.cliente.id ? "put" : "post";
-      const id = this.cliente.id //? `/${this.cliente.id}` : "";
-      axios.put(`${baseApiUrl}/clientes/${id}`, this.cliente)
+      const id = this.cliente.id; //? `/${this.cliente.id}` : "";
+      axios
+        .put(`${baseApiUrl}/clientes/${id}`, this.cliente)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.$router.push("/clientes");
         })
         .catch(showError);
     },
-    resetClient() {
-      this.$store.commit("setClient", null);
+    formatarData(value, event) {
+    
+     
     },
     carregarVendedores() {
       const url = `${baseApiUrl}/vendedores`;
@@ -253,7 +256,9 @@ export default {
   mounted() {
     const url = `${baseApiUrl}/clientes/${this.$route.params.id}`;
     axios.get(url).then(res => (this.cliente = res.data));
-    this.carregarVendedores();
+    // this.cliente.dataFundacao = this.cliente.dataFundacao.moment().format('DD-MM-YYYY')
+    // this.cliente.dataFundacao = this.cliente.dataFundacao.date.toISOString().slice(0, 10)
+    this.carregarVendedores()
   }
 };
 </script>
