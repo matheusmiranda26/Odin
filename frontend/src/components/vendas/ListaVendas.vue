@@ -26,7 +26,7 @@
     <b-card no-body align="center">
       <b-table
         hover
-        striped
+        
         :items="vendas"
         :fields="fields"
         :filter="filter"
@@ -69,6 +69,7 @@
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 import PageTitle from "../template/PageTitle";
+import moment from "moment";
 
 export default {
   name: "ListaVendas",
@@ -81,7 +82,10 @@ export default {
       fields: [
         // { key: "id", label: "Código", sortable: true },
         { key: "data", label: "Data", sortable: true },
-        { key: "idCliente", label: "Cliente", sortable: true },
+        { key: "nomeCliente", label: "Cliente", sortable: true },
+        { key: "numeroPedido", label: "Pedido", sortable: true },
+         { key: "numeroNF", label: "Nota Fiscal", sortable: true },
+         { key: "quantidade", label: "Quantidade", sortable: true },
         { key: "valorTotal", label: "Valor", sortable: true },
         // { key: "estado", label: "Estado", sortable: true },
         // { key: "email", label: "E-mail", sortable: true },
