@@ -22,13 +22,22 @@
     <b-card class="p-4 m-3">
       <input id="cliente-id" type="hidden" v-model="cliente.id">
       <b-row>
-        <b-col md="12" sm="12">
-          <p class="text-primary titulo text-uppercase">{{ cliente.nomeCliente }}</p>
+        <b-col md="11" sm="12">
+          <p class="text-primary titulo text-uppercase">{{ cliente.nomeCliente }}<span v-show="cliente.nomeFantasia"> - {{cliente.nomeFantasia}}</span></p>
+        </b-col>
+        <b-col md="1" sm="12">
+          <b-row>
+            <p
+              class="dado"
+              :class="[cliente.status == '0' ? 'text-danger' : 'text-success' ]"
+            >{{ cliente.status == '0' ? 'Inativo' : 'Ativo' }}</p>
+          </b-row>
         </b-col>
       </b-row>
       <b-row>
         <b-col md="12" sm="12">
-          <p class="text-black-50 dado">CNPJ: {{ cliente.cnpj_cpf }}</p>
+          <p v-if="cliente.tipoCliente == 'juridica'" class="text-black-50 dado">CNPJ: {{ cliente.cnpj_cpf }}</p>
+           <p v-else class="text-black-50 dado">CPF: {{ cliente.cnpj_cpf }}</p>
         </b-col>
       </b-row>
       <hr>
@@ -41,7 +50,7 @@
             <p class="dado text-muted">{{ cliente.telefoneComercial }}</p>
           </b-row>
         </b-col>
-        <b-col md="4" sm="12">
+        <b-col v-show="cliente.telefoneCelular !== ''" md="4" sm="12">
           <b-row>
             <p class="label text-secondary">Celular:</p>
           </b-row>
@@ -66,7 +75,7 @@
           <b-row>
             <p
               class="dado text-muted"
-            >{{ cliente.endereco }}, {{ cliente.numero }}, {{ cliente.complemento }}, {{ cliente.numero }}, {{ cliente.cep }}</p>
+            >{{ cliente.endereco }}, {{ cliente.numero }},<span v-show="cliente.complemento !== ''"> {{ cliente.complemento }},</span> {{ cliente.cep }}</p>
           </b-row>
         </b-col>
         <b-col md="4" sm="12">
@@ -78,24 +87,26 @@
           </b-row>
         </b-col>
       </b-row>
-      <!-- <b-row>
-           <b-col md="4" sm="12">
-               <b-row>
-                <p>Status:</p>
-            </b-row>
-            <b-row>
-                {{ cliente.status }}, 
-            </b-row>
-           </b-col>
-           <b-col md="4" sm="12">
-               <b-row>
-                <p>Data de Cadastro:</p>
-            </b-row>
-            <b-row>
-                {{ cliente.dataDeCadastro }} 
-            </b-row>
-           </b-col>
-      </b-row>-->
+      <b-row>
+        <b-col v-show="cliente.dataCadastro !== ''" md="4" sm="12">
+          <b-row>
+            <p class="label text-secondary">Data de Cadastro:</p>
+          </b-row>
+          <b-row>
+            <p class="dado text-muted">{{ cliente.dataCadastro }}</p>
+          </b-row>
+        </b-col>
+      </b-row>
+      <b-row v-show="cliente.observacoes != ''">
+        <b-col md="" sm="12">
+          <b-row>
+            <p class="label text-secondary">Observações:</p>
+          </b-row>
+          <b-row>
+            <p class="dado text-muted">{{ cliente.observacoes }}</p>
+          </b-row>
+        </b-col>
+      </b-row>
     </b-card>
     <b-card class="bg-transparent border-0">
       <b-row>
@@ -115,6 +126,7 @@
 <script>
 import { baseApiUrl } from "@/global";
 import axios from "axios";
+import moment from 'moment'
 
 export default {
   name: "Cliente",
@@ -140,6 +152,7 @@ export default {
   mounted() {
     const url = `${baseApiUrl}/clientes/${this.$route.params.id}`;
     axios.get(url).then(res => (this.cliente = res.data));
+    // alert(moment(this.cliente.dataCadastro).format('L'))
   }
 };
 </script>
@@ -147,6 +160,7 @@ export default {
 <style>
 .label {
   font-size: 1.4em;
+  margin-bottom: 0;
 }
 .dado {
   font-size: 1.4em;
