@@ -39,4 +39,5 @@ module.exports = app => {
         
     app.route('/vendas')
         .get(app.api.venda.get)
+        .post(app.api.venda.save)
 }
