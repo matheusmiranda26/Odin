@@ -1,7 +1,8 @@
 <template>
-  <div class="new-cliente">
+  <div class="new-client">
+    <!-- <b-container align-self="center"> -->
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
-    <b-card>
+    <b-card border-variant="primary">
       <b-form>
         <input id="cliente-id" type="hidden" v-model="cliente.id">
         <b-row>
@@ -24,15 +25,16 @@
               </b-form-select>
             </b-form-group>
           </b-col>
-          <!-- <b-col md="3" sm="12">
-            <b-form-group label="Status:" label-for="cliente-status">
-              <bootstrap-toggle
-                id="cliente-status"
-                :options="{ ativo: 'Ativo', off: 'Inativo' }"
-                :disabled="false"
+
+          <b-col md="3" sm="12">
+            <b-form-group label="Vendedor:" label-for="cliente-vendedor">
+              <b-form-select
+                id="cliente-vendedor"
+                :options="vendedores"
+                v-model="cliente.idVendedor"
               />
             </b-form-group>
-          </b-col>-->
+          </b-col>
         </b-row>
         <b-row>
           <b-col md="3" sm="12">
@@ -143,9 +145,9 @@
                 id="cliente-cep"
                 v-model="cliente.cep"
                 type="tel"
-                 v-mask="'#####-###'"
+                v-mask="'#####-###'"
                 required
-                 @keyup="buscarCep"
+              
               />
             </b-form-group>
           </b-col>
@@ -181,21 +183,11 @@
               <b-form-input id="cliente-estado" type="text" v-model="cliente.estado" required/>
             </b-form-group>
           </b-col>
-          {{cliente.endereco}}
         </b-row>
 
-        <b-row>
-          <b-col md="3" sm="12">
-            <b-form-group label="Vendedor:" label-for="cliente-vendedor">
-              <b-form-select
-                id="cliente-vendedor"
-                :options="vendedores"
-                v-model="cliente.idVendedor"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
+        <b-row></b-row>
       </b-form>
+      <hr>
       <b-row>
         <b-col xs="12">
           <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
@@ -205,13 +197,16 @@
         </b-col>
       </b-row>
     </b-card>
+    <!-- </b-container> -->
   </div>
 </template>
 
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
-var buscaCep = require("busca-cep");
+import cep from "cep-promise";
+import _ from "underscore";
+// var buscaCep = require("busca-ce p");
 // import BootstrapToggle from "vue-bootstrap-toggle";
 
 export default {
@@ -223,7 +218,7 @@ export default {
       isLoading: false,
       cliente: {
         status: 1,
-        endereco: 'teste'
+        tipoCliente: "juridica"
       },
       vendedores: [],
       //   status: 'ativo',
@@ -278,11 +273,17 @@ export default {
     }
   },
   buscarCep() {
+    if (this.cep.length == 8) {
+      axios
+        .get(`https://viacep.com.br/ws/${this.cep}/json/`)
+        .then(response => (this.cliente.endereco = response.data))
+        .catch(error => console.log(error));
+    }
     alert("aqui");
-    this.cliente.endereco = buscaCep('01001-000', {sync: true});
+    // this.cliente.endereco = buscaCep("01001-000", { sync: true });
     // buscaCep('86803-370', { sync: true })
     //   .then(enderecos => {
-        
+
     //     this.cliente.endereco = enderecos;
     //   })
     //   .catch(erro => {
