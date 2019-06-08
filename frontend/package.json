@@ -12,6 +12,7 @@
     "axios": "0.18.0",
     "bootstrap-vue": "^2.0.0-rc.19",
     "busca-cep": "^0.5.0",
+    "cep-promise": "^3.0.7",
     "cls-bluebird": "^2.1.0",
     "font-awesome": "^4.7.0",
     "moment": "^2.24.0",
