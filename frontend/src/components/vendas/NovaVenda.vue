@@ -40,7 +40,7 @@
           </b-col>
           <b-col md="2" sm="12">
             <b-form-group label="Quantidade:" label-for="venda-quantidade">
-              <b-form-input id="venda-quantidade" type="text" v-model="venda.quantidade" required/>
+              <b-form-input id="venda-quantidade" type="number" v-model="venda.quantidade" required/>
             </b-form-group>
           </b-col>
           <b-col md="2" sm="12">
@@ -136,9 +136,8 @@
             </b-col>
           </b-row>
         </div>
-        <b-row>{{pagamentosVendas}}</b-row>
         <hr>
-        <b-row></b-row>
+        <b-row>{{venda}}</b-row>
       </b-form>
       <b-row>
         <b-col xs="12">
@@ -208,6 +207,8 @@ export default {
     save() {
       // const method = this.venda.id ? "put" : "post";
       const id = this.venda.id ? `/${this.venda.id}` : "";
+      this.venda.pagamentosVendas = this.pagamentosVendas;
+      this.venda.idCliente = this.clienteSelecionado.id;
       axios
         .post(`${baseApiUrl}/vendas${id}`, this.venda)
         .then(() => {
@@ -231,10 +232,12 @@ export default {
       // this.venda.valorTotal = this.venda.valorTotal.replace(",", ".").split('R$ ')[1];
       // alert(this.venda.condicaoPagamento)
       this.pagamentosVendas = [];
-      let dataParcela = moment().format('YYYY-MM-DD')
+      let dataParcela = moment().format("YYYY-MM-DD");
       for (let i = 0; i < parseInt(this.venda.condicaoPagamento); i++) {
         // alert("aqui")
-        dataParcela = moment(dataParcela).add(1, "month").format('YYYY-MM-DD');
+        dataParcela = moment(dataParcela)
+          .add(1, "month")
+          .format("YYYY-MM-DD");
         this.pagamentosVendas.push({
           data: dataParcela,
           valor: (
@@ -243,6 +246,8 @@ export default {
           numeroParcela: `${i + 1}/${this.venda.condicaoPagamento}`
         });
       }
+      this.venda.pagamentosVendas = this.pagamentosVendas;
+      this.venda.idCliente = this.clienteSelecionado.id;
     }
   },
   watch: {
