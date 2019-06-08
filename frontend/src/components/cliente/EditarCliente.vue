@@ -40,10 +40,10 @@
               label="CPF:"
               label-for="cliente-cpf"
             >
-              <b-form-input id="cliente-cpf" type="text" v-model="cliente.cnpj_cpf" required/>
+              <b-form-input id="cliente-cpf" type="text" v-model="cliente.cnpj_cpf"  v-mask="'###.###.###-##'" required/>
             </b-form-group>
             <b-form-group v-else label="CNPJ:" label-for="cliente-cnpj">
-              <b-form-input id="cliente-cnpj" type="text" v-model="cliente.cnpj_cpf" required/>
+              <b-form-input id="cliente-cnpj" type="text" v-model="cliente.cnpj_cpf"  v-mask="'##.###.###/####-##'" required/>
             </b-form-group>
           </b-col>
           <b-col md="6" sm="12">
@@ -76,6 +76,7 @@
                 id="cliente-inscricao-estadual"
                 type="text"
                 v-model="cliente.inscricaoEstadual_rg"
+               
               />
             </b-form-group>
           </b-col>
@@ -86,6 +87,7 @@
                 id="cliente-telefone-comercial"
                 type="text"
                 v-model="cliente.telefoneComercial"
+                v-mask="['(##) ####-####', '(##) #####-####']"
               />
             </b-form-group>
           </b-col>
@@ -95,6 +97,7 @@
                 id="cliente-telefone-celular"
                 type="text"
                 v-model="cliente.telefoneCelular"
+                 v-mask="['(##) ####-####', '(##) #####-####']"
               />
             </b-form-group>
           </b-col>
@@ -123,7 +126,7 @@
         <b-row>
           <b-col md="4" sm="12">
             <b-form-group label="CEP:" label-for="cliente-cep">
-              <b-form-input id="cliente-cep" type="text" v-model="cliente.cep" required/>
+              <b-form-input id="cliente-cep" type="text" v-model="cliente.cep"  v-mask="'#####-###'" required/>
             </b-form-group>
           </b-col>
           <b-col md="5" sm="12">
