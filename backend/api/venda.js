@@ -14,7 +14,7 @@ module.exports = app => {
         try {
             existsOrError(venda.valorTotal, 'Valor total não informado')
             existsOrError(venda.data, 'Data não informado')
-            existsOrError(venda.quantidadeTotal, 'Quantidade total não informada')
+            existsOrError(venda.quantidade, 'Quantidade total não informada')
             existsOrError(venda.idCliente, 'Cliente não informado')
             existsOrError(venda.formaPagamento, 'Forma de Pagamento não informado')
             existsOrError(venda.condicaoPagamento, 'Condição de Pagamento não informada.')
@@ -22,7 +22,13 @@ module.exports = app => {
         } catch (msg) {
             res.status(400).send(msg)
         }
+        let pagamentos = {
+            ...venda.pagamentosVendas
+        }
 
+        // console.log(pagamentos)
+        delete venda.pagamentosVendas
+        // console.log(venda)
         if (venda.id) {
             app.db('vendas')
                 .update(venda)
@@ -32,10 +38,32 @@ module.exports = app => {
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
+            console.log(venda)
             app.db('vendas')
                 .insert(venda)
-                .then(_ => res.status(204).send())
-                .catch(err => res.status(500).send(err))
+                // .returning('id')
+                .then(
+                    _ => res.status(204).send()
+                )
+                .catch(err => console.log(err))
+            // console.log(idVenda)
+
+            // for(let i = 0; i < pagamentos.length; i++){
+            //     pagamentos[i].idVenda = id
+            // } 
+            // console.log(pagamentos)
+            // app.db('pagamentos_vendas')
+            // .insert(pagamentos)
+            // .then(_ => res.status(204).send())
+            // .catch(err => res.status(500).send(err))  
+
+
+            // pagamentos = JSON.stringify(pagamentos)
+            // console.log(pagamentos)
+            // app.db('pagamentos_vendas')
+            //     .insert(pagamentos)
+            //     .then(_ => res.status(204).send())
+            //     .catch(err => res.status(500).send(err))
         }
     }
 
@@ -66,7 +94,7 @@ module.exports = app => {
         // const count = parseInt(result.count)
 
         app.db('vendas')
-            .select('*')
+            .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nomeCliente as nomeCliente')
             // .limit(limit).offset(page * limit - limit)
             .then(vendas => res.json(vendas))
             .catch(err => res.status(500).send(err))
@@ -74,7 +102,9 @@ module.exports = app => {
 
     const getById = (req, res) => {
 
-        let pagamento = app.db('pagamentos_vendas').where({idVendas : req.params.idVendas})
+        let pagamento = app.db('pagamentos_vendas').where({
+            idVendas: req.params.idVendas
+        })
 
         app.db('vendas')
             .select('*')
@@ -83,7 +113,10 @@ module.exports = app => {
             })
             // .whereNull('deletedAt')
             .first()
-            .then(venda => res.json({venda, pagamento}))
+            .then(venda => res.json({
+                venda,
+                pagamento
+            }))
             .catch(err => res.status(500).send(err))
     }
 
