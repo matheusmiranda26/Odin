@@ -70,7 +70,7 @@ module.exports = app => {
         // const result = await app.db('clientes').count('id').first()
         // const count = parseInt(result.count)
 
-         const clientes = await app.db('clientes')
+         const clientes = await app.db('clientes').join('vendedores', 'clientes.idVendedor', '=', 'vendedores.id').select('clientes.*', 'vendedores.nome as nomeVendedor')
             // .select('*')
             // .limit(limit).offset(page * limit - limit)
             // .replace(clientes => clientes.dataFundacao = "teste")   
@@ -84,7 +84,7 @@ module.exports = app => {
             //     console.log(element.dataFundacao.split("T")[0])
             // });
 
-            console.log(clientes)
+            // console.log(clientes)
             return res.json(clientes)
     }
 
