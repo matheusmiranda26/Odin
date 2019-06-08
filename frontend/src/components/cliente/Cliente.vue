@@ -21,9 +21,12 @@
     </b-card>
     <b-card class="p-4 m-3">
       <input id="cliente-id" type="hidden" v-model="cliente.id">
-      <b-row>
+      <b-row class="titulo-card">
         <b-col md="11" sm="12">
-          <p class="text-primary titulo text-uppercase">{{ cliente.nomeCliente }}<span v-show="cliente.nomeFantasia"> - {{cliente.nomeFantasia}}</span></p>
+          <p class="m-0 text-primary titulo text-uppercase">
+            {{ cliente.nomeCliente }}
+            <span v-show="cliente.nomeFantasia">- {{cliente.nomeFantasia}}</span>
+          </p>
         </b-col>
         <b-col md="1" sm="12">
           <b-row>
@@ -34,10 +37,22 @@
           </b-row>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row class="titulo-card">
         <b-col md="12" sm="12">
-          <p v-if="cliente.tipoCliente == 'juridica'" class="text-black-50 dado">CNPJ: {{ cliente.cnpj_cpf }}</p>
-           <p v-else class="text-black-50 dado">CPF: {{ cliente.cnpj_cpf }}</p>
+          <p
+            v-if="cliente.tipoCliente == 'juridica'"
+            class="text-black-50 dado"
+          >CNPJ: {{ cliente.cnpj_cpf }}</p>
+          <p v-else class="text-black-50 dado">CPF: {{ cliente.cnpj_cpf }}</p>
+        </b-col>
+      </b-row >
+      <b-row class="titulo-card">
+        <b-col md="12" sm="12">
+          <p
+            v-if="cliente.tipoCliente == 'juridica'"
+            class="text-black-50 dado"
+          >IE: {{ cliente.inscricaoEstadual_rg }}</p>
+          <p v-else class="text-black-50 dado">RG: {{ cliente.inscricaoEstadual_rg }}</p>
         </b-col>
       </b-row>
       <hr>
@@ -73,9 +88,11 @@
             <p class="label text-secondary">Endereço:</p>
           </b-row>
           <b-row>
-            <p
-              class="dado text-muted"
-            >{{ cliente.endereco }}, {{ cliente.numero }},<span v-show="cliente.complemento !== ''"> {{ cliente.complemento }},</span> {{ cliente.cep }}</p>
+            <p class="dado text-muted">
+              {{ cliente.endereco }}, {{ cliente.numero }},
+              <span v-show="cliente.complemento !== null">{{ cliente.complemento }},</span>
+              {{ cliente.cep }}
+            </p>
           </b-row>
         </b-col>
         <b-col md="4" sm="12">
@@ -87,7 +104,7 @@
           </b-row>
         </b-col>
       </b-row>
-      <b-row>
+      <!-- <b-row>
         <b-col v-show="cliente.dataCadastro !== ''" md="4" sm="12">
           <b-row>
             <p class="label text-secondary">Data de Cadastro:</p>
@@ -96,9 +113,9 @@
             <p class="dado text-muted">{{ cliente.dataCadastro }}</p>
           </b-row>
         </b-col>
-      </b-row>
-      <b-row v-show="cliente.observacoes != ''">
-        <b-col md="" sm="12">
+      </b-row>-->
+      <b-row v-show="cliente.observacoes !== null">
+        <b-col md sm="12">
           <b-row>
             <p class="label text-secondary">Observações:</p>
           </b-row>
@@ -126,7 +143,7 @@
 <script>
 import { baseApiUrl } from "@/global";
 import axios from "axios";
-import moment from 'moment'
+import moment from "moment";
 
 export default {
   name: "Cliente",
@@ -168,5 +185,10 @@ export default {
 }
 .titulo {
   font-size: 1.9em;
+}
+.titulo-card{
+  margin: 0;
+  padding: 0;
+
 }
 </style>
