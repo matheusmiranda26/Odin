@@ -45,7 +45,12 @@
           </b-col>
           <b-col md="2" sm="12">
             <b-form-group label="Valor Total:" label-for="venda-valor-total">
-              <b-form-input id="venda-valor-total" v-model="venda.valorTotal" required/>
+              <b-form-input
+                id="venda-valor-total"
+                v-model="venda.valorTotal"
+                @change="preencherPagamentos()"
+                required
+              />
             </b-form-group>
           </b-col>
           <b-col md="2" sm="12">
@@ -153,7 +158,7 @@ import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import _ from "underscore";
-import moment from 'moment'
+import moment from "moment";
 
 // import BootstrapToggle from "vue-bootstrap-toggle";
 
@@ -166,7 +171,8 @@ export default {
       isLoading: false,
       venda: {
         condicaoPagamento: 1,
-        formaPagamento: 'boleto'
+        formaPagamento: "boleto",
+        data: ""
       },
       money: {
         decimal: ",",
@@ -222,12 +228,15 @@ export default {
       // this.clientes = sugestoes
     },
     preencherPagamentos() {
-      this.venda.valorTotal = this.venda.valorTotal.replace(",", ".");
+      // this.venda.valorTotal = this.venda.valorTotal.replace(",", ".").split('R$ ')[1];
       // alert(this.venda.condicaoPagamento)
       this.pagamentosVendas = [];
+      let dataParcela = moment().format('YYYY-MM-DD')
       for (let i = 0; i < parseInt(this.venda.condicaoPagamento); i++) {
         // alert("aqui")
+        dataParcela = moment(dataParcela).add(1, "month").format('YYYY-MM-DD');
         this.pagamentosVendas.push({
+          data: dataParcela,
           valor: (
             this.venda.valorTotal / parseInt(this.venda.condicaoPagamento)
           ).toFixed(2),
@@ -240,6 +249,9 @@ export default {
     clienteBusca: _.debounce(function(nome) {
       this.getClientes(nome);
     }, 500)
+  },
+  mounted() {
+    this.venda.data = moment().format("YYYY-MM-DD");
   }
 };
 </script>
