@@ -18,16 +18,17 @@ module.exports = app => {
         console.log(user)
         try {
             existsOrError(user.name, 'Nome não informado')
-            existsOrError(user.email, 'E-mail não informado')
+            // existsOrError(user.email, 'E-mail não informado')
             existsOrError(user.password, 'Senha não informada')
+            existsOrError(user.username, 'Nome de Usuário não informado')
             existsOrError(user.confirmPassword, 'Confirmação de Senha inválida')
             equalsOrError(user.password, user.confirmPassword,
                 'Senhas não conferem')
 
             const userFromDB = await app.db('users')
-                .where({ email: user.email }).first()
+                .where({ username: user.username }).first()
             if(!user.id) {
-                notExistsOrError(userFromDB, 'Usuário já cadastrado')
+                notExistsOrError(userFromDB, 'Nome de usuário já cadastrado')
             }
         } catch(msg) {
             return res.status(400).send(msg)
@@ -54,7 +55,7 @@ module.exports = app => {
 
     const get = (req, res) => {
         app.db('users')
-            .select('id', 'name', 'email', 'admin')
+            .select('id', 'name', 'email', 'admin', 'username')
             .whereNull('deletedAt')
             .then(users => res.json(users))
             .catch(err => res.status(500).send(err))
@@ -62,7 +63,7 @@ module.exports = app => {
 
     const getById = (req, res) => {
         app.db('users')
-            .select('id', 'name', 'email', 'admin')
+            .select('id', 'name', 'email', 'admin', 'username')
             .where({ id: req.params.id })
             .whereNull('deletedAt')
             .first()
