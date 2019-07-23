@@ -137,7 +137,6 @@
           </b-row>
         </div>
         <hr>
-        <b-row>{{venda}}</b-row>
       </b-form>
       <b-row>
         <b-col xs="12">
