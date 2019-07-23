@@ -14,7 +14,7 @@
       <router-link to="/vendas" @click.native="activeItem = 3">
         <b-list-group-item :action="true" :class="activeItem === 3 && 'active'">Vendas</b-list-group-item>
       </router-link>
-      <router-link to="/tables" @click.native="activeItem = 4">
+      <!-- <router-link to="/tables" @click.native="activeItem = 4">
         <b-list-group-item :action="true" :class="activeItem === 4 && 'active'">Tables</b-list-group-item>
       </router-link>
       <router-link to="/admin" @click.native="activeItem = 5">
@@ -25,7 +25,7 @@
       </router-link>
        <router-link to="/cliente" @click.native="activeItem = 7">
         <b-list-group-item :action="true" :class="activeItem === 7 && 'active'">Client</b-list-group-item>
-      </router-link>
+      </router-link> -->
     </b-list-group>
   </aside>
   <!-- <aside class="menu z-depth-5" v-show="isMenuVisible">
