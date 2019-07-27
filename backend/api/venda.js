@@ -1,4 +1,5 @@
 const queries = require('./queries')
+const pagamentos = require('./pagamentosVendas')
 
 module.exports = app => {
     const {
@@ -22,13 +23,13 @@ module.exports = app => {
         } catch (msg) {
             res.status(400).send(msg)
         }
-        let pagamentos = {
-            ...venda.pagamentosVendas
-        }
+        // console.log(venda.pagamentosVendas)
+        // let pagamentos = {
+        //     ...venda.pagamentosVendas,
+
 
         // console.log(pagamentos)
         delete venda.pagamentosVendas
-        // console.log(venda)
         if (venda.id) {
             app.db('vendas')
                 .update(venda)
@@ -38,34 +39,19 @@ module.exports = app => {
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
-            console.log(venda)
             app.db('vendas')
+                .returning('id')
                 .insert(venda)
-                // .returning('id')
-                .then(
-                    _ => res.status(204).send()
-                )
+                .then(function (response) {
+                    app.api.pagamentosVendas.teste(response[0])
+                }).then(_ => res.status(204).send())
                 .catch(err => console.log(err))
-            // console.log(idVenda)
-
-            // for(let i = 0; i < pagamentos.length; i++){
-            //     pagamentos[i].idVenda = id
-            // } 
-            // console.log(pagamentos)
-            // app.db('pagamentos_vendas')
-            // .insert(pagamentos)
-            // .then(_ => res.status(204).send())
-            // .catch(err => res.status(500).send(err))  
-
-
-            // pagamentos = JSON.stringify(pagamentos)
-            // console.log(pagamentos)
-            // app.db('pagamentos_vendas')
-            //     .insert(pagamentos)
-            //     .then(_ => res.status(204).send())
-            //     .catch(err => res.status(500).send(err))
         }
+
     }
+
+
+
 
     const remove = async (req, res) => {
         try {
@@ -93,10 +79,22 @@ module.exports = app => {
         // const result = await app.db('vendas').count('id').first()
         // const count = parseInt(result.count)
 
+        let vendatotal = 'teste'
         app.db('vendas')
             .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nomeCliente as nomeCliente')
             // .limit(limit).offset(page * limit - limit)
-            .then(vendas => res.json(vendas))
+            .then(vendas => {
+                res.json(vendas) //.then(v => vendatotal = v)
+                // vendatotal = "2"
+            })
+            .catch(err => res.status(500).send(err))
+
+        console.log('venda ' + vendatotal)
+    }
+
+    const getLast = async (req, res) => {
+        app.db('vendas').max('id as ultimoIdVenda')
+            .then(idVenda => res.json(idVenda))
             .catch(err => res.status(500).send(err))
     }
 
@@ -125,6 +123,7 @@ module.exports = app => {
         save,
         remove,
         get,
-        getById
+        getById,
+        getLast
     }
 }
