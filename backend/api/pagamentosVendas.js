@@ -6,8 +6,24 @@ module.exports = app => {
     } = app.api.validation
 
 
-    const teste = (req) => {
-        console.log(req)
+    const savePagamentos = (id, pagamentos) => {
+        console.log(id)
+        // console.log(pagamentos)
+        // pagamentos.forEach(element => {
+        //     element.idVenda = id
+        // });
+        // console.log(pagamentos)
+        for(var k in pagamentos) {
+            pagamentos[k].idVendas = id
+            app.db('pagamentos_vendas')
+            .insert(pagamentos[k])
+            .then(console.log('deu certo'))
+            .catch(err => console.log(err))
+         }
+         console.log(pagamentos)
+
+       
+
     }
 
     const save = (req, res) => {
@@ -155,6 +171,6 @@ module.exports = app => {
         remove,
         get,
         getById,
-        teste
+        savePagamentos
     }
 }

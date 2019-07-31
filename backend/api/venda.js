@@ -24,11 +24,10 @@ module.exports = app => {
             res.status(400).send(msg)
         }
         // console.log(venda.pagamentosVendas)
-        // let pagamentos = {
-        //     ...venda.pagamentosVendas,
+        let pagamentos = {
+            ...venda.pagamentosVendas,
+        }
 
-
-        // console.log(pagamentos)
         delete venda.pagamentosVendas
         if (venda.id) {
             app.db('vendas')
@@ -43,7 +42,7 @@ module.exports = app => {
                 .returning('id')
                 .insert(venda)
                 .then(function (response) {
-                    app.api.pagamentosVendas.teste(response[0])
+                    app.api.pagamentosVendas.savePagamentos(response[0], pagamentos)
                 }).then(_ => res.status(204).send())
                 .catch(err => console.log(err))
         }
