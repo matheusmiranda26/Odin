@@ -3,7 +3,7 @@
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card>
       <b-form>
-        <input id="venda-id" type="hidden" v-model="venda.id">
+        <input id="venda-id" type="hidden" v-model="venda.id" />
         <b-row>
           <b-col md="9" sm="12">
             <b-form-group label="Nome do cliente:" label-for="venda-nome">
@@ -18,7 +18,7 @@
           </b-col>
           <b-col md="3" sm="12">
             <b-form-group label="Data:" label-for="venda-data">
-              <b-form-input id="venda-data" type="date" v-model="venda.data" required/>
+              <b-form-input id="venda-data" type="date" v-model="venda.data" required />
             </b-form-group>
           </b-col>
         </b-row>
@@ -35,12 +35,17 @@
           </b-col>
           <b-col md="2" sm="12">
             <b-form-group label="Nota Fiscal:" label-for="venda-nota-fiscal">
-              <b-form-input id="venda-nota-fiscal" type="text" v-model="venda.numeroNF" required/>
+              <b-form-input id="venda-nota-fiscal" type="text" v-model="venda.numeroNF" required />
             </b-form-group>
           </b-col>
           <b-col md="2" sm="12">
             <b-form-group label="Quantidade:" label-for="venda-quantidade">
-              <b-form-input id="venda-quantidade" type="number" v-model="venda.quantidade" required/>
+              <b-form-input
+                id="venda-quantidade"
+                type="number"
+                v-model="venda.quantidade"
+                required
+              />
             </b-form-group>
           </b-col>
           <b-col md="2" sm="12">
@@ -99,7 +104,7 @@
           <b-row>
             <b-col md="2" sm="12">
               <b-form-group label="Data:" label-for="venda-data-pagamento">
-                <b-form-input id="venda-data-pagamento" type="date" v-model="item.data" required/>
+                <b-form-input id="venda-data-pagamento" type="date" v-model="item.data" required />
               </b-form-group>
             </b-col>
             <b-col md="4" sm="12">
@@ -126,17 +131,17 @@
             </b-col>
             <b-col md="4" sm="12">
               <b-form-group label="Valor:" label-for="venda-valor">
-                <b-form-input id="venda-valor" v-model="item.valor" required/>
+                <b-form-input id="venda-valor" v-model="item.valor" required />
               </b-form-group>
             </b-col>
             <b-col md="2" sm="12">
               <b-form-group label="Parcela:" label-for="venda-numero-parcela">
-                <b-form-input id="venda-numero-parcela" v-model="item.numeroParcela" disabled/>
+                <b-form-input id="venda-numero-parcela" v-model="item.numeroParcela" disabled />
               </b-form-group>
             </b-col>
           </b-row>
         </div>
-        <hr>
+        <hr />
       </b-form>
       <b-row>
         <b-col xs="12">
@@ -231,7 +236,7 @@ export default {
       // this.venda.valorTotal = this.venda.valorTotal.replace(",", ".").split('R$ ')[1];
       // alert(this.venda.condicaoPagamento)
       this.pagamentosVendas = [];
-      let dataParcela = moment().format("YYYY-MM-DD");
+      let dataParcela = this.venda.data
       for (let i = 0; i < parseInt(this.venda.condicaoPagamento); i++) {
         // alert("aqui")
         dataParcela = moment(dataParcela)
