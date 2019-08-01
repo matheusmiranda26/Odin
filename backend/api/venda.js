@@ -27,7 +27,7 @@ module.exports = app => {
         let pagamentos = {
             ...venda.pagamentosVendas,
         }
-
+        
         delete venda.pagamentosVendas
         if (venda.id) {
             app.db('vendas')
@@ -44,7 +44,7 @@ module.exports = app => {
                 .then(function (response) {
                     app.api.pagamentosVendas.savePagamentos(response[0], pagamentos)
                 }).then(_ => res.status(204).send())
-                .catch(err => console.log(err))
+                .catch(err => res.status(500).send(err))
         }
 
     }
@@ -77,8 +77,6 @@ module.exports = app => {
 
         // const result = await app.db('vendas').count('id').first()
         // const count = parseInt(result.count)
-
-        let vendatotal = 'teste'
         app.db('vendas')
             .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nomeCliente as nomeCliente')
             // .limit(limit).offset(page * limit - limit)
@@ -87,8 +85,6 @@ module.exports = app => {
                 // vendatotal = "2"
             })
             .catch(err => res.status(500).send(err))
-
-        console.log('venda ' + vendatotal)
     }
 
     const getLast = async (req, res) => {
