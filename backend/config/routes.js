@@ -41,6 +41,10 @@ module.exports = app => {
         .get(app.api.venda.get)
         .post(app.api.venda.save)
 
+    app.route('/vendas/:id')
+        .get(app.api.venda.getById)
+        .post(app.api.venda.save)
+
     app.route('/ultimaVenda')
         .get(app.api.venda.getLast)
 
