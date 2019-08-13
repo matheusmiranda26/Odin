@@ -18,7 +18,7 @@
         <b-col md="3" sm="3">
           <router-link to="/novoCliente">
             <b-button variant="success">
-              Novo
+              Novo Cliente
               <v-icon name="plus"></v-icon>
             </b-button>
           </router-link>
