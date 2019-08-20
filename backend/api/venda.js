@@ -95,21 +95,24 @@ module.exports = app => {
 
     const getById = (req, res) => {
 
-        let pagamento = app.db('pagamentos_vendas').where({
-            idVendas: req.params.idVendas
-        })
+        // let pagamento = app.db('pagamentos_vendas').where({
+        //     idVendas: req.params.idVendas
+        // })
+        
+
+        // console.log(pagamento.json)
 
         app.db('vendas')
-            .select('*')
-            .where({
-                id: req.params.id
-            })
+            // .select('*')            
+            .where('vendas.id','=', req.params.id)
+            .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nomeCliente as nomeCliente','clientes.id as idCliente')
+            // .union(app.db('pagamentos_vendas')
+            // .select('*')            
+            // .where('pagamentos_vendas.idVendas','=', req.params.id))
             // .whereNull('deletedAt')
-            .first()
-            .then(venda => res.json({
-                venda,
-                pagamento
-            }))
+            // .first()
+            // .then(vendas => app.db('pagamentos_vendas').where('idVendas','=', req.params.id))
+            .then(vendas => res.json(vendas))
             .catch(err => res.status(500).send(err))
     }
 
