@@ -154,14 +154,11 @@ module.exports = app => {
         app.db('pagamentos_vendas')
             .select('*')
             .where({
-                id: req.params.id
+                idVendas: req.params.id
             })
             // .whereNull('deletedAt')
-            .first()
-            .then(pagamentoVenda => res.json({
-                pagamentoVenda,
-                pagamento
-            }))
+            // .first()
+            .then(pagamentoVenda => res.json(pagamentoVenda))
             .catch(err => res.status(500).send(err))
     }
 
