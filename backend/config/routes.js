@@ -48,7 +48,7 @@ module.exports = app => {
     app.route('/ultimaVenda')
         .get(app.api.venda.getLast)
 
-    app.route('/pagamentosVendas')
-        .get(app.api.pagamentosVendas.get)
+    app.route('/pagamentosVendas/vendas/:id')
+        .get(app.api.pagamentosVendas.getById)
         .post(app.api.pagamentosVendas.save)
 }
