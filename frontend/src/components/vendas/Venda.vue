@@ -20,110 +20,53 @@
       </b-row>
     </b-card>
     <b-card class="p-4 m-3">
-      <input id="venda-id" type="hidden" v-model="venda.id">
+      <input id="venda-id" type="hidden" v-model="venda.id" />
       <b-row class="titulo-card">
         <b-col md="11" sm="12">
           <p class="m-0 text-primary titulo text-uppercase">
-            {{ venda.nomeCliente }}
-            <span v-show="venda.nomeCliente">- {{venda.nomeCliente}}</span>
+            <span>{{venda[0].nomeCliente}}</span>
           </p>
         </b-col>
-        <b-col md="1" sm="12">
-          <b-row>
-            <p
-              class="dado"
-              :class="[venda.status == '0' ? 'text-danger' : 'text-success' ]"
-            >{{ venda.status == '0' ? 'Inativo' : 'Ativo' }}</p>
-          </b-row>
+      </b-row>
+      <b-row class="titulo-card">
+        <b-col md="4" sm="12">
+          <span class="text-black-50 dado">Data: {{ venda[0].data }}</span>
+        </b-col>
+        <b-col md="4" sm="12">
+          <span class="text-black-50 dado">Valor Total: {{ venda[0].valorTotal }}</span>
+        </b-col>
+        <b-col md="4" sm="12" v-show="venda[0].descontoTotal !== null">
+          <span class="text-black-50 dado">Desconto: {{ venda[0].descontoTotal }}</span>
+        </b-col>
+        <b-col md="4" sm="12">
+          <span class="text-black-50 dado">Forma de Pagamento: {{ venda[0].formaPagamento }}</span>
         </b-col>
       </b-row>
       <b-row class="titulo-card">
-        <b-col md="12" sm="12">
-          <p
-            v-if="venda.tipoCliente == 'juridica'"
-            class="text-black-50 dado"
-          >CNPJ: {{ venda.cnpj_cpf }}</p>
-          <p v-else class="text-black-50 dado">CPF: {{ venda.cnpj_cpf }}</p>
-        </b-col>
-      </b-row >
-      <b-row class="titulo-card">
-        <b-col md="12" sm="12">
-          <p
-            v-if="venda.tipoCliente == 'juridica'"
-            class="text-black-50 dado"
-          >IE: {{ venda.inscricaoEstadual_rg }}</p>
-          <p v-else class="text-black-50 dado">RG: {{ venda.inscricaoEstadual_rg }}</p>
-        </b-col>
-      </b-row>
-      <hr>
-      <b-row>
         <b-col md="4" sm="12">
-          <b-row>
-            <p class="label text-secondary">Telefone Comercial:</p>
-          </b-row>
-          <b-row>
-            <p class="dado text-muted">{{ venda.telefoneComercial }}</p>
-          </b-row>
-        </b-col>
-        <b-col v-show="venda.telefoneCelular !== ''" md="4" sm="12">
-          <b-row>
-            <p class="label text-secondary">Celular:</p>
-          </b-row>
-          <b-row>
-            <p class="dado text-muted">{{ venda.telefoneCelular }}</p>
-          </b-row>
+          <span class="text-black-50 dado">Nota Fiscal: {{ venda[0].numeroNF }}</span>
         </b-col>
         <b-col md="4" sm="12">
-          <b-row>
-            <p class="label text-secondary">Email:</p>
-          </b-row>
-          <b-row>
-            <p class="dado text-muted">{{ venda.email }}</p>
-          </b-row>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="8" sm="12">
-          <b-row>
-            <p class="label text-secondary">Endereço:</p>
-          </b-row>
-          <b-row>
-            <p class="dado text-muted">
-              {{ venda.endereco }}, {{ venda.numero }},
-              <span v-show="venda.complemento !== null">{{ venda.complemento }},</span>
-              {{ venda.cep }}
-            </p>
-          </b-row>
+          <span class="text-black-50 dado">Pedido: {{ venda[0].numeroPedido }}</span>
         </b-col>
         <b-col md="4" sm="12">
-          <b-row>
-            <p class="label text-secondary">Cidade:</p>
-          </b-row>
-          <b-row>
-            <p class="dado text-muted">{{ venda.cidade }} - {{ venda.estado }}</p>
-          </b-row>
+          <span class="text-black-50 dado">Quantidade: {{ venda[0].quantidade }}</span>
         </b-col>
       </b-row>
-      <!-- <b-row>
-        <b-col v-show="venda.dataCadastro !== ''" md="4" sm="12">
-          <b-row>
-            <p class="label text-secondary">Data de Cadastro:</p>
-          </b-row>
-          <b-row>
-            <p class="dado text-muted">{{ venda.dataCadastro }}</p>
-          </b-row>
-        </b-col>
-      </b-row>-->
-      <b-row v-show="venda.observacoes !== null">
-        <b-col md sm="12">
-          <b-row>
-            <p class="label text-secondary">Observações:</p>
-          </b-row>
-          <b-row>
-            <p class="dado text-muted">{{ venda.observacoes }}</p>
-          </b-row>
-        </b-col>
-      </b-row>
+      <hr />
+      <div v-for="item in pagamentos" :key="item.id">
+        <b-row>
+          <b-col md="4" sm="12">
+            <span class="text-black-50 dado">Data: {{item.data}}</span>
+          </b-col>
+          <b-col md="4" sm="12">
+            <span class="text-black-50 dado">Valor: {{item.valor}}</span>
+          </b-col>
+           <b-col md="4" sm="12">
+            <span class="text-black-50 dado">Parcela: {{item.numeroParcela}}</span>
+          </b-col>
+        </b-row>
+      </div>
     </b-card>
     <b-card class="bg-transparent border-0">
       <b-row>
@@ -150,6 +93,7 @@ export default {
   data: function() {
     return {
       venda: {},
+      pagamentos: {},
       items: [
         {
           text: "Inicio",
@@ -169,6 +113,8 @@ export default {
   mounted() {
     const url = `${baseApiUrl}/vendas/${this.$route.params.id}`;
     axios.get(url).then(res => (this.venda = res.data));
+    const urlPagamentos = `${baseApiUrl}/pagamentosVendas/vendas/${this.$route.params.id}`;
+    axios.get(urlPagamentos).then(res => (this.pagamentos = res.data));
     // alert(moment(this.venda.dataCadastro).format('L'))
   }
 };
@@ -186,9 +132,8 @@ export default {
 .titulo {
   font-size: 1.9em;
 }
-.titulo-card{
+.titulo-card {
   margin: 0;
   padding: 0;
-
 }
 </style>
