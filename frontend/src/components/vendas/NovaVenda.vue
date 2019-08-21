@@ -52,7 +52,7 @@
             <b-form-group label="Valor Total:" label-for="venda-valor-total">
               <b-form-input
                 id="venda-valor-total"
-                v-model="venda.valorTotal"
+                v-model="venda.valor"
                 @change="preencherPagamentos()"
                 required
               />
@@ -226,14 +226,14 @@ export default {
     },
     async getClientes(nome) {
       const url = `${baseApiUrl}/clientes/nome/${nome}`;
-      await axios.get(url).then(res => (this.clientes = res.data));
+      await axios.get(url).then(res => (this.clientes = res.data)); 
 
       // const res = await fetch(`${baseApiUrl}/cliente/:nome`.replace(':nome', nome))
       // const sugestoes = await res.json()
       // this.clientes = sugestoes
     },
     preencherPagamentos() {
-      // this.venda.valorTotal = this.venda.valorTotal.replace(",", ".").split('R$ ')[1];
+      // this.venda.valor = this.venda.valor.replace(",", ".").split('R$ ')[1];
       // alert(this.venda.condicaoPagamento)
       this.pagamentosVendas = [];
       let dataParcela = this.venda.data
@@ -245,7 +245,7 @@ export default {
         this.pagamentosVendas.push({
           data: dataParcela,
           valor: (
-            this.venda.valorTotal / parseInt(this.venda.condicaoPagamento)
+            this.venda.valor / parseInt(this.venda.condicaoPagamento)
           ).toFixed(2),
           numeroParcela: `${i + 1}/${this.venda.condicaoPagamento}`
         });
