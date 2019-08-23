@@ -10,6 +10,8 @@ import './config/axios'
 import './config/mq'
 import './config/vue-the-mask'
 import './config/v-money'
+import './config/vue-moment'
+import './config/vue-currency'
 
 import store from './config/store'
 import router from './config/router'
