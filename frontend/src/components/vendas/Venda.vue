@@ -24,58 +24,103 @@
       <b-row class="titulo-card">
         <b-col md="11" sm="12">
           <p class="m-0 text-primary titulo text-uppercase">
-            <span>{{ venda[0].numeroPedido }}</span>
+            <span>{{venda[0].numeroPedido}}</span>
             <span>- {{venda[0].nomeCliente}}</span>
+            <span v-show="venda[0].nomeFantasia != null">- {{venda[0].nomeFantasia}}</span>
           </p>
         </b-col>
       </b-row>
       <b-row class="titulo-card">
-        <b-col md="4" sm="12">
+        <b-col md="3" sm="12">
           <span class="text-black-50 label">Data:</span>
-          <span class="text-black-50 dado">{{ venda[0].data }}</span>
+          <span class="text-black-50 dado">{{venda[0].data | moment("DD/MM/YYYY")}}</span>
         </b-col>
-        <b-col md="4" sm="12">
+        <b-col md="3" sm="12">
           <span class="text-black-50 dado">Nota Fiscal: {{ venda[0].numeroNF }}</span>
         </b-col>
-        <b-col md="4" sm="12">
-          <span class="text-black-50 dado">Forma de Pagamento: {{ venda[0].formaPagamento }}</span>
+        <b-col md="3" sm="12">
+          <span class="text-black-50 dado">Forma: {{ venda[0].formaPagamento }}</span>
+        </b-col>
+        <b-col md="3" sm="12">
+          <span class="text-black-50 dado">Transportadora: {{ venda[0].transportadora }}</span>
         </b-col>
       </b-row>
       <b-row class="titulo-card">
-        <b-col md="4" sm="12">
-          <span class="text-black-50 dado">Valor: {{ venda[0].valor }}</span>
+        <b-col md="3" sm="12">
+          <span class="text-black-50 dado">Valor: {{ venda[0].valor | currency }}</span>
         </b-col>
-        <b-col md="4" sm="12">
+        <b-col md="3" sm="12">
           <span class="text-black-50 dado">Quantidade: {{ venda[0].quantidade }}</span>
         </b-col>
-        <b-col md="4" sm="12" v-show="venda[0].descontoTotal !== null">
-          <span class="text-black-50 dado">Desconto: {{ venda[0].descontoTotal }}</span>
+        <b-col md="3" sm="12">
+          <span class="text-black-50 dado">Desconto: {{ venda[0].descontoTotal | currency}}</span>
         </b-col>
-        <b-col md="4" sm="12" v-show="venda[0].descontoTotal !== null">
-          <span class="text-black-50 dado">Valor Total: {{ venda[0].valorTotal }}</span>
+        <b-col md="3" sm="12">
+          <span class="text-black-50 dado">Valor Total: {{ venda[0].valorTotal | currency }}</span>
         </b-col>
       </b-row>
       <hr />
       <div v-for="item in pagamentos" :key="item.id">
+        <input id="venda-id" type="hidden" v-model="item.id" />
         <b-row class="pt-4">
           <b-col md="3" sm="12" class="pl-5">
-            <b-row><span class="text-black-50 dado">Data:</span></b-row> <b-row><span class="text-black-50 dado">{{ item.data }}</span></b-row>
+            <b-row>
+              <span class="text-black-50 dado">Data:</span>
+            </b-row>
+            <b-row>
+              <span class="text-black-50 dado">{{ item.data | moment("DD/MM/YYYY")}}</span>
+            </b-row>
           </b-col>
           <b-col md="3" sm="12">
-            <b-row><span class="text-black-50 dado">Valor:</span></b-row> <b-row><span class="text-black-50 dado">{{item.valor}}</span></b-row>
+            <b-row>
+              <span class="text-black-50 dado">Valor:</span>
+            </b-row>
+            <b-row>
+              <span class="text-black-50 dado">{{item.valor | currency }}</span>
+            </b-row>
           </b-col>
-           <b-col md="3" sm="12">
-             <b-row><span class="text-black-50 dado">Numero:</span></b-row><b-row><span class="text-black-50 dado">{{item.numeroPagamento}}</span></b-row>
+          <b-col md="3" sm="12">
+            <b-row>
+              <span class="text-black-50 dado">Numero:</span>
+            </b-row>
+            <b-row>
+              <span class="text-black-50 dado">{{item.numeroPagamento}}</span>
+            </b-row>
           </b-col>
-           <b-col md="3" sm="12">
-            <b-row><span class="text-black-50 dado">Data Pagamento:</span></b-row><b-row><span class="text-black-50 dado">{{item.dataPagamento}}</span></b-row>
+          <b-col v-if="item.dataPagamento !='Invalid date'" md="3" sm="12">
+            <b-row>
+              <span class="text-black-50 dado">Data Pagamento:</span>
+            </b-row>
+            <b-row>
+              <span class="text-black-50 dado">{{item.dataPagamento| moment("DD/MM/YYYY")}}</span>
+            </b-row>
+          </b-col>
+          <b-col v-else md="3" sm="12">
+            <b-button v-b-modal.modal-center variant="success">
+              Efetuar Pagamento
+              <v-icon name="fa-usd-circle"></v-icon>
+            </b-button>
           </b-col>
           <!-- <b-col md="2" sm="12">
             <b-row><span class="text-black-50 dado">Parcela:</span></b-row><b-row><span class="text-black-50 dado">{{item.numeroParcela}}</span></b-row>
-          </b-col> -->
+          </b-col>-->
         </b-row>
       </div>
     </b-card>
+    <div>
+      <b-modal id="modal-center" size="lg" centered title="Cadastrar Pagamento">
+        <b-row>
+          <b-col md="6" sm="12">
+            <b-col md="3" sm="12" class="pl-5">
+              <span class="text-black-50 dado">{{ item.data | moment("DD/MM/YYYY")}}</span>
+            </b-col>
+            <b-form-group label="Pedido:" label-for="pagamento-data">
+              <b-form-input id="pagamento-data" type="date" v-model="item.dataPagamento" />
+            </b-form-group>
+          </b-col>
+        </b-row>
+      </b-modal>
+    </div>
     <b-card class="bg-transparent border-0">
       <b-row>
         <b-col cols="auto" class="mr-auto">
@@ -94,7 +139,6 @@
 <script>
 import { baseApiUrl } from "@/global";
 import axios from "axios";
-import moment from "moment";
 
 export default {
   name: "Venda",
@@ -124,7 +168,6 @@ export default {
     const urlPagamentos = `${baseApiUrl}/pagamentosVendas/vendas/${this.$route.params.id}`;
     axios.get(urlPagamentos).then(res => (this.pagamentos = res.data));
     // alert(moment(this.venda.dataCadastro).format('L'))
-    venda[0].data = moment(venda[0].data.format("DD-MM-YYYY"))
   }
 };
 </script>
