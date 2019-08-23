@@ -13,12 +13,16 @@ module.exports = app => {
         if (req.params.id) venda.id = req.params.id
 
         try {
-            existsOrError(venda.valorTotal, 'Valor total não informado')
+            existsOrError(venda.valor, 'Valor total não informado')
             existsOrError(venda.data, 'Data não informado')
             existsOrError(venda.quantidade, 'Quantidade total não informada')
             existsOrError(venda.idCliente, 'Cliente não informado')
             existsOrError(venda.formaPagamento, 'Forma de Pagamento não informado')
             existsOrError(venda.condicaoPagamento, 'Condição de Pagamento não informada.')
+            existsOrError(venda.numeroPedido, 'Pedido não informado.')
+            existsOrError(venda.idTransportadora, 'Transportadora não informada.')
+            existsOrError(venda.valorTotal, 'Valor Total não informado.')
+            existsOrError(venda.desconto, 'Desconto não informado.')
 
         } catch (msg) {
             res.status(400).send(msg)
@@ -105,7 +109,9 @@ module.exports = app => {
         app.db('vendas')
             // .select('*')            
             .where('vendas.id','=', req.params.id)
-            .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nomeCliente as nomeCliente','clientes.id as idCliente')
+            .join('clientes', 'vendas.idCliente', '=', 'clientes.id')
+            .join('transportadoras', 'vendas.idTransportadora', '=', 'transportadoras.id')
+            .select('vendas.*', 'clientes.nomeCliente as nomeCliente','clientes.id as idCliente', 'clientes.nomeFantasia as nomeFantasia', 'transportadoras.nome as transportadora')
             // .union(app.db('pagamentos_vendas')
             // .select('*')            
             // .where('pagamentos_vendas.idVendas','=', req.params.id))
