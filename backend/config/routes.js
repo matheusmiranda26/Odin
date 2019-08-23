@@ -51,4 +51,11 @@ module.exports = app => {
     app.route('/pagamentosVendas/vendas/:id')
         .get(app.api.pagamentosVendas.getById)
         .post(app.api.pagamentosVendas.save)
+
+    app.route('/transportadoras')
+        .get(app.api.transportadora.get)
+        // .post(app.api.cliente.save)
+
+    app.route('/transportadoras/nome/:nome')
+        .get(app.api.transportadora.getByName)
 }
