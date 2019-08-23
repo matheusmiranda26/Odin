@@ -5,7 +5,7 @@
       <b-form>
         <input id="venda-id" type="hidden" v-model="venda.id" />
         <b-row>
-          <b-col md="9" sm="12">
+          <b-col md="6" sm="12">
             <b-form-group label="Nome do cliente:" label-for="venda-nome">
               <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nomeCliente" required/> -->
               <vue-bootstrap-typeahead
@@ -17,13 +17,24 @@
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
+            <b-form-group label="Transportadora:" label-for="venda-nome">
+              <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nomeCliente" required/> -->
+              <vue-bootstrap-typeahead
+                :data="transportadoras"
+                v-model="transportadoraBusca"
+                :serializer="nome => nome.nome"
+                @hit="transportadoraSelecionado = $event"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="3" sm="12">
             <b-form-group label="Data:" label-for="venda-data">
               <b-form-input id="venda-data" type="date" v-model="venda.data" required />
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
-          <b-col md="2" sm="12">
+          <b-col md="1" sm="12">
             <b-form-group label="Pedido:" label-for="venda-numero-pedido">
               <b-form-input
                 id="venda-numero-pedido"
@@ -33,12 +44,12 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
+          <b-col md="1" sm="12">
             <b-form-group label="Nota Fiscal:" label-for="venda-nota-fiscal">
               <b-form-input id="venda-nota-fiscal" type="text" v-model="venda.numeroNF" required />
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
+          <b-col md="1" sm="12">
             <b-form-group label="Quantidade:" label-for="venda-quantidade">
               <b-form-input
                 id="venda-quantidade"
@@ -49,17 +60,40 @@
             </b-form-group>
           </b-col>
           <b-col md="2" sm="12">
-            <b-form-group label="Valor Total:" label-for="venda-valor-total">
+            <b-form-group label="Valor:" label-for="venda-valor">
               <b-form-input
                 id="venda-valor-total"
-                v-model="venda.valor"
-                @change="preencherPagamentos()"
+                v-model.lazy="venda.valor"
+                type="number"
+               @change="preencherPagamentos()"
                 required
               />
             </b-form-group>
           </b-col>
           <b-col md="2" sm="12">
-            <b-form-group label="Condição de Pagamento:" label-for="venda-condicao-pagamento">
+            <b-form-group label="Desconto:" label-for="venda-desconto">
+              <b-form-input
+                id="venda-valor-total"
+                v-model="venda.desconto"
+                type="number"
+                @change="preencherPagamentos()"
+                required
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="3" sm="12">
+            <b-form-group label="Valor Total:" label-for="venda-valor-total">
+              <b-form-input
+                id="venda-valor-total"
+                v-model="venda.valorTotal"
+                type="number"
+                @change="preencherPagamentos()"
+                required
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="1" sm="12">
+            <b-form-group label="Condição:" label-for="venda-condicao-pagamento">
               <b-form-select
                 id="venda-condicao-pagamento"
                 options
@@ -82,8 +116,8 @@
               </b-form-select>
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
-            <b-form-group label="Forma de Pagamento:" label-for="venda-forma-pagamento">
+          <b-col md="1" sm="12">
+            <b-form-group label="Forma:" label-for="venda-forma-pagamento">
               <b-form-select
                 id="venda-forma-pagamento"
                 options
@@ -176,6 +210,7 @@ export default {
         condicaoPagamento: 1,
         formaPagamento: "boleto",
         data: ""
+        // desconto:0
       },
       money: {
         decimal: ",",
@@ -190,6 +225,9 @@ export default {
       clientes: [],
       clienteBusca: "",
       clienteSelecionado: null,
+      transportadoras:[],
+       transportadoraBusca: "",
+      transportadoraSelecionado: null,
       //   status: 'ativo',
       items: [
         {
@@ -213,6 +251,7 @@ export default {
       const id = this.venda.id ? `/${this.venda.id}` : "";
       this.venda.pagamentosVendas = this.pagamentosVendas;
       this.venda.idCliente = this.clienteSelecionado.id;
+      this.venda.idTransportadora = this.transportadoraSelecionado.id;
       axios
         .post(`${baseApiUrl}/vendas${id}`, this.venda)
         .then(() => {
@@ -227,15 +266,16 @@ export default {
     async getClientes(nome) {
       const url = `${baseApiUrl}/clientes/nome/${nome}`;
       await axios.get(url).then(res => (this.clientes = res.data)); 
-
-      // const res = await fetch(`${baseApiUrl}/cliente/:nome`.replace(':nome', nome))
-      // const sugestoes = await res.json()
-      // this.clientes = sugestoes
+    },
+    async getTransportadoras(nome) {
+      const url = `${baseApiUrl}/transportadoras/nome/${nome}`;
+      await axios.get(url).then(res => (this.transportadoras = res.data)); 
     },
     preencherPagamentos() {
       // this.venda.valor = this.venda.valor.replace(",", ".").split('R$ ')[1];
       // alert(this.venda.condicaoPagamento)
       this.pagamentosVendas = [];
+      this.venda.valorTotal = this.venda.valor - this.venda.desconto
       let dataParcela = this.venda.data
       for (let i = 0; i < parseInt(this.venda.condicaoPagamento); i++) {
         // alert("aqui")
@@ -245,9 +285,10 @@ export default {
         this.pagamentosVendas.push({
           data: dataParcela,
           valor: (
-            this.venda.valor / parseInt(this.venda.condicaoPagamento)
+            this.venda.valorTotal / parseInt(this.venda.condicaoPagamento)
           ).toFixed(2),
-          numeroParcela: `${i + 1}/${this.venda.condicaoPagamento}`
+          numeroParcela: `${i + 1}/${this.venda.condicaoPagamento}`,
+          dataPagamento: null
         });
       }
       this.venda.pagamentosVendas = this.pagamentosVendas;
@@ -257,6 +298,9 @@ export default {
   watch: {
     clienteBusca: _.debounce(function(nome) {
       this.getClientes(nome);
+    }, 500),
+    transportadoraBusca: _.debounce(function(nome) {
+      this.getTransportadoras(nome);
     }, 500)
   },
   mounted() {
