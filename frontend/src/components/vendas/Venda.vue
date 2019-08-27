@@ -53,7 +53,7 @@
           <span class="text-black-50 dado">Quantidade: {{ venda[0].quantidade }}</span>
         </b-col>
         <b-col md="3" sm="12">
-          <span class="text-black-50 dado">Desconto: {{ venda[0].descontoTotal | currency}}</span>
+          <span class="text-black-50 dado">Desconto: {{ venda[0].desconto | currency}}</span>
         </b-col>
         <b-col md="3" sm="12">
           <span class="text-black-50 dado">Valor Total: {{ venda[0].valorTotal | currency }}</span>
@@ -96,9 +96,9 @@
             </b-row>
           </b-col>
           <b-col v-else md="3" sm="12">
-            <b-button v-b-modal.modal-center variant="success">
+            <b-button @click="preencherPagamento(item)" variant="success">
               Efetuar Pagamento
-              <v-icon name="fa-usd-circle"></v-icon>
+              <v-icon name="usd-circle"></v-icon>
             </b-button>
           </b-col>
           <!-- <b-col md="2" sm="12">
@@ -108,15 +108,39 @@
       </div>
     </b-card>
     <div>
-      <b-modal id="modal-center" size="lg" centered title="Cadastrar Pagamento">
-        <b-row>
-          <b-col md="6" sm="12">
-            <b-col md="3" sm="12" class="pl-5">
-              <span class="text-black-50 dado">{{ item.data | moment("DD/MM/YYYY")}}</span>
-            </b-col>
-            <b-form-group label="Pedido:" label-for="pagamento-data">
-              <b-form-input id="pagamento-data" type="date" v-model="item.dataPagamento" />
-            </b-form-group>
+      <b-modal id="modal-center" size="xl" centered title="Cadastrar Pagamento" ref="modal">
+        <b-row class="pl-5 pr-5 p-3">
+          <b-col md="3" sm="12">
+            <b-row>
+              <span class="text-black-50 dado">Vencimento:</span>
+            </b-row>
+            <b-row>
+              <span class="text-black-50 dado">{{pagamentoVenda.data | moment("DD/MM/YYYY") }}</span>
+            </b-row>
+          </b-col>
+           <b-col md="3" sm="12">
+            <b-row>
+              <span class="text-black-50 dado">Numero:</span>
+            </b-row>
+            <b-row>
+              <span class="text-black-50 dado">{{pagamentoVenda.numeroPagamento}}</span>
+            </b-row>
+          </b-col>
+           <b-col md="3" sm="12">
+            <b-row>
+              <span class="text-black-50 dado">Numero:</span>
+            </b-row>
+            <b-row>
+              <span class="text-black-50 dado">{{pagamentoVenda.valor | currency }}</span>
+            </b-row>
+          </b-col>
+          <b-col md="3" sm="12">
+            <b-row>
+              <span class="text-black-50 dado">Data de pagamento:</span>
+            </b-row>
+            <b-row>
+              <b-form-input id="pagamento-data" type="date" v-model="pagamentoVenda.dataPagamento" />
+            </b-row>
           </b-col>
         </b-row>
       </b-modal>
@@ -144,6 +168,7 @@ export default {
   name: "Venda",
   data: function() {
     return {
+      pagamentoVenda: {},
       venda: {},
       pagamentos: {},
       items: [
@@ -161,6 +186,17 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    preencherPagamento(venda) {
+      // alert(venda.data);
+      this.pagamentoVenda = venda;
+      this.$refs["modal"].show();
+      // showModal()
+    },
+    showModal() {
+      this.$refs["modal"].show();
+    }
   },
   mounted() {
     const url = `${baseApiUrl}/vendas/${this.$route.params.id}`;
