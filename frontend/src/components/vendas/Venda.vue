@@ -109,7 +109,7 @@
     </b-card>
     <div>
       <b-modal id="modal-center" size="xl" centered title="Cadastrar Pagamento" ref="modal">
-        <b-row class="pl-5 pr-5 p-3">
+        <b-row class="pl-5 pr-5   p-3">
           <b-col md="3" sm="12">
             <b-row>
               <span class="text-black-50 dado">Vencimento:</span>
