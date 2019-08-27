@@ -48,13 +48,21 @@ module.exports = app => {
     app.route('/ultimaVenda')
         .get(app.api.venda.getLast)
 
+
+    app.route('/pagamentosVendas')
+        .get(app.api.pagamentosVendas.get)
+
+    app.route('/pagamentosVendas/:id')
+        .get(app.api.pagamentosVendas.getById)
+        .put(app.api.pagamentosVendas.save)
+
     app.route('/pagamentosVendas/vendas/:id')
         .get(app.api.pagamentosVendas.getById)
         .post(app.api.pagamentosVendas.save)
 
     app.route('/transportadoras')
         .get(app.api.transportadora.get)
-        // .post(app.api.cliente.save)
+    // .post(app.api.cliente.save)
 
     app.route('/transportadoras/nome/:nome')
         .get(app.api.transportadora.getByName)
