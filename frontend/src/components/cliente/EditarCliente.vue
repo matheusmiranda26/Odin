@@ -230,10 +230,6 @@ export default {
         })
         .catch(showError);
     },
-    formatarData(value, event) {
-    
-     
-    },
     carregarVendedores() {
       const url = `${baseApiUrl}/vendedores`;
       axios.get(url).then(res => {
