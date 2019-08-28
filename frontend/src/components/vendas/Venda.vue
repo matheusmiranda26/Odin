@@ -108,8 +108,15 @@
       </div>
     </b-card>
     <div>
-      <b-modal id="modal-center" size="xl" centered title="Cadastrar Pagamento" ref="modal">
-        <b-row class="pl-5 pr-5   p-3">
+      <b-modal
+        id="modal-center"
+        size="xl"
+        centered
+        title="Cadastrar Pagamento"
+        ref="modal"
+        @ok="cadastrarPagamento"
+      >
+        <b-row class="pl-5 pr-5 p-3">
           <b-col md="3" sm="12">
             <b-row>
               <span class="text-black-50 dado">Vencimento:</span>
@@ -118,20 +125,27 @@
               <span class="text-black-50 dado">{{pagamentoVenda.data | moment("DD/MM/YYYY") }}</span>
             </b-row>
           </b-col>
-           <b-col md="3" sm="12">
+          <b-col md="3" sm="12">
             <b-row>
               <span class="text-black-50 dado">Numero:</span>
             </b-row>
-            <b-row>
-              <span class="text-black-50 dado">{{pagamentoVenda.numeroPagamento}}</span>
+            <b-row class="pr-2">
+              <!-- <span class="text-black-50 dado">{{pagamentoVenda.numeroPagamento}}</span> -->
+              <b-form-input id="pagamento-numero" type="text" v-model="pagamentoVenda.numeroPagamento" />
             </b-row>
           </b-col>
-           <b-col md="3" sm="12">
+          <b-col md="3" sm="12">
             <b-row>
-              <span class="text-black-50 dado">Numero:</span>
+              <span class="text-black-50 dado">Valor:</span>
             </b-row>
-            <b-row>
-              <span class="text-black-50 dado">{{pagamentoVenda.valor | currency }}</span>
+            <b-row class="pr-2">
+              <!-- <span class="text-black-50 dado">{{pagamentoVenda.valor | currency }}</span> -->
+              <b-form-input
+                id="pagamento-valor"
+                type="text"
+                
+                v-model="pagamentoVenda.valor"
+              />
             </b-row>
           </b-col>
           <b-col md="3" sm="12">
@@ -171,6 +185,14 @@ export default {
       pagamentoVenda: {},
       venda: {},
       pagamentos: {},
+      money: {
+        decimal: ",",
+        thousands: ".",
+        prefix: "R$ ",
+        suffix: "",
+        precision: 2,
+        masked: false /* doesn't work with directive */
+      },
       items: [
         {
           text: "Inicio",
@@ -190,12 +212,14 @@ export default {
   methods: {
     preencherPagamento(venda) {
       // alert(venda.data);
+
       this.pagamentoVenda = venda;
       this.$refs["modal"].show();
-      // showModal()
     },
-    showModal() {
-      this.$refs["modal"].show();
+    cadastrarPagamento() {
+      // this.pagamentoVenda.valor = this.pagamentoVenda.valor.split("R$ ")[1].replace(',','.')
+      axios.put(`${baseApiUrl}/pagamentosVendas/${this.pagamentoVenda.id}`, this.pagamentoVenda).then(this.$toasted.global.defaultSuccess()).catch(showError);
+      this.pagamentoVenda = {}
     }
   },
   mounted() {
