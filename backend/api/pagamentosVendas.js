@@ -7,20 +7,13 @@ module.exports = app => {
 
 
     const savePagamentos = (id, pagamentos) => {
-        console.log(id)
-        // console.log(pagamentos)
-        // pagamentos.forEach(element => {
-        //     element.idVenda = id
-        // });
-        // console.log(pagamentos)
-        for(var k in pagamentos) {
+        for (var k in pagamentos) {
             pagamentos[k].idVendas = id
             app.db('pagamentos_vendas')
-            .insert(pagamentos[k])
-            // .then(console.log('deu certo'))
-            .catch(err => console.log(err))
-         }
-         console.log(pagamentos)
+                .insert(pagamentos[k])
+                // .then(console.log('deu certo'))
+                .catch(err => console.log(err))
+        }
     }
 
     const save = (req, res) => {
@@ -40,14 +33,7 @@ module.exports = app => {
         } catch (msg) {
             res.status(400).send(msg)
         }
-        // console.log(pagamentoVenda.pagamentosVendas)
-        // let pagamentos = {
-        //     ...pagamentoVenda.pagamentosVendas,
-        // }
 
-        // console.log(pagamentos)
-        // delete pagamentoVenda.pagamentosVendas
-        // console.log(pagamentoVenda)
         if (pagamentoVenda.id) {
             app.db('pagamentos_vendas')
                 .update(pagamentoVenda)
@@ -57,10 +43,9 @@ module.exports = app => {
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
-            // console.log(pagamentoVenda)
+
             app.db('pagamentos_vendas')
                 .insert(pagamentoVenda)
-                // .returning('id')
                 .then(
                     _ => res.status(204).send()
                 )
@@ -69,43 +54,11 @@ module.exports = app => {
 
             app.db('pagamentos_vendas')
                 .insert(pagamentos)
-                // .returning('id')
                 .then(
                     _ => res.status(204).send()
                 )
                 .catch(err => console.log(err))
 
-            let idVenda = app.db('pagamentos_vendas').max('id')
-            // console.log(idVenda)
-
-            // for (let i = 0; i < pagamentos.quantidade; i++) {
-            //     // pagamentos[i].idVenda = id
-            //     console.log("aqui")
-            //     pagamentos[i].idVendas = idVenda
-            // }
-            // app.db('pagamentos_vendas')
-            //     .insert(pagamentos)
-
-
-            // let idVenda = app.db.raw('SELECT LAST_INSERT_ID()').toSql()
-
-
-            // for(let i = 0; i < pagamentos.length; i++){
-            //     pagamentos[i].idVenda = id
-            // } 
-            // console.log(pagamentos)
-            // app.db('pagamentos_vendas')
-            // .insert(pagamentos)
-            // .then(_ => res.status(204).send())
-            // .catch(err => res.status(500).send(err))  
-
-
-            // pagamentos = JSON.stringify(pagamentos)
-            // console.log(pagamentos)
-            // app.db('pagamentos_vendas')
-            //     .insert(pagamentos)
-            //     .then(_ => res.status(204).send())
-            //     .catch(err => res.status(500).send(err))
         }
     }
 
@@ -128,16 +81,9 @@ module.exports = app => {
         }
     }
 
-    // const limit = 10 // usado para paginação
     const get = async (req, res) => {
-        const page = req.query.page || 1
-
-        // const result = await app.db('pagamentos_vendas').count('id').first()
-        // const count = parseInt(result.count)
 
         app.db('pagamentos_vendas')
-            //  .join('clientes', 'pagamentos_vendas.idCliente', '=', 'clientes.id').select('pagamentos_vendas.*', 'clientes.nomeCliente as nomeCliente')
-            // .limit(limit).offset(page * limit - limit)
             .then(pagamentos_vendas => res.json(pagamentos_vendas))
             .catch(err => res.status(500).send(err))
     }
