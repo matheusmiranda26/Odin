@@ -6,31 +6,31 @@ module.exports = app => {
     } = app.api.validation
 
     const save = (req, res) => {
-        const cliente = {
+        const transportadora = {
             ...req.body
         }
-        if (req.params.id) cliente.id = req.params.id
+        if (req.params.id) transportadora.id = req.params.id
 
         try {
-            existsOrError(cliente.nome, 'Nome não informado')
-            // existsOrError(cliente.cnpj_cpf, 'CNPJ/CPF não informado')
+            existsOrError(transportadora.nome, 'Nome não informado')
+            // existsOrError(transportadora.cnpj_cpf, 'CNPJ/CPF não informado')
            
 
         } catch (msg) {
             res.status(400).send(msg)
         }
 
-        if (cliente.id) {
-            app.db('clientes')
-                .update(cliente)
+        if (transportadora.id) {
+            app.db('transportadoras')
+                .update(transportadora)
                 .where({
-                    id: cliente.id
+                    id: transportadora.id
                 })
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
-            app.db('clientes')
-                .insert(cliente)
+            app.db('transportadoras')
+                .insert(transportadora)
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         }
@@ -38,13 +38,13 @@ module.exports = app => {
 
     const remove = async (req, res) => {
         try {
-            const rowsDeleted = await app.db('clientes')
+            const rowsDeleted = await app.db('transportadoras')
                 .where({
                     id: req.params.id
                 }).del()
 
             try {
-                existsOrError(rowsDeleted, 'Cliente não foi encontrado.')
+                existsOrError(rowsDeleted, 'Transportadora não foi encontrada.')
             } catch (msg) {
                 return res.status(400).send(msg)
             }
@@ -59,25 +59,25 @@ module.exports = app => {
     const get = async (req, res) => {
         // const page = req.query.page || 1
 
-        // const result = await app.db('clientes').count('id').first()
+        // const result = await app.db('transportadoras').count('id').first()
         // const count = parseInt(result.count)
 
-         const clientes = await app.db('transportadoras')
+         const transportadoras = await app.db('transportadoras')
             .select('*')
             // .limit(limit).offset(page * limit - limit)
-            // .replace(clientes => clientes.dataFundacao = "teste")   
+            // .replace(transportadoras => transportadoras.dataFundacao = "teste")   
             // .forEach(element => {
             //     dataFundacao = "teste"
             // // })        
             .then(transportadoras => res.json(transportadoras))
             .catch(err => res.status(500).send(err))
 
-            // clientes.forEach(element => {
+            // transportadoras.forEach(element => {
             //     console.log(element.dataFundacao.split("T")[0])
             // });
 
-            // console.log(clientes)
-            return res.json(clientes)
+            // console.log(transportadoras)
+            return res.json(transportadoras)
     }
 
     const getByName = (req, res) => {
@@ -87,18 +87,18 @@ module.exports = app => {
             )
             // .whereNull('deletedAt')
             // .first()
-            .then(cliente => res.json(cliente))
+            .then(transportadora => res.json(transportadora))
             .catch(err => res.status(500).send(err))
     }
     const getById = (req, res) => {
-        app.db('clientes')
+        app.db('transportadoras')
             .select('*')
             .where({
                 id: req.params.id
             })
             // .whereNull('deletedAt')
             .first()
-            .then(cliente => res.json(cliente))
+            .then(transportadora => res.json(transportadora))
             .catch(err => res.status(500).send(err))
     }
 
