@@ -22,7 +22,6 @@ module.exports = app => {
             existsOrError(cliente.bairro, 'Bairro não informado')
             existsOrError(cliente.cidade, 'Cidade não informada')
             existsOrError(cliente.estado, 'Estado não informado')
-            existsOrError(cliente.estado, 'Estado não informado')
 
         } catch (msg) {
             res.status(400).send(msg)
