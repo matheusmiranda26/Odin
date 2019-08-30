@@ -11,6 +11,10 @@ import EditarCliente from '@/components/cliente/EditarCliente'
 import ListaVendas from '@/components/vendas/ListaVendas'
 import NovaVenda from '@/components/vendas/NovaVenda'
 import Venda from '@/components/vendas/Venda'
+import NovoVendedor from '@/components/vendedor/NovoVendedor'
+import EditarVendedor from '@/components/vendedor/EditarVendedor'
+import ListaVendedores from '@/components/vendedor/ListaVendedores'
+import Vendedor from '@/components/vendedor/Vendedor'
 
 import {
     userKey
@@ -59,6 +63,22 @@ const routes = [{
     name: 'venda',
     path: '/vendas/:id',
     component: Venda
+},{
+    name: 'novoVendedor',
+    path: '/novoVendedor',
+    component: NovoVendedor
+},{
+    name: 'editarVendedor',
+    path: '/editarVendedor/:id',
+    component: EditarVendedor
+},{
+    name: 'listaVendedores',
+    path: '/vendedores',
+    component: ListaVendedores
+},{
+    name: 'vendedor',
+    path: '/vendedor/:id',
+    component: Vendedor
 }]
 
 const router = new VueRouter({
