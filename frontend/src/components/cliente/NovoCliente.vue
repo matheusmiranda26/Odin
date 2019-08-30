@@ -257,17 +257,17 @@ export default {
           vendedor => vendedor.status != "1"
         );
         vendedoresAtivos.sort(function(a, b) {
-          if (a.nome > b.nome) {
+          if (a.apelido > b.apelido) {
             return 1;
           }
-          if (a.nome < b.nome) {
+          if (a.apelido < b.apelido) {
             return -1;
           }
           // a must be equal to b
           return 0;
         });
         this.vendedores = vendedoresAtivos.map(vendedor => {
-          return { value: vendedor.id, text: vendedor.nome };
+          return { value: vendedor.id, text: vendedor.apelido };
         });
       });
     }

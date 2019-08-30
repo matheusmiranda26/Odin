@@ -117,7 +117,7 @@ export default {
       });
 
       const urlVendedor = `${baseApiUrl}/vendedores/${this.clientes.idVendedor}`;
-      axios.get(urlVendedor).then(res => (this.clientes.nomeVendedor = res.data.nome));
+      axios.get(urlVendedor).then(res => (this.clientes.nomeVendedor = res.data.apelido));
     },
     reset() {
       this.mode = "save";
