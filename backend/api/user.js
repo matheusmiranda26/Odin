@@ -15,7 +15,6 @@ module.exports = app => {
         if(!req.originalUrl.startsWith('/users')) user.admin = false
         if(!req.user || !req.user.admin) user.admin = false
 
-        console.log(user)
         try {
             existsOrError(user.name, 'Nome não informado')
             // existsOrError(user.email, 'E-mail não informado')
@@ -24,7 +23,6 @@ module.exports = app => {
             existsOrError(user.confirmPassword, 'Confirmação de Senha inválida')
             equalsOrError(user.password, user.confirmPassword,
                 'Senhas não conferem')
-
             const userFromDB = await app.db('users')
                 .where({ username: user.username }).first()
             if(!user.id) {
