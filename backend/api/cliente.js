@@ -64,7 +64,7 @@ module.exports = app => {
 
     const get = async (req, res) => {
 
-        const clientes = await app.db('clientes').join('vendedores', 'clientes.idVendedor', '=', 'vendedores.id').select('clientes.*', 'vendedores.nome as nomeVendedor')
+        const clientes = await app.db('clientes').join('vendedores', 'clientes.idVendedor', '=', 'vendedores.id').select('clientes.*', 'vendedores.nome as nomeVendedor', 'vendedores.apelido as apelido')
         return res.json(clientes)
     }
 
