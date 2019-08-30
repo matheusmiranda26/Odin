@@ -4,12 +4,12 @@
     <b-card class="m-3">
       <b-row>
         <b-col cols="auto" class="mr-auto">
-          <router-link :to="{ name: 'editarCliente', params: { id: venda.id }}">
-            <b-button variant="warning">
-              Editar
-              <v-icon name="pen"></v-icon>
-            </b-button>
-          </router-link>
+          <!-- <router-link :to="{ name: 'editarCliente', params: { id: venda.id }}">
+              <b-button variant="warning">
+                Editar
+                <v-icon name="pen"></v-icon>
+              </b-button>
+          </router-link>-->
         </b-col>
         <b-col cols="auto">
           <b-button variant="danger">
@@ -60,52 +60,54 @@
         </b-col>
       </b-row>
       <hr />
-      <div v-for="item in pagamentos" :key="item.id">
+      <b-container align-self="center" v-for="item in pagamentos" :key="item.id">
         <input id="venda-id" type="hidden" v-model="item.id" />
-        <b-row class="pt-4">
-          <b-col md="3" sm="12" class="pl-5">
-            <b-row>
+        <b-row class="justify-content-md-center pt-4">
+          <b-col align-self="center" md="2" sm="12">
+            <b-row class="justify-content-md-center">
               <span class="text-black-50 dado">Data:</span>
             </b-row>
-            <b-row>
+            <b-row class="justify-content-md-center">
               <span class="text-black-50 dado">{{ item.data | moment("DD/MM/YYYY")}}</span>
             </b-row>
           </b-col>
-          <b-col md="3" sm="12">
-            <b-row>
+          <b-col md="2" sm="12">
+            <b-row class="justify-content-md-center">
               <span class="text-black-50 dado">Valor:</span>
             </b-row>
-            <b-row>
+            <b-row class="justify-content-md-center">
               <span class="text-black-50 dado">{{item.valor | currency }}</span>
             </b-row>
           </b-col>
-          <b-col md="3" sm="12">
-            <b-row>
+          <b-col md="2" sm="12">
+            <b-row class="justify-content-md-center">
               <span class="text-black-50 dado">Numero:</span>
             </b-row>
-            <b-row>
+            <b-row class="justify-content-md-center">
               <span class="text-black-50 dado">{{item.numeroPagamento}}</span>
             </b-row>
           </b-col>
-          <b-col v-if="item.dataPagamento !='Invalid date'" md="3" sm="12">
-            <b-row>
-              <span class="text-black-50 dado">Data Pagamento:</span>
+          <b-col md="2" sm="12">
+            <b-row class="justify-content-md-center">
+              <span class="text-black-50 dado">Pagamento:</span>
             </b-row>
-            <b-row>
+            <b-row class="justify-content-md-center">
               <span class="text-black-50 dado">{{item.dataPagamento| moment("DD/MM/YYYY")}}</span>
             </b-row>
           </b-col>
-          <b-col v-else md="3" sm="12">
-            <b-button @click="preencherPagamento(item)" variant="success">
-              Efetuar Pagamento
-              <v-icon name="usd-circle"></v-icon>
-            </b-button>
+          <b-col md="2" sm="12">
+            <b-row class="justify-content-md-center">
+              <b-button @click="preencherPagamento(item)" variant="success">
+                Editar
+                <v-icon name="pen"></v-icon>
+              </b-button>
+            </b-row>
           </b-col>
           <!-- <b-col md="2" sm="12">
             <b-row><span class="text-black-50 dado">Parcela:</span></b-row><b-row><span class="text-black-50 dado">{{item.numeroParcela}}</span></b-row>
           </b-col>-->
         </b-row>
-      </div>
+      </b-container>
     </b-card>
     <div>
       <b-modal
@@ -131,7 +133,11 @@
             </b-row>
             <b-row class="pr-2">
               <!-- <span class="text-black-50 dado">{{pagamentoVenda.numeroPagamento}}</span> -->
-              <b-form-input id="pagamento-numero" type="text" v-model="pagamentoVenda.numeroPagamento" />
+              <b-form-input
+                id="pagamento-numero"
+                type="text"
+                v-model="pagamentoVenda.numeroPagamento"
+              />
             </b-row>
           </b-col>
           <b-col md="3" sm="12">
@@ -140,12 +146,7 @@
             </b-row>
             <b-row class="pr-2">
               <!-- <span class="text-black-50 dado">{{pagamentoVenda.valor | currency }}</span> -->
-              <b-form-input
-                id="pagamento-valor"
-                type="text"
-                
-                v-model="pagamentoVenda.valor"
-              />
+              <b-form-input id="pagamento-valor" type="text" v-model="pagamentoVenda.valor" />
             </b-row>
           </b-col>
           <b-col md="3" sm="12">
@@ -218,8 +219,14 @@ export default {
     },
     cadastrarPagamento() {
       // this.pagamentoVenda.valor = this.pagamentoVenda.valor.split("R$ ")[1].replace(',','.')
-      axios.put(`${baseApiUrl}/pagamentosVendas/${this.pagamentoVenda.id}`, this.pagamentoVenda).then(this.$toasted.global.defaultSuccess()).catch(showError);
-      this.pagamentoVenda = {}
+      axios
+        .put(
+          `${baseApiUrl}/pagamentosVendas/${this.pagamentoVenda.id}`,
+          this.pagamentoVenda
+        )
+        .then(this.$toasted.global.defaultSuccess())
+        .catch(showError);
+      this.pagamentoVenda = {};
     }
   },
   mounted() {
