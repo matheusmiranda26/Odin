@@ -7,9 +7,11 @@
       <b-row>
         <b-col md="4" sm="12">
           <b-input-group>
-            <b-form-input v-model="filter" placeholder="Pesquise"/>
+            <b-form-input v-model="filter" placeholder="Pesquise" />
             <b-input-group-append>
-               <b-input-group-text><v-icon name="search"></v-icon></b-input-group-text>
+              <b-input-group-text>
+                <v-icon name="search"></v-icon>
+              </b-input-group-text>
             </b-input-group-append>
           </b-input-group>
         </b-col>
@@ -26,7 +28,7 @@
     <b-card no-body align="center">
       <b-table
         hover
-        
+        striped
         :items="vendas"
         :fields="fields"
         :filter="filter"
@@ -35,7 +37,7 @@
         @row-clicked="linhaClicada"
       >
         <div slot="actions" slot-scope="data">
-          <router-link :to="{ name: 'editarCliente', params: { id: data.item.id }}">
+          <router-link :to="{ name: 'venda', params: { id: data.item.id }}">
             <b-button variant="warning" class="mr-2">
               <v-icon name="pen"></v-icon>
             </b-button>
@@ -81,11 +83,19 @@ export default {
       vendas: [],
       fields: [
         // { key: "id", label: "Código", sortable: true },
-        { key: "data", label: "Data", sortable: true },
+        {
+          key: "data",
+          label: "Data",
+          formatter: (value, key, item) => {
+            let data = new Date(value)
+            return data.getDay() + '/' + data.getMonth() + '/' + data.getFullYear();
+          },
+          sortable: true
+        },
         { key: "nomeCliente", label: "Cliente", sortable: true },
         { key: "numeroPedido", label: "Pedido", sortable: true },
-         { key: "numeroNF", label: "Nota Fiscal", sortable: true },
-         { key: "quantidade", label: "Quantidade", sortable: true },
+        { key: "numeroNF", label: "Nota Fiscal", sortable: true },
+        { key: "quantidade", label: "Quantidade", sortable: true },
         { key: "valorTotal", label: "Valor", sortable: true },
         // { key: "estado", label: "Estado", sortable: true },
         // { key: "email", label: "E-mail", sortable: true },
@@ -109,6 +119,7 @@ export default {
     };
   },
   methods: {
+    formatter() {},
     carregarVendas() {
       // this.isLoading = true;
       const url = `${baseApiUrl}/vendas`;
