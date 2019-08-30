@@ -44,6 +44,7 @@ module.exports = app => {
     app.route('/vendas/:id')
         .get(app.api.venda.getById)
         .post(app.api.venda.save)
+        .delete(app.api.venda.remove)
 
     app.route('/ultimaVenda')
         .get(app.api.venda.getLast)
