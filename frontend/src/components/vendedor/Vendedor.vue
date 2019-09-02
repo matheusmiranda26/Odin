@@ -40,7 +40,7 @@
       <b-row class="titulo-card">
         <b-col md="12" sm="12">
           <p
-            v-if="vendedor.tipoCliente == 'juridica'"
+            v-if="vendedor.tipoVendedor == 'juridica'"
             class="text-black-50 dado"
           >CNPJ: {{ vendedor.cnpj_cpf }}</p>
           <p v-else class="text-black-50 dado">CPF: {{ vendedor.cnpj_cpf }}</p>
