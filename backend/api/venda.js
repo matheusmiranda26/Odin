@@ -31,7 +31,7 @@ module.exports = app => {
         let pagamentos = {
             ...venda.pagamentosVendas,
         }
-        
+
         delete venda.pagamentosVendas
         if (venda.id) {
             app.db('vendas')
@@ -54,14 +54,15 @@ module.exports = app => {
     }
 
 
-
-
     const remove = async (req, res) => {
         try {
             const rowsDeleted = await app.db('vendas')
+                .update({
+                    deletedAt: new Date()
+                })
                 .where({
                     id: req.params.id
-                }).del()
+                })
 
             try {
                 existsOrError(rowsDeleted, 'Venda não foi encontrada.')
@@ -83,7 +84,7 @@ module.exports = app => {
         // const count = parseInt(result.count)
         app.db('vendas')
             .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nomeCliente as nomeCliente')
-            // .limit(limit).offset(page * limit - limit)
+            .whereNull('deletedAt')
             .then(vendas => {
                 res.json(vendas) //.then(v => vendatotal = v)
                 // vendatotal = "2"
@@ -102,16 +103,16 @@ module.exports = app => {
         // let pagamento = app.db('pagamentos_vendas').where({
         //     idVendas: req.params.idVendas
         // })
-        
+
 
         // console.log(pagamento.json)
 
         app.db('vendas')
             // .select('*')            
-            .where('vendas.id','=', req.params.id)
+            .where('vendas.id', '=', req.params.id)
             .join('clientes', 'vendas.idCliente', '=', 'clientes.id')
             .join('transportadoras', 'vendas.idTransportadora', '=', 'transportadoras.id')
-            .select('vendas.*', 'clientes.nomeCliente as nomeCliente','clientes.id as idCliente', 'clientes.nomeFantasia as nomeFantasia', 'transportadoras.nome as transportadora')
+            .select('vendas.*', 'clientes.nomeCliente as nomeCliente', 'clientes.id as idCliente', 'clientes.nomeFantasia as nomeFantasia', 'transportadoras.nome as transportadora')
             // .union(app.db('pagamentos_vendas')
             // .select('*')            
             // .where('pagamentos_vendas.idVendas','=', req.params.id))

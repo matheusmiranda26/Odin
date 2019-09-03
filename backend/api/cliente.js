@@ -46,9 +46,9 @@ module.exports = app => {
     const remove = async (req, res) => {
         try {
             const rowsDeleted = await app.db('clientes')
-                .where({
-                    id: req.params.id
-                }).del()
+                .update({
+                    deletedAt: new Date()
+                }).where({id: req.params.id})
 
             try {
                 existsOrError(rowsDeleted, 'Cliente não foi encontrado.')
@@ -74,7 +74,7 @@ module.exports = app => {
             .where({
                 id: req.params.id
             })
-            // .whereNull('deletedAt')
+            .whereNull('deletedAt')
             .first()
             .then(cliente => res.json(cliente))
             .catch(err => res.status(500).send(err))
