@@ -37,11 +37,11 @@
         @row-clicked="linhaClicada"
       >
         <div slot="actions" slot-scope="data">
-          <router-link :to="{ name: 'venda', params: { id: data.item.id }}">
+          <!-- <router-link :to="{ name: 'venda', params: { id: data.item.id }}">
             <b-button variant="warning" class="mr-2">
               <v-icon name="pen"></v-icon>
             </b-button>
-          </router-link>
+          </router-link> -->
 
           <b-button variant="danger" @click="remover(data.item.id)">
             <v-icon name="trash"></v-icon>
