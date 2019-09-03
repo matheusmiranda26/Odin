@@ -7,7 +7,7 @@
         <b-row>
           <b-col md="5" sm="12">
             <b-form-group label="Nome do vendedor:" label-for="vendedor-nome">
-              <b-form-input id="vendedor-nome" type="text" v-model="vendedor.nomeCliente" required />
+              <b-form-input id="vendedor-nome" type="text" v-model="vendedor.nome" required />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
@@ -21,7 +21,7 @@
               <b-form-select
                 id="vendedor-tipo-vendedor"
                 options
-                v-model="vendedor.tipoCliente"
+                v-model="vendedor.tipoVendedor"
                 required
               >
                 <option value="fisica">Fisica</option>
@@ -36,8 +36,8 @@
                 v-model="vendedor.status"
                 name="vendedor.status"
               >
-                <b-form-radio value="1">Ativo</b-form-radio>
-                <b-form-radio value="0">Inativo</b-form-radio>
+                <b-form-radio value="0">Ativo</b-form-radio>
+                <b-form-radio value="1">Inativo</b-form-radio>
               </b-form-radio-group>
             </b-form-group>
           </b-col>
@@ -45,7 +45,7 @@
         <b-row>
           <b-col md="4" sm="12">
             <b-form-group
-              v-if="vendedor.tipoCliente === 'fisica'"
+              v-if="vendedor.tipoVendedor === 'fisica'"
               label="CPF:"
               label-for="vendedor-cpf"
             >
@@ -69,7 +69,7 @@
           </b-col>
           <b-col md="4" sm="12">
             <b-form-group
-              v-if="vendedor.tipoCliente === 'fisica'"
+              v-if="vendedor.tipoVendedor === 'fisica'"
               label="RG:"
               label-for="vendedor-rg"
             >

@@ -37,7 +37,7 @@
         @row-clicked="linhaClicada"
       >
         <div slot="actions" slot-scope="data">
-          <router-link :to="{ name: 'editarCliente', params: { id: data.item.id }}">
+          <router-link :to="{ name: 'editarVendedor', params: { id: data.item.id }}">
             <b-button variant="warning" class="mr-2">
               <v-icon name="pen"></v-icon>
             </b-button>
@@ -73,7 +73,7 @@ import axios from "axios";
 import PageTitle from "../template/PageTitle";
 
 export default {
-  name: "ListaClientes",
+  name: "ListaVendedores",
   components: { PageTitle },
   data: function() {
     return {
@@ -118,7 +118,7 @@ export default {
     reset() {
       this.mode = "save";
       this.vendedor = {};
-      this.carregarClientes();
+      this.carregarVendedores();
     },
     remover(id_cliente) {
       // alert(id_cliente)
@@ -149,7 +149,7 @@ export default {
     }
   },
   mounted() {
-    this.carregarClientes();
+    this.carregarVendedores();
     this.$store.commit("setClient", null);
     this.totalRows = this.items.length + 1;
   }

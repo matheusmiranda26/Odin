@@ -24,7 +24,7 @@
       <b-row class="titulo-card">
         <b-col md="11" sm="12">
           <p class="m-0 text-primary titulo text-uppercase">
-            {{ vendedor.nomeCliente }}
+            {{ vendedor.nome   }}
             <span v-show="vendedor.nomeFantasia">- {{vendedor.nomeFantasia}}</span>
           </p>
         </b-col>
@@ -32,8 +32,8 @@
           <b-row>
             <p
               class="dado"
-              :class="[vendedor.status == '0' ? 'text-danger' : 'text-success' ]"
-            >{{ vendedor.status == '0' ? 'Inativo' : 'Ativo' }}</p>
+              :class="[vendedor.status == '1' ? 'text-danger' : 'text-success' ]"
+            >{{ vendedor.status == '1' ? 'Inativo' : 'Ativo' }}</p>
           </b-row>
         </b-col>
       </b-row>
