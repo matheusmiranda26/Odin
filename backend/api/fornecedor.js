@@ -60,7 +60,7 @@ module.exports = app => {
             .select('*')
             .then(fornecedores => res.json(fornecedores))
             .catch(err => res.status(500).send(err))
-            return res.json(fornecedores)
+            // return res.json(fornecedores)
     }
 
     const getByName = (req, res) => {
