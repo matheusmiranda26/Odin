@@ -6,12 +6,12 @@
       <b-form>
         <input id="fornecedor-id" type="hidden" v-model="fornecedor.id" />
         <b-row>
-          <b-col md="5" sm="12">
+          <b-col md="4" sm="12">
             <b-form-group label="Nome do fornecedor:" label-for="fornecedor-nome">
               <b-form-input id="fornecedor-nome" type="text" v-model="fornecedor.nome" required />
             </b-form-group>
           </b-col>
-           <b-col md="5" sm="12">
+           <b-col md="4" sm="12">
             <b-form-group label="Nome fantasia:" label-for="fornecedor-fantasia">
               <b-form-input id="fornecedor-fantasia" type="text" v-model="fornecedor.nomeFantasia" required />
             </b-form-group>
@@ -26,7 +26,7 @@
                 required
               >
                 <option value="fisica">Fisica</option>
-                <option value="juridica">Juridica</option>
+                <option value="juridica" selected>Juridica</option>
               </b-form-select>
             </b-form-group>
           </b-col>
@@ -123,13 +123,13 @@
               <b-form-input id="fornecedor-observacoes" type="text" v-model="fornecedor.observacoes" />
             </b-form-group>
           </b-col>
-          <b-col md="6" sm="12">
+          <b-col md="3" sm="12">
             <b-form-group label="Vendedor:" label-for="fornecedor-vendedor">
               <b-form-input id="fornecedor-vendedor" type="text" v-model="fornecedor.nomeVendedor" />
             </b-form-group>
           </b-col>
            <b-col md="3" sm="12">
-            <b-form-group label="Telefone Celular:" label-for="fornecedor-telefone-vendedor">
+            <b-form-group label="Telefone Vendedor:" label-for="fornecedor-telefone-vendedor">
               <b-form-input
                 id="fornecedor-telefone-vendedor"
                 v-model="fornecedor.telefoneVendedor"
@@ -139,7 +139,7 @@
             </b-form-group>
           </b-col>
            <b-col md="6" sm="12">
-            <b-form-group label="Email:" label-for="fornecedor-email-vendedor">
+            <b-form-group label="Email do Vendedor:" label-for="fornecedor-email-vendedor">
               <b-form-input id="fornecedor-email-vendedor" type="text" v-model="fornecedor.emailVendedor" />
             </b-form-group>
           </b-col>
