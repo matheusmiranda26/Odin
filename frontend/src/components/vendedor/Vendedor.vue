@@ -89,9 +89,9 @@
           </b-row>
           <b-row>
             <p class="dado text-muted">
-              {{ vendedor.endereco }}, {{ vendedor.numero }},
+              {{ vendedor.endereco }}<span v-show="vendedor.numero !== null">, {{ vendedor.numero }},</span>
               <span v-show="vendedor.complemento !== null">{{ vendedor.complemento }},</span>
-              {{ vendedor.cep }}
+             <span v-show="vendedor.cep !== null"> {{ vendedor.cep }}</span>
             </p>
           </b-row>
         </b-col>
