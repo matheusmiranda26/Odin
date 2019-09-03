@@ -20,11 +20,11 @@
       </b-row>
     </b-card>
     <b-card class="p-4 m-3">
-      <input id="vendedor-id" type="hidden" v-model="vendedor.id">
+      <input id="vendedor-id" type="hidden" v-model="vendedor.id" />
       <b-row class="titulo-card">
         <b-col md="11" sm="12">
           <p class="m-0 text-primary titulo text-uppercase">
-            {{ vendedor.nome   }}
+            {{ vendedor.nome }}
             <span v-show="vendedor.nomeFantasia">- {{vendedor.nomeFantasia}}</span>
           </p>
         </b-col>
@@ -45,7 +45,7 @@
           >CNPJ: {{ vendedor.cnpj_cpf }}</p>
           <p v-else class="text-black-50 dado">CPF: {{ vendedor.cnpj_cpf }}</p>
         </b-col>
-      </b-row >
+      </b-row>
       <b-row class="titulo-card">
         <b-col md="12" sm="12">
           <p
@@ -55,7 +55,7 @@
           <p v-else class="text-black-50 dado">RG: {{ vendedor.inscricaoEstadual_rg }}</p>
         </b-col>
       </b-row>
-      <hr>
+      <hr />
       <b-row>
         <b-col md="4" sm="12">
           <b-row>
@@ -89,9 +89,10 @@
           </b-row>
           <b-row>
             <p class="dado text-muted">
-              {{ vendedor.endereco }}<span v-show="vendedor.numero !== null">, {{ vendedor.numero }},</span>
+              {{ vendedor.endereco }}
+              <span v-show="vendedor.numero !== null">, {{ vendedor.numero }},</span>
               <span v-show="vendedor.complemento !== null">{{ vendedor.complemento }},</span>
-             <span v-show="vendedor.cep !== null"> {{ vendedor.cep }}</span>
+              <span v-show="vendedor.cep !== null">{{ vendedor.cep }}</span>
             </p>
           </b-row>
         </b-col>
@@ -186,9 +187,8 @@ export default {
 .titulo {
   font-size: 1.9em;
 }
-.titulo-card{
+.titulo-card {
   margin: 0;
   padding: 0;
-
 }
 </style>
