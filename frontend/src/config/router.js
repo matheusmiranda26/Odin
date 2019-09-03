@@ -94,7 +94,7 @@ const routes = [{
 },{
     name: 'editarFornecedor',
     path: '/editarFornecedor/:id',
-    component: ListaFornecedor
+    component: EditarFornecedor
 },{
     name: 'fornecedor',
     path: '/fornecedor/:id',
