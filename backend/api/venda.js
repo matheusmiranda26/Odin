@@ -84,7 +84,7 @@ module.exports = app => {
         // const count = parseInt(result.count)
         app.db('vendas')
             .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nomeCliente as nomeCliente')
-            .whereNull('deletedAt')
+            .whereNull('vendas.deletedAt')
             .then(vendas => {
                 res.json(vendas) //.then(v => vendatotal = v)
                 // vendatotal = "2"
