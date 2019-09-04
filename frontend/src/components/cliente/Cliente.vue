@@ -191,4 +191,10 @@ export default {
   padding: 0;
 
 }
+.cliente {
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  align-content: center;
+}
 </style>
