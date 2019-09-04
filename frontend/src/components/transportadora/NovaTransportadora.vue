@@ -4,25 +4,38 @@
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card border-variant="primary">
       <b-form>
-        <input id="fornecedor-id" type="hidden" v-model="fornecedor.id" />
+        <input id="transportadora-id" type="hidden" v-model="transportadora.id" />
         <b-row>
           <b-col md="5" sm="12">
-            <b-form-group label="Nome do fornecedor:" label-for="fornecedor-nome">
-              <b-form-input id="fornecedor-nome" type="text" v-model="fornecedor.nome" required />
+            <b-form-group label="Nome do transportadora:" label-for="transportadora-nome">
+              <b-form-input
+                id="transportadora-nome"
+                type="text"
+                v-model="transportadora.nome"
+                required
+              />
             </b-form-group>
           </b-col>
-           <b-col md="5" sm="12">
-            <b-form-group label="Nome fantasia:" label-for="fornecedor-fantasia">
-              <b-form-input id="fornecedor-fantasia" type="text" v-model="fornecedor.nomeFantasia" required />
+          <b-col md="3" sm="12">
+            <b-form-group label="Nome fantasia:" label-for="transportadora-fantasia">
+              <b-form-input
+                id="transportadora-fantasia"
+                type="text"
+                v-model="transportadora.nomeFantasia"
+                required
+              />
             </b-form-group>
           </b-col>
 
           <b-col md="2" sm="12">
-            <b-form-group label="Tipo Fornecedor:" label-for="fornecedor-tipo-fornecedor">
+            <b-form-group
+              label="Tipo Transportadora:"
+              label-for="transportadora-tipo-transportadora"
+            >
               <b-form-select
-                id="fornecedor-tipo-fornecedor"
+                id="transportadora-tipo-transportadora"
                 options
-                v-model="fornecedor.tipoFornecedor"
+                v-model="transportadora.tipoTransportadora"
                 required
               >
                 <option value="fisica">Fisica</option>
@@ -33,9 +46,9 @@
           <b-col md="2" sm="12">
             <b-form-group label="Status:">
               <b-form-radio-group
-                id="fornecedor-status"
-                v-model="fornecedor.status"
-                name="fornecedor.status"
+                id="transportadora-status"
+                v-model="transportadora.status"
+                name="transportadora.status"
               >
                 <b-form-radio value="1">Ativo</b-form-radio>
                 <b-form-radio value="0">Inativo</b-form-radio>
@@ -46,22 +59,22 @@
         <b-row>
           <b-col md="4" sm="12">
             <b-form-group
-              v-if="fornecedor.tipoFornecedor === 'fisica'"
+              v-if="transportadora.tipoTransportadora === 'fisica'"
               label="CPF:"
-              label-for="fornecedor-cpf"
+              label-for="transportadora-cpf"
             >
               <b-form-input
-                id="fornecedor-cpf"
-                v-model="fornecedor.cnpj_cpf"
+                id="transportadora-cpf"
+                v-model="transportadora.cnpj_cpf"
                 type="tel"
                 v-mask="'###.###.###-##'"
                 required
               />
             </b-form-group>
-            <b-form-group v-else label="CNPJ:" label-for="fornecedor-cnpj">
+            <b-form-group v-else label="CNPJ:" label-for="transportadora-cnpj">
               <b-form-input
-                id="fornecedor-cnpj"
-                v-model="fornecedor.cnpj_cpf"
+                id="transportadora-cnpj"
+                v-model="transportadora.cnpj_cpf"
                 type="tel"
                 v-mask="'##.###.###/####-##'"
                 required
@@ -70,21 +83,25 @@
           </b-col>
           <b-col md="4" sm="12">
             <b-form-group
-              v-if="fornecedor.tipoFornecedor === 'fisica'"
+              v-if="transportadora.tipoTransportadora === 'fisica'"
               label="RG:"
-              label-for="fornecedor-rg"
+              label-for="transportadora-rg"
             >
-              <b-form-input id="fornecedor-rg" type="text" v-model="fornecedor.inscricaoEstadual_rg" />
+              <b-form-input
+                id="transportadora-rg"
+                type="text"
+                v-model="transportadora.inscricaoEstadual_rg"
+              />
             </b-form-group>
             <b-form-group
               v-else
               label="Inscrição Estadual:"
-              label-for="fornecedor-inscricao-estadual"
+              label-for="transportadora-inscricao-estadual"
             >
               <b-form-input
-                id="fornecedor-inscricao-estadual"
+                id="transportadora-inscricao-estadual"
                 type="text"
-                v-model="fornecedor.inscricaoEstadual_rg"
+                v-model="transportadora.inscricaoEstadual_rg"
                 required
               />
             </b-form-group>
@@ -92,73 +109,57 @@
         </b-row>
         <b-row>
           <b-col md="3" sm="12">
-            <b-form-group label="Telefone Comercial:" label-for="fornecedor-telefone-comercial">
+            <b-form-group label="Telefone Comercial:" label-for="transportadora-telefone-comercial">
               <b-form-input
-                id="fornecedor-telefone-comercial"
-                v-model="fornecedor.telefoneComercial"
+                id="transportadora-telefone-comercial"
+                v-model="transportadora.telefoneComercial"
                 type="tel"
                 v-mask="['(##) ####-####', '(##) #####-####']"
               />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
-            <b-form-group label="Telefone Celular:" label-for="fornecedor-telefone-celular">
+            <b-form-group label="Telefone Celular:" label-for="transportadora-telefone-celular">
               <b-form-input
-                id="fornecedor-telefone-celular"
-                v-model="fornecedor.telefoneCelular"
+                id="transportadora-telefone-celular"
+                v-model="transportadora.telefoneCelular"
                 type="tel"
                 v-mask="['(##) ####-####', '(##) #####-####']"
               />
             </b-form-group>
           </b-col>
           <b-col md="6" sm="12">
-            <b-form-group label="Email:" label-for="fornecedor-email">
-              <b-form-input id="fornecedor-email" type="text" v-model="fornecedor.email" />
+            <b-form-group label="Email:" label-for="transportadora-email">
+              <b-form-input id="transportadora-email" type="text" v-model="transportadora.email" />
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
           <b-col md="12" sm="12">
-            <b-form-group label="Observações:" label-for="fornecedor-observacoes">
-              <b-form-input id="fornecedor-observacoes" type="text" v-model="fornecedor.observacoes" />
-            </b-form-group>
-          </b-col>
-          <b-col md="6" sm="12">
-            <b-form-group label="Vendedor:" label-for="fornecedor-vendedor">
-              <b-form-input id="fornecedor-vendedor" type="text" v-model="fornecedor.nomeVendedor" />
-            </b-form-group>
-          </b-col>
-           <b-col md="3" sm="12">
-            <b-form-group label="Telefone Celular:" label-for="fornecedor-telefone-vendedor">
+            <b-form-group label="Observações:" label-for="transportadora-observacoes">
               <b-form-input
-                id="fornecedor-telefone-vendedor"
-                v-model="fornecedor.telefoneVendedor"
-                type="tel"
-                v-mask="['(##) ####-####', '(##) #####-####']"
+                id="transportadora-observacoes"
+                type="text"
+                v-model="transportadora.observacoes"
               />
             </b-form-group>
           </b-col>
-           <b-col md="6" sm="12">
-            <b-form-group label="Email:" label-for="fornecedor-email-vendedor">
-              <b-form-input id="fornecedor-email-vendedor" type="text" v-model="fornecedor.emailVendedor" />
-            </b-form-group>
-          </b-col>
           <!-- <b-col md="4" sm="12">
-            <b-form-group label="Fornecedor:" label-for="fornecedor-fornecedor">
-              <b-form-input id="fornecedor-fornecedor" type="text" v-model="fornecedor.observacoes"/>
+            <b-form-group label="Transportadora:" label-for="transportadora-transportadora">
+              <b-form-input id="transportadora-transportadora" type="text" v-model="transportadora.observacoes"/>
             </b-form-group>
           </b-col>-->
         </b-row>
         <b-row>
-          <p class="p-3 endereco">Endereço do Fornecedor</p>
+          <p class="p-3 endereco">Endereço da Transportadora</p>
         </b-row>
         <hr />
         <b-row>
           <b-col md="4" sm="12">
-            <b-form-group label="CEP:" label-for="fornecedor-cep">
+            <b-form-group label="CEP:" label-for="transportadora-cep">
               <b-form-input
-                id="fornecedor-cep"
-                v-model="fornecedor.cep"
+                id="transportadora-cep"
+                v-model="transportadora.cep"
                 type="tel"
                 v-mask="'#####-###'"
                 required
@@ -166,40 +167,64 @@
             </b-form-group>
           </b-col>
           <b-col md="5" sm="12">
-            <b-form-group label="Endereço:" label-for="fornecedor-endereco">
+            <b-form-group label="Endereço:" label-for="transportadora-endereco">
               <b-form-input
-                id="fornecedor-endereco"
+                id="transportadora-endereco"
                 type="text"
-                v-model="fornecedor.endereco"
+                v-model="transportadora.endereco"
                 required
               />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
-            <b-form-group label="Numero:" label-for="fornecedor-numero">
-              <b-form-input id="fornecedor-numero" type="text" v-model="fornecedor.numero" required />
+            <b-form-group label="Numero:" label-for="transportadora-numero">
+              <b-form-input
+                id="transportadora-numero"
+                type="text"
+                v-model="transportadora.numero"
+                required
+              />
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
           <b-col md="4" sm="12">
-            <b-form-group label="Complemento:" label-for="fornecedor-complemento">
-              <b-form-input id="fornecedor-complemento" type="text" v-model="fornecedor.complemento" />
+            <b-form-group label="Complemento:" label-for="transportadora-complemento">
+              <b-form-input
+                id="transportadora-complemento"
+                type="text"
+                v-model="transportadora.complemento"
+              />
             </b-form-group>
           </b-col>
           <b-col md="4" sm="12">
-            <b-form-group label="Bairro:" label-for="fornecedor-bairro">
-              <b-form-input id="fornecedor-bairro" type="text" v-model="fornecedor.bairro" required />
+            <b-form-group label="Bairro:" label-for="transportadora-bairro">
+              <b-form-input
+                id="transportadora-bairro"
+                type="text"
+                v-model="transportadora.bairro"
+                required
+              />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
-            <b-form-group label="Cidade:" label-for="fornecedor-cidade">
-              <b-form-input id="fornecedor-cidade" type="text" v-model="fornecedor.cidade" required />
+            <b-form-group label="Cidade:" label-for="transportadora-cidade">
+              <b-form-input
+                id="transportadora-cidade"
+                type="text"
+                v-model="transportadora.cidade"
+                required
+              />
             </b-form-group>
           </b-col>
           <b-col md="1" sm="12">
-            <b-form-group label="Estado:" label-for="fornecedor-estado">
-              <b-form-input id="fornecedor-estado" type="text" v-model="fornecedor.estado" required />
+            <b-form-group label="Estado:" label-for="transportadora-estado">
+              <b-form-input
+                id="transportadora-estado"
+                type="text"
+                v-model="transportadora.estado"
+                required
+              />
             </b-form-group>
           </b-col>
         </b-row>
@@ -210,7 +235,7 @@
       <b-row>
         <b-col xs="12">
           <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
-          <router-link to="/fornecedores">
+          <router-link to="/transportadoras">
             <b-button variant="secondary" class="ml-2 white-text">Cancelar</b-button>
           </router-link>
         </b-col>
@@ -235,11 +260,11 @@ export default {
     return {
       mode: "save",
       isLoading: false,
-      fornecedor: {
+      transportadora: {
         status: 1,
         tipoCliente: "juridica"
       },
-      fornecedores: [],
+      transportadoras: [],
       //   status: 'ativo',
       items: [
         {
@@ -247,8 +272,8 @@ export default {
           to: "/"
         },
         {
-          text: "Fornecedores",
-          to: "fornecedores"
+          text: "Transportadoras",
+          to: "transportadoras"
         },
         {
           text: "Novo",
@@ -259,13 +284,13 @@ export default {
   },
   methods: {
     save() {
-      // const method = this.fornecedor.id ? "put" : "post";
-      const id = this.fornecedor.id ? `/${this.fornecedor.id}` : "";
+      // const method = this.transportadora.id ? "put" : "post";
+      const id = this.transportadora.id ? `/${this.transportadora.id}` : "";
       axios
-        .post(`${baseApiUrl}/fornecedores${id}`, this.fornecedor)
+        .post(`${baseApiUrl}/transportadoras${id}`, this.transportadora)
         .then(() => {
           this.$toasted.global.defaultSuccess();
-          this.$router.push("/fornecedores");
+          this.$router.push("/transportadoras");
         })
         .catch(showError);
     },
@@ -273,7 +298,7 @@ export default {
       if (this.cep.length == 8) {
         axios
           .get(`https://viacep.com.br/ws/${this.cep}/json/`)
-          .then(response => (this.fornecedor.endereco = response.data))
+          .then(response => (this.transportadora.endereco = response.data))
           .catch(error => console.log(error));
       }
     },

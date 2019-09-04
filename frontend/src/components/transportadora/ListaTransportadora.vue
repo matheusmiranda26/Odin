@@ -1,6 +1,6 @@
 <template>
-  <div class="fornecedor">
-    <!-- <PageTitle icon="fas fa-user-ninja" main="Fornecedores"/> -->
+  <div class="transportadora">
+    <!-- <PageTitle icon="fas fa-user-ninja" main="Transportadoras"/> -->
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
 
     <b-card class="mb-3">
@@ -16,9 +16,9 @@
           </b-input-group>
         </b-col>
         <b-col md="3" sm="3">
-          <router-link to="/novoFornecedor">
+          <router-link to="/novaTransportadora">
             <b-button variant="success">
-              Novo Fornecedor
+              Nova Transportadora
               <v-icon name="plus"></v-icon>
             </b-button>
           </router-link>
@@ -29,7 +29,7 @@
       <b-table
         hover
         striped
-        :items="fornecedores"
+        :items="transportadoras"
         :fields="fields"
         :filter="filter"
         :current-page="currentPage"
@@ -37,7 +37,7 @@
         @row-clicked="linhaClicada"
       >
         <div slot="actions" slot-scope="data">
-          <router-link :to="{ name: 'editarFornecedor', params: { id: data.item.id }}">
+          <router-link :to="{ name: 'editarTransportadora', params: { id: data.item.id }}">
             <b-button variant="warning" class="mr-2">
               <v-icon name="pen"></v-icon>
             </b-button>
@@ -73,17 +73,17 @@ import axios from "axios";
 import PageTitle from "../template/PageTitle";
 
 export default {
-  name: "ListaFornecedores",
+  name: "ListaTransportadoras",
   components: { PageTitle },
   data: function() {
     return {
       mode: "save",
       isLoading: false,
-      fornecedores: [],
+      transportadoras: [],
       fields: [
         // { key: "id", label: "Código", sortable: true },
         { key: "nome", label: "Nome", sortable: true },
-        { key: "apelido", label: "Apelido", sortable: true },
+        { key: "nomeFantasia", label: "Nome Fantasia", sortable: true },
         { key: "cidade", label: "Cidade", sortable: true },
         { key: "estado", label: "Estado", sortable: true },
         // { key: "email", label: "E-mail", sortable: true },
@@ -95,7 +95,7 @@ export default {
           href: "/"
         },
         {
-          text: "Fornecedores",
+          text: "Transportadoras",
           active: true
         }
       ],
@@ -107,24 +107,24 @@ export default {
     };
   },
   methods: {
-    carregarFornecedores() {
+    carregarTransportadoras() {
       // this.isLoading = true;
-      const url = `${baseApiUrl}/fornecedores`;
+      const url = `${baseApiUrl}/transportadoras`;
       axios.get(url).then(res => {
-        this.fornecedores = res.data;
+        this.transportadoras = res.data;
         // this.isLoading = false;
       });
     },
     reset() {
       this.mode = "save";
-      this.fornecedor = {};
-      this.carregarFornecedores();
+      this.transportadora = {};
+      this.carregarTransportadoras();
     },
-    remover(id_fornecedor) {
-      // alert(id_fornecedor)
-      const id = id_fornecedor;
+    remover(id_transportadora) {
+      // alert(id_transportadora)
+      const id = id_transportadora;
       axios
-        .delete(`${baseApiUrl}/fornecedores/${id}`)
+        .delete(`${baseApiUrl}/transportadoras/${id}`)
         .then(() => {
           this.$toasted.global.defaultSuccess();
           this.reset();
@@ -136,7 +136,7 @@ export default {
       this.currentPage = 1;
     },
     linhaClicada(item, index, event) {
-      this.$router.push({ name: "fornecedor", params: { id: item.id } });
+      this.$router.push({ name: "transportadora", params: { id: item.id } });
     }
   },
   computed: {
@@ -149,7 +149,7 @@ export default {
     }
   },
   mounted() {
-    this.carregarFornecedores();
+    this.carregarTransportadoras();
     //this.$store.commit("setClient", null);
     this.totalRows = this.items.length + 1;
   }

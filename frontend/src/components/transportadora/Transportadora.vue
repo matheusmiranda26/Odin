@@ -1,10 +1,10 @@
 <template>
-  <div class="fornecedor">
+  <div class="transportadora">
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card class="m-3">
       <b-row>
         <b-col cols="auto" class="mr-auto">
-          <router-link :to="{ name: 'editarFornecedor', params: { id: fornecedor.id }}">
+          <router-link :to="{ name: 'editarTransportadora', params: { id: transportadora.id }}">
             <b-button variant="warning">
               Editar
               <v-icon name="pen"></v-icon>
@@ -20,39 +20,39 @@
       </b-row>
     </b-card>
     <b-card class="p-4 m-3">
-      <input id="fornecedor-id" type="hidden" v-model="fornecedor.id">
+      <input id="transportadora-id" type="hidden" v-model="transportadora.id">
       <b-row class="titulo-card">
         <b-col md="11" sm="12">
           <p class="m-0 text-primary titulo text-uppercase">
-            {{ fornecedor.nomeFornecedor }}
-            <span v-show="fornecedor.nomeFantasia">- {{fornecedor.nomeFantasia}}</span>
+            {{ transportadora.nome }}
+            <span v-show="transportadora.nomeFantasia">- {{transportadora.nomeFantasia}}</span>
           </p>
         </b-col>
         <b-col md="1" sm="12">
           <b-row>
             <p
               class="dado"
-              :class="[fornecedor.status == '0' ? 'text-danger' : 'text-success' ]"
-            >{{ fornecedor.status == '0' ? 'Inativo' : 'Ativo' }}</p>
+              :class="[transportadora.status == '0' ? 'text-danger' : 'text-success' ]"
+            >{{ transportadora.status == '0' ? 'Inativo' : 'Ativo' }}</p>
           </b-row>
         </b-col>
       </b-row>
       <b-row class="titulo-card">
         <b-col md="12" sm="12">
           <p
-            v-if="fornecedor.tipoFornecedor == 'juridica'"
+            v-if="transportadora.tipoTransportadora == 'juridica'"
             class="text-black-50 dado"
-          >CNPJ: {{ fornecedor.cnpj_cpf }}</p>
-          <p v-else class="text-black-50 dado">CPF: {{ fornecedor.cnpj_cpf }}</p>
+          >CNPJ: {{ transportadora.cnpj_cpf }}</p>
+          <p v-else class="text-black-50 dado">CPF: {{ transportadora.cnpj_cpf }}</p>
         </b-col>
       </b-row >
       <b-row class="titulo-card">
         <b-col md="12" sm="12">
           <p
-            v-if="fornecedor.tipoFornecedor == 'juridica'"
+            v-if="transportadora.tipoTransportadora == 'juridica'"
             class="text-black-50 dado"
-          >IE: {{ fornecedor.inscricaoEstadual_rg }}</p>
-          <p v-else class="text-black-50 dado">RG: {{ fornecedor.inscricaoEstadual_rg }}</p>
+          >IE: {{ transportadora.inscricaoEstadual_rg }}</p>
+          <p v-else class="text-black-50 dado">RG: {{ transportadora.inscricaoEstadual_rg }}</p>
         </b-col>
       </b-row>
       <hr>
@@ -62,15 +62,15 @@
             <p class="label text-secondary">Telefone Comercial:</p>
           </b-row>
           <b-row>
-            <p class="dado text-muted">{{ fornecedor.telefoneComercial }}</p>
+            <p class="dado text-muted">{{ transportadora.telefoneComercial }}</p>
           </b-row>
         </b-col>
-        <b-col v-show="fornecedor.telefoneCelular !== ''" md="4" sm="12">
+        <b-col v-show="transportadora.telefoneCelular !== ''" md="4" sm="12">
           <b-row>
             <p class="label text-secondary">Celular:</p>
           </b-row>
           <b-row>
-            <p class="dado text-muted">{{ fornecedor.telefoneCelular }}</p>
+            <p class="dado text-muted">{{ transportadora.telefoneCelular }}</p>
           </b-row>
         </b-col>
         <b-col md="4" sm="12">
@@ -78,7 +78,7 @@
             <p class="label text-secondary">Email:</p>
           </b-row>
           <b-row>
-            <p class="dado text-muted">{{ fornecedor.email }}</p>
+            <p class="dado text-muted">{{ transportadora.email }}</p>
           </b-row>
         </b-col>
       </b-row>
@@ -89,9 +89,9 @@
           </b-row>
           <b-row>
             <p class="dado text-muted">
-              {{ fornecedor.endereco }}, {{ fornecedor.numero }},
-              <span v-show="fornecedor.complemento !== null">{{ fornecedor.complemento }},</span>
-              {{ fornecedor.cep }}
+              {{ transportadora.endereco }}, {{ transportadora.numero }},
+              <span v-show="transportadora.complemento !== null">{{ transportadora.complemento }},</span>
+              {{ transportadora.cep }}
             </p>
           </b-row>
         </b-col>
@@ -100,17 +100,17 @@
             <p class="label text-secondary">Cidade:</p>
           </b-row>
           <b-row>
-            <p class="dado text-muted">{{ fornecedor.cidade }} - {{ fornecedor.estado }}</p>
+            <p class="dado text-muted">{{ transportadora.cidade }} - {{ transportadora.estado }}</p>
           </b-row>
         </b-col>
       </b-row>
-      <b-row v-show="fornecedor.observacoes !== null">
+      <b-row v-show="transportadora.observacoes !== null">
         <b-col md sm="12">
           <b-row>
             <p class="label text-secondary">Observações:</p>
           </b-row>
           <b-row>
-            <p class="dado text-muted">{{ fornecedor.observacoes }}</p>
+            <p class="dado text-muted">{{ transportadora.observacoes }}</p>
           </b-row>
         </b-col>
       </b-row>
@@ -118,7 +118,7 @@
     <b-card class="bg-transparent border-0">
       <b-row>
         <b-col cols="auto" class="mr-auto">
-          <router-link to="/fornecedores">
+          <router-link to="/transportadoras">
             <b-button variant="secondary">
               Voltar
               <v-icon name="long-arrow-alt-left"></v-icon>
@@ -136,18 +136,18 @@ import axios from "axios";
 import moment from "moment";
 
 export default {
-  name: "Fornecedor",
+  name: "Transportadora",
   data: function() {
     return {
-      fornecedor: {},
+      transportadora: {},
       items: [
         {
           text: "Inicio",
           to: "/"
         },
         {
-          text: "Fornecedores",
-          to: "/fornecedores"
+          text: "Transportadoras",
+          to: "/transportadoras"
         },
         {
           text: "Perfil",
@@ -157,9 +157,9 @@ export default {
     };
   },
   mounted() {
-    const url = `${baseApiUrl}/fornecedores/${this.$route.params.id}`;
-    axios.get(url).then(res => (this.fornecedor = res.data));
-    // alert(moment(this.fornecedor.dataCadastro).format('L'))
+    const url = `${baseApiUrl}/transportadoras/${this.$route.params.id}`;
+    axios.get(url).then(res => (this.transportadora = res.data));
+    // alert(moment(this.transportadora.dataCadastro).format('L'))
   }
 };
 </script>
@@ -179,6 +179,11 @@ export default {
 .titulo-card{
   margin: 0;
   padding: 0;
-
+}
+.transportadora {
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  align-content: center;
 }
 </style>
