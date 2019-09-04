@@ -62,7 +62,12 @@ module.exports = app => {
 
     app.route('/transportadoras')
         .get(app.api.transportadora.get)
-    // .post(app.api.cliente.save)
+        .post(app.api.transportadora.save)
+
+    app.route('/transportadoras/:id')
+        .get(app.api.transportadora.getById)
+        .put(app.api.transportadora.save)
+        .delete(app.api.transportadora.remove)
 
     app.route('/transportadoras/nome/:nome')
         .get(app.api.transportadora.getByName)
