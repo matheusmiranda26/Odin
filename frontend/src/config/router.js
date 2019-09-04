@@ -19,6 +19,11 @@ import ListaFornecedor from '@/components/fornecedor/ListaFornecedores'
 import NovoFornecedor from '@/components/fornecedor/NovoFornecedor'
 import EditarFornecedor from '@/components/fornecedor/EditarFornecedor'
 import Fornecedor from '@/components/fornecedor/Fornecedor'
+import ListaTransportadora from '@/components/transportadora/ListaTransportadora'
+import NovaTransportadora from '@/components/transportadora/NovaTransportadora'
+import EditarTransportadora from '@/components/transportadora/EditarTransportadora'
+import Transportadora from '@/components/transportadora/Transportadora'
+
 
 import {
     userKey
@@ -99,6 +104,22 @@ const routes = [{
     name: 'fornecedor',
     path: '/fornecedor/:id',
     component: Fornecedor
+},{
+    name: 'transportadora',
+    path: '/transportadora/:id',
+    component: Transportadora
+},{
+    name: 'listaTransportadora',
+    path: '/transportadoras',
+    component: ListaTransportadora
+},{
+    name: 'novaTransportadora',
+    path: '/novaTransportadora',
+    component: NovaTransportadora
+},{
+    name: 'editarTransportadora',
+    path: '/editarTransportadora/:id',
+    component: EditarTransportadora
 }]
 
 const router = new VueRouter({
