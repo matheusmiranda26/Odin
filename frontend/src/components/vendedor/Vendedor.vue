@@ -90,9 +90,9 @@
           <b-row>
             <p class="dado text-muted">
               {{ vendedor.endereco }}
-              <span v-show="vendedor.numero !== null">, {{ vendedor.numero }},</span>
-              <span v-show="vendedor.complemento !== null">{{ vendedor.complemento }},</span>
-              <span v-show="vendedor.cep !== null">{{ vendedor.cep }}</span>
+              <span v-show="vendedor.numero != ''">, {{ vendedor.numero }},</span>
+              <span v-show="vendedor.complemento != ''">{{ vendedor.complemento }},</span>
+              <span v-show="vendedor.cep != ''">{{ vendedor.cep }}</span>
             </p>
           </b-row>
         </b-col>
@@ -190,5 +190,11 @@ export default {
 .titulo-card {
   margin: 0;
   padding: 0;
+}
+.vendedor {
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  align-content: center;
 }
 </style>
