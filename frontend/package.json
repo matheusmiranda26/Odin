@@ -20,7 +20,7 @@
     "sass-loader": "^7.1.0",
     "underscore": "^1.9.1",
     "v-money": "^0.8.1",
-    "vee-validate": "^2.2.8",
+    "vee-validate": "^2.2.15",
     "vue": "2.5.17",
     "vue-awesome": "^3.5.2",
     "vue-bootstrap-typeahead": "^0.2.6",
