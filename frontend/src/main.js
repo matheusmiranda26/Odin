@@ -12,6 +12,7 @@ import './config/vue-the-mask'
 import './config/v-money'
 import './config/vue-moment'
 import './config/vue-currency'
+import './config/vee-validate'
 
 import store from './config/store'
 import router from './config/router'
