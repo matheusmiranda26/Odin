@@ -3,12 +3,19 @@
     <!-- <b-container align-self="center"> -->
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card border-variant="primary">
-      <b-form>
-        <input id="cliente-id" type="hidden" v-model="cliente.id">
+      <b-form @submit.stop.prevent="onSubmit">
+        <input id="cliente-id" type="hidden" v-model="cliente.id" />
         <b-row>
           <b-col md="6" sm="12">
             <b-form-group label="Nome do cliente:" label-for="cliente-nome">
-              <b-form-input id="cliente-nome" type="text" v-model="cliente.nomeCliente" required/>
+              <b-form-input
+                id="cliente-nome"
+                name="cliente-nome"
+                type="text"
+                v-model="cliente.nomeCliente"
+                v-validate="{ required: true, min: 3 }"
+                :state="validateState('cliente-nome')"
+              />
             </b-form-group>
           </b-col>
 
@@ -45,6 +52,9 @@
             >
               <b-form-input
                 id="cliente-cpf"
+                v-validate="{required}"
+                name="cliente-cpf"
+                :state="validateState('cliente-cpf')"
                 v-model="cliente.cnpj_cpf"
                 type="tel"
                 v-mask="'###.###.###-##'"
@@ -54,6 +64,9 @@
             <b-form-group v-else label="CNPJ:" label-for="cliente-cnpj">
               <b-form-input
                 id="cliente-cnpj"
+                v-validate="{cnpj}"
+                name="cliente-cnpj"
+                :state="validateState('cliente-cnpj')"
                 v-model="cliente.cnpj_cpf"
                 type="tel"
                 v-mask="'##.###.###/####-##'"
@@ -73,7 +86,7 @@
           </b-col>
           <b-col md="3" sm="12">
             <b-form-group label="Data Fundação:" label-for="cliente-data">
-              <b-form-input id="cliente-data" type="date" v-model="cliente.dataFundacao" required/>
+              <b-form-input id="cliente-data" type="date" v-model="cliente.dataFundacao" required />
             </b-form-group>
           </b-col>
         </b-row>
@@ -84,7 +97,7 @@
               label="RG:"
               label-for="cliente-rg"
             >
-              <b-form-input id="cliente-rg" type="text" v-model="cliente.inscricaoEstadual_rg"/>
+              <b-form-input id="cliente-rg" type="text" v-model="cliente.inscricaoEstadual_rg" />
             </b-form-group>
             <b-form-group v-else label="Inscrição Estadual:" label-for="cliente-inscricao-estadual">
               <b-form-input
@@ -118,14 +131,21 @@
           </b-col>
           <b-col md="3" sm="12">
             <b-form-group label="Email:" label-for="cliente-email">
-              <b-form-input id="cliente-email" type="text" v-model="cliente.email"/>
+              <b-form-input
+                v-validate="{email}"
+                name="cliente-email"
+                :state="validateState('cliente-email')"
+                id="cliente-email"
+                type="text"
+                v-model="cliente.email"
+              />
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
           <b-col md="12" sm="12">
             <b-form-group label="Observações:" label-for="cliente-observacoes">
-              <b-form-input id="cliente-observacoes" type="text" v-model="cliente.observacoes"/>
+              <b-form-input id="cliente-observacoes" type="text" v-model="cliente.observacoes" />
             </b-form-group>
           </b-col>
           <!-- <b-col md="4" sm="12">
@@ -137,7 +157,7 @@
         <b-row>
           <p class="p-3 endereco">Endereço do Cliente</p>
         </b-row>
-        <hr>
+        <hr />
         <b-row>
           <b-col md="4" sm="12">
             <b-form-group label="CEP:" label-for="cliente-cep">
@@ -147,50 +167,54 @@
                 type="tel"
                 v-mask="'#####-###'"
                 required
-              
               />
             </b-form-group>
           </b-col>
           <b-col md="5" sm="12">
             <b-form-group label="Endereço:" label-for="cliente-endereco">
-              <b-form-input id="cliente-endereco" type="text" v-model="cliente.endereco" required/>
+              <b-form-input id="cliente-endereco" type="text" v-model="cliente.endereco" required />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
             <b-form-group label="Numero:" label-for="cliente-numero">
-              <b-form-input id="cliente-numero" type="text" v-model="cliente.numero" required/>
+              <b-form-input id="cliente-numero" type="text" v-model="cliente.numero" required />
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
           <b-col md="4" sm="12">
             <b-form-group label="Complemento:" label-for="cliente-complemento">
-              <b-form-input id="cliente-complemento" type="text" v-model="cliente.complemento"/>
+              <b-form-input id="cliente-complemento" type="text" v-model="cliente.complemento" />
             </b-form-group>
           </b-col>
           <b-col md="4" sm="12">
             <b-form-group label="Bairro:" label-for="cliente-bairro">
-              <b-form-input id="cliente-bairro" type="text" v-model="cliente.bairro" required/>
+              <b-form-input id="cliente-bairro" type="text" v-model="cliente.bairro" required />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
             <b-form-group label="Cidade:" label-for="cliente-cidade">
-              <b-form-input id="cliente-cidade" type="text" v-model="cliente.cidade" required/>
+              <b-form-input id="cliente-cidade" type="text" v-model="cliente.cidade" required />
             </b-form-group>
           </b-col>
           <b-col md="1" sm="12">
             <b-form-group label="Estado:" label-for="cliente-estado">
-              <b-form-input id="cliente-estado" type="text" v-model="cliente.estado" required/>
+              <b-form-input id="cliente-estado" type="text" v-model="cliente.estado" required />
             </b-form-group>
           </b-col>
         </b-row>
 
         <b-row></b-row>
       </b-form>
-      <hr>
+      <hr />
       <b-row>
         <b-col xs="12">
-          <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
+          <b-button
+            variant="primary"
+            v-if="mode === 'save'"
+            @click="save"
+            :disabled="veeErrors.any()"
+          >Salvar</b-button>
           <router-link to="/clientes">
             <b-button variant="secondary" class="ml-2 white-text">Cancelar</b-button>
           </router-link>
@@ -257,40 +281,39 @@ export default {
           vendedor => vendedor.status != "1"
         );
         vendedoresAtivos.sort(function(a, b) {
-          if (a.apelido > b.apelido) {
+          if (a.nome > b.nome) {
             return 1;
           }
-          if (a.apelido < b.apelido) {
+          if (a.nome < b.nome) {
             return -1;
           }
           // a must be equal to b
           return 0;
         });
         this.vendedores = vendedoresAtivos.map(vendedor => {
-          return { value: vendedor.id, text: vendedor.apelido };
+          return { value: vendedor.id, text: vendedor.nome };
         });
       });
+    },
+    buscarCep() {},
+    validateState(ref) {
+      if (
+        this.veeFields[ref] &&
+        (this.veeFields[ref].dirty || this.veeFields[ref].validated)
+      ) {
+        return !this.veeErrors.has(ref);
+      }
+      return null;
+    },
+    onSubmit() {
+      this.$validator.validateAll().then(result => {
+        if (!result) {
+          return;
+        }
+        alert("aui");
+        this.save();
+      });
     }
-  },
-  buscarCep() {
-    if (this.cep.length == 8) {
-      axios
-        .get(`https://viacep.com.br/ws/${this.cep}/json/`)
-        .then(response => (this.cliente.endereco = response.data))
-        .catch(error => console.log(error));
-    }
-    alert("aqui");
-    // this.cliente.endereco = buscaCep("01001-000", { sync: true });
-    // buscaCep('86803-370', { sync: true })
-    //   .then(enderecos => {
-
-    //     this.cliente.endereco = enderecos;
-    //   })
-    //   .catch(erro => {
-    //     // console.log(
-    //     //   `Erro: statusCode ${erro.statusCode} e mensagem ${erro.message}`
-    //     // );
-    //   });
   },
   mounted() {
     this.carregarVendedores();
