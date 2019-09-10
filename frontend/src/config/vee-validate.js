@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VeeValidate from 'vee-validate'
 
-alert('validate')
 
 function valida(cnpj) {
     alert('aqui')
