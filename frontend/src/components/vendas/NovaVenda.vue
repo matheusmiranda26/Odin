@@ -17,7 +17,7 @@
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
-            <b-form-group label="Transportadora:" label-for="venda-nome">
+            <b-form-group label="Transportadora:" label-for="venda-transportadora">
               <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nomeCliente" required/> -->
               <vue-bootstrap-typeahead
                 :data="transportadoras"
@@ -65,7 +65,7 @@
                 id="venda-valor-total"
                 v-model.lazy="venda.valor"
                 type="number"
-               @change="preencherPagamentos()"
+                @change="preencherPagamentos()"
                 required
               />
             </b-form-group>
@@ -225,8 +225,8 @@ export default {
       clientes: [],
       clienteBusca: "",
       clienteSelecionado: null,
-      transportadoras:[],
-       transportadoraBusca: "",
+      transportadoras: [],
+      transportadoraBusca: "",
       transportadoraSelecionado: null,
       //   status: 'ativo',
       items: [
@@ -247,6 +247,7 @@ export default {
   },
   methods: {
     save() {
+      // alert(this.venda.idCliente)
       // const method = this.venda.id ? "put" : "post";
       const id = this.venda.id ? `/${this.venda.id}` : "";
       this.venda.pagamentosVendas = this.pagamentosVendas;
@@ -265,18 +266,18 @@ export default {
     },
     async getClientes(nome) {
       const url = `${baseApiUrl}/clientes/nome/${nome}`;
-      await axios.get(url).then(res => (this.clientes = res.data)); 
+      await axios.get(url).then(res => (this.clientes = res.data));
     },
     async getTransportadoras(nome) {
       const url = `${baseApiUrl}/transportadoras/nome/${nome}`;
-      await axios.get(url).then(res => (this.transportadoras = res.data)); 
+      await axios.get(url).then(res => (this.transportadoras = res.data));
     },
     preencherPagamentos() {
       // this.venda.valor = this.venda.valor.replace(",", ".").split('R$ ')[1];
       // alert(this.venda.condicaoPagamento)
       this.pagamentosVendas = [];
-      this.venda.valorTotal = this.venda.valor - this.venda.desconto
-      let dataParcela = this.venda.data
+      this.venda.valorTotal = this.venda.valor - this.venda.desconto;
+      let dataParcela = this.venda.data;
       for (let i = 0; i < parseInt(this.venda.condicaoPagamento); i++) {
         // alert("aqui")
         dataParcela = moment(dataParcela)
