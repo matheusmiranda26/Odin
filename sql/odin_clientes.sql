@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `odin` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `odin`;
 -- MySQL dump 10.13  Distrib 5.7.27, for Linux (x86_64)
 --
 -- Host: localhost    Database: odin
@@ -45,6 +43,7 @@ CREATE TABLE `clientes` (
   `estado` varchar(50) NOT NULL,
   `status` varchar(10) NOT NULL DEFAULT '1',
   `idVendedor` int(10) unsigned NOT NULL,
+  `deletedAt` time DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_clientes_vendedores1_idx` (`idVendedor`),
   CONSTRAINT `fk_clientes_vendedores1` FOREIGN KEY (`idVendedor`) REFERENCES `vendedores` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -57,7 +56,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (9,'Ricardo Silva','Unifil','12.345.678/9123-21','6321456','ricardo@email.com','2012-02-20','(43) 3333-3333','(43) 9999-9999','juridica',NULL,'86805-620','Rua Goias','123',NULL,'Centro','Londrina','PR','1',4),(10,'Lara Beatriz',NULL,'123.456.789-66','131651651','lara@email.com','1997-01-26',NULL,'(43) 9999-9699','fisica','entrega fim de mês','86022-040','Av. JK','45','Ap 78','Centro','Apucarana','PR','1',1),(11,'Marc Queiroz',NULL,'000.000.000-00','15616165',NULL,'2011-01-20','(43) 34232-5020',NULL,'fisica',NULL,'86806-060','Rua JK','1515',NULL,'Centro','Londrina','PR','1',29);
+INSERT INTO `clientes` VALUES (9,'Ricardo Silva','Unifil','12.345.678/9123-21','6321456','ricardo@email.com','2012-02-20','(43) 3333-3333','(43) 9999-9999','juridica',NULL,'86805-620','Rua Goias','123',NULL,'Centro','Londrina','PR','1',4,NULL),(10,'Lara Beatriz',NULL,'123.456.789-66','131651651','lara@email.com','1997-01-26',NULL,'(43) 9999-9699','fisica','entrega fim de mês','86022-040','Av. JK','45','Ap 78','Centro','Apucarana','PR','1',1,NULL),(11,'Marc Queiroz',NULL,'000.000.000-00','15616165',NULL,'2011-01-20','(43) 34232-5020',NULL,'fisica',NULL,'86806-060','Rua JK','1515',NULL,'Centro','Londrina','PR','1',29,NULL);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -70,4 +69,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-02 21:20:47
+-- Dump completed on 2019-09-09 21:23:29

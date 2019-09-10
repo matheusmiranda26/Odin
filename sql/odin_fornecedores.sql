@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `odin` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `odin`;
 -- MySQL dump 10.13  Distrib 5.7.27, for Linux (x86_64)
 --
 -- Host: localhost    Database: odin
@@ -67,4 +65,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-02 21:20:47
+-- Dump completed on 2019-09-09 21:23:29
