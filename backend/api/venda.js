@@ -7,6 +7,7 @@ module.exports = app => {
     } = app.api.validation
 
     const save = (req, res) => {
+        // alert('aqui')
         const venda = {
             ...req.body
         }
