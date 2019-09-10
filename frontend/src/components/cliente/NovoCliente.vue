@@ -310,8 +310,7 @@ export default {
         if (!result) {
           return;
         }
-        alert("aui");
-        this.save();
+        // this.save();
       });
     }
   },
