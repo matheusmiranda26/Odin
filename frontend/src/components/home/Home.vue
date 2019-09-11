@@ -44,7 +44,7 @@ export default {
   },
   mounted() {
     // this.getStats();
-    this.quantidadeClientes();x
+    this.quantidadeClientes();
     this.quantidadeVendas();
   }
 };
