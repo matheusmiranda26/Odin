@@ -10,6 +10,7 @@ import Cliente from '@/components/cliente/Cliente'
 import EditarCliente from '@/components/cliente/EditarCliente'
 import ListaVendas from '@/components/vendas/ListaVendas'
 import NovaVenda from '@/components/vendas/NovaVenda'
+import EditarVenda from '@/components/vendas/EditarVenda'
 import Venda from '@/components/vendas/Venda'
 import NovoVendedor from '@/components/vendedor/NovoVendedor'
 import EditarVendedor from '@/components/vendedor/EditarVendedor'
@@ -72,6 +73,10 @@ const routes = [{
     name: 'venda',
     path: '/vendas/:id',
     component: Venda
+},{
+    name: 'editarVenda',
+    path: '/editarVenda/:id',
+    component: EditarVenda
 },{
     name: 'novoVendedor',
     path: '/novoVendedor',
