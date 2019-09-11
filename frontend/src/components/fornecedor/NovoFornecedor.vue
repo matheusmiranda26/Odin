@@ -237,7 +237,7 @@ export default {
       isLoading: false,
       fornecedor: {
         status: 1,
-        tipoCliente: "juridica"
+        tipoFornecedor: "juridica"
       },
       fornecedores: [],
       //   status: 'ativo',
