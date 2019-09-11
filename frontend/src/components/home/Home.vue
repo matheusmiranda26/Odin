@@ -1,14 +1,12 @@
 <template>
   <div class="home">
     <PageTitle icon="fa fa-home" main="Dashboard" />
-    <!-- <div class="stats">
-            <Stat title="Categorias" :value="stat.categories"
-                icon="fa fa-folder" color="#d54d50" />
-            <Stat title="Artigos" :value="stat.articles"
-                icon="fa fa-file" color="#3bc480" />
-            <Stat title="Usuários" :value="stat.users"
-                icon="fa fa-user" color="#3282cd" />
-    </div>-->
+    <div class="stats">
+      <Stat title="Clientes" :value="qtdClientes[0]" icon="fa fa-user" color="#d54d50" />
+      <Stat title="Vendas" :value="qtdVendas[0]" icon="fa fa-file" color="#3bc480" />
+      <!-- <Stat title="Usuários" :value="stat.users"
+      icon="fa fa-user" color="#3282cd" />-->
+    </div>
   </div>
 </template>
 
@@ -23,23 +21,31 @@ export default {
   components: { PageTitle, Stat },
   data: function() {
     return {
+      qtdClientes: 0,
+      qtdVendas: 0,
       stat: {},
-      vendas:{}
+      vendas: {}
     };
   },
   methods: {
     // getStats() {
     //     axios.get(`${baseApiUrl}/stats`).then(res => this.stat = res.data)
     // }
-    carregarVendas() {
-      axios.get(`${baseApiUrl}/vendas`).then(res => {
-        this.vendas = res.data;
+    quantidadeClientes() {
+      axios.get(`${baseApiUrl}/quantidadeClientes`).then(res => {
+        this.qtdClientes = res.data;
+      });
+    },
+    quantidadeVendas() {
+      axios.get(`${baseApiUrl}/quantidadeVendas`).then(res => {
+        this.qtdVendas = res.data;
       });
     }
   },
   mounted() {
-   // this.getStats();
-    this.carregarVendas();
+    // this.getStats();
+    this.quantidadeClientes();x
+    this.quantidadeVendas();
   }
 };
 </script>
