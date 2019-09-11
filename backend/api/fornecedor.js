@@ -12,7 +12,6 @@ module.exports = app => {
         try {
             existsOrError(fornecedor.nome, 'Nome não informado')
             // existsOrError(fornecedor.cnpj_cpf, 'CNPJ/CPF não informado')
-           
 
         } catch (msg) {
             res.status(400).send(msg)
