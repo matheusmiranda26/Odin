@@ -5,7 +5,7 @@
         </div>
         <div class="stat-info">
             <span class="stat-title">{{ title }}</span>
-            <span class="stat-value">{{ value }}</span>
+            <span class="stat-value">{{ value.quantidade }}</span>
         </div>
     </div>
 </template>
