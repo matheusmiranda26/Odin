@@ -91,11 +91,19 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
+    const getQuantidade = (req, res) => {
+        app.db('clientes')
+            .count('* as quantidade')            
+            .then(cliente => res.json(cliente))
+            .catch(err => res.status(500).send(err))
+    }
+
     return {
         save,
         remove,
         get,
         getById,
-        getByName
+        getByName,
+        getQuantidade
     }
 }
