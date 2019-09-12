@@ -71,7 +71,6 @@
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 import PageTitle from "../template/PageTitle";
-import moment from "moment";
 
 export default {
   name: "ListaVendas",
@@ -86,7 +85,7 @@ export default {
         {
           key: "data",
           label: "Data",
-          formatter: (value, key, item) => {
+          formatter: (value) => {
             let data = new Date(value)
             return data.getDay() + '/' + data.getMonth() + '/' + data.getFullYear();
           },
@@ -148,7 +147,7 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
-    linhaClicada(item, index, event) {
+    linhaClicada(item) {
       this.$router.push({ name: "venda", params: { id: item.id } });
     }
   },

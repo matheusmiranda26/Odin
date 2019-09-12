@@ -133,7 +133,6 @@
 <script>
 import { baseApiUrl } from "@/global";
 import axios from "axios";
-import moment from "moment";
 
 export default {
   name: "Transportadora",
