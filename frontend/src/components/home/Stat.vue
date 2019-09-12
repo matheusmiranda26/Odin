@@ -1,61 +1,79 @@
 <template>
-    <div class="stat">
-        <div class="stat-icon">
-            <i :class="icon" :style="style"></i>
-        </div>
-        <div class="stat-info">
-            <span class="stat-title">{{ title }}</span>
-            <span class="stat-value">{{ value.quantidade }}</span>
-        </div>
+  <div class="stat">
+    <div class="stat-icon">
+      <i :class="icon" :style="style"></i>
     </div>
+    <div class="stat-info">
+      <span class="stat-title">{{ title }}</span>
+      <span class="stat-value">{{ this.qtd[0].quantidade }}</span>
+    </div>
+  </div>
 </template>
 
 <script>
+import { baseApiUrl } from "@/global";
+import axios from "axios";
+
 export default {
-    name: 'Stat',
-    props: ['title', 'value', 'icon', 'color'],
-    computed: {
-        style() {
-            return "color: " + (this.color || "#000")
-        }
+  name: "Stat",
+  data: function() {
+    return {
+      qtd: 0
+    };
+  },
+  props: ["title", "icon", "color", "tabela"],
+  computed: {
+    style() {
+      return "color: " + (this.color || "#000");
     }
-}
+  },
+  methods: {
+    quantidade() {        
+      axios.get(`${baseApiUrl}/quantidade${this.tabela}`).then(res => {
+        this.qtd = res.data;
+      });
+    }
+  },
+  mounted() {
+    this.quantidade();
+  }
+};
 </script>
 
 <style>
-    .stat {
-        flex: 1;
-        display: flex;
-        border-radius: 8px;
-        margin-right: 20px;
-        margin-bottom: 20px;
-        background-color: #FFF;
-        padding: 20px;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-    }
+.stat {
+  flex: 1;
+  display: flex;
+  border-radius: 8px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+}
 
-    .stat-icon {
-        display: flex;
-        align-items: center;
-    }
+.stat-icon {
+  display: flex;
+  align-items: center;
+}
 
-    .stat-icon i {
-        font-size: 5rem;
-    }
+.stat-icon i {
+  font-size: 5rem;
+}
 
-    .stat-info {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-    }
+.stat-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
 
-    .stat-title {
-        font-size: 1.2rem;
-    }
+.stat-title {
+  font-size: 1.2rem;
+}
 
-    .stat-value {
-        font-size: 3rem;
-    }
+.stat-value {
+  font-size: 3rem;
+}
 </style>
