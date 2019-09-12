@@ -86,4 +86,16 @@ module.exports = app => {
         .get(app.api.fornecedor.getById)
         .put(app.api.fornecedor.save)
         .delete(app.api.fornecedor.remove)
+
+//    app.route('/vendas')
+//        .get(app.api.venda.get)
+//        .post(app.api.venda.save)
+
+//    app.route('/vendas/:id')
+//        .get(app.api.venda.getById)
+//        .put(app.api.venda.save)
+//        .delete(app.api.venda.remove)
+
+    app.route('/quantidadeDespesas')
+        .get(app.api.despesa.getQuantidade)
 }
