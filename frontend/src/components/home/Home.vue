@@ -47,6 +47,9 @@
 import PageTitle from "../template/PageTitle";
 import Stat from "./Stat";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
+import axios from "axios";
+import { baseApiUrl } from "@/global";
+import _ from "underscore";
 
 export default {
   name: "Home",
