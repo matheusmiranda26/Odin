@@ -35,6 +35,7 @@ export default {
     }
   },
   mounted() {
+    
     this.quantidade();
   }
 };
