@@ -1,6 +1,6 @@
 const queries = require('./queries')
 const pagamentos = require('./pagamentosVendas')
-
+import moment from "moment";
 module.exports = app => {
     const {
         existsOrError
@@ -131,6 +131,14 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
+    const getPeriodo = (req, res) => {
+        app.db('vendas')
+            .where('data','>=',req.params.data)
+            .where('data','<',req.params.data)
+            .then(venda => res.json(venda))
+            .catch(err => res.status(500).send(err))
+    }
+
 
     return {
         save,
@@ -138,6 +146,7 @@ module.exports = app => {
         get,
         getById,
         getLast,
-        getQuantidade
+        getQuantidade,
+        getPeriodo
     }
 }
