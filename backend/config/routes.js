@@ -40,6 +40,9 @@ module.exports = app => {
         .get(app.api.vendedor.getById)
         .delete(app.api.vendedor.remove)
 
+    app.route('/vendedores/nome/:nome')
+        .get(app.api.vendedor.getByName)
+
     app.route('/vendas')
         .get(app.api.venda.get)
         .post(app.api.venda.save)
@@ -48,6 +51,10 @@ module.exports = app => {
         .get(app.api.venda.getById)
         .put(app.api.venda.save)
         .delete(app.api.venda.remove)
+
+    app.route('/vendasPeriodo/:data')
+        .get(app.api.venda.getPeriodo)
+
 
     app.route('/quantidadeVendas')
         .get(app.api.venda.getQuantidade)
@@ -87,14 +94,17 @@ module.exports = app => {
         .put(app.api.fornecedor.save)
         .delete(app.api.fornecedor.remove)
 
-//    app.route('/vendas')
-//        .get(app.api.venda.get)
-//        .post(app.api.venda.save)
+    app.route('/fornecedores/nome/:nome')
+        .get(app.api.fornecedor.getByName)
 
-//    app.route('/vendas/:id')
-//        .get(app.api.venda.getById)
-//        .put(app.api.venda.save)
-//        .delete(app.api.venda.remove)
+    //    app.route('/vendas')
+    //        .get(app.api.venda.get)
+    //        .post(app.api.venda.save)
+
+    //    app.route('/vendas/:id')
+    //        .get(app.api.venda.getById)
+    //        .put(app.api.venda.save)
+    //        .delete(app.api.venda.remove)
 
     app.route('/quantidadeDespesas')
         .get(app.api.despesa.getQuantidade)
