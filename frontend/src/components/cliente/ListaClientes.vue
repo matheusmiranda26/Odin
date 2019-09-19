@@ -82,7 +82,7 @@ export default {
       clientes: [],
       fields: [
         // { key: "id", label: "Código", sortable: true },
-        { key: "nomeCliente", label: "Nome", sortable: true },
+        { key: "nome", label: "Nome", sortable: true },
         { key: "nomeFantasia", label: "Nome Fantasia", sortable: true },
          { key: "nomeVendedor", label: "Vendedor", sortable: true },
         { key: "cidade", label: "Cidade", sortable: true },

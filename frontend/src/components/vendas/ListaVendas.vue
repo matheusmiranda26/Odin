@@ -91,7 +91,7 @@ export default {
           },
           sortable: true
         },
-        { key: "nomeCliente", label: "Cliente", sortable: true },
+        { key: "nome", label: "Cliente", sortable: true },
         { key: "numeroPedido", label: "Pedido", sortable: true },
         { key: "numeroNF", label: "Nota Fiscal", sortable: true },
         { key: "quantidade", label: "Quantidade", sortable: true },

@@ -7,18 +7,18 @@
         <b-row>
           <b-col md="6" sm="12">
             <b-form-group label="Nome do cliente:" label-for="venda-nome">
-              <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nomeCliente" required/> -->
+              <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nome" required/> -->
               <vue-bootstrap-typeahead
                 :data="clientes"
                 v-model="clienteBusca"
-                :serializer="nome => nome.nomeCliente"
+                :serializer="nome => nome.nome"
                 @hit="clienteSelecionado = $event"
               />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
             <b-form-group label="Transportadora:" label-for="venda-transportadora">
-              <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nomeCliente" required/> -->
+              <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nome" required/> -->
               <vue-bootstrap-typeahead
                 :data="transportadoras"
                 v-model="transportadoraBusca"
@@ -34,7 +34,7 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col md="1" sm="12">
+          <b-col md="2" sm="12">
             <b-form-group label="Pedido:" label-for="venda-numero-pedido">
               <b-form-input
                 id="venda-numero-pedido"
@@ -44,13 +44,13 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="1" sm="12">
-            <b-form-group label="Nota Fiscal:" label-for="venda-nota-fiscal">
+          <b-col md="2" sm="12">
+            <b-form-group label="N.F.:" label-for="venda-nota-fiscal">
               <b-form-input id="venda-nota-fiscal" type="text" v-model="venda.numeroNF" required />
             </b-form-group>
           </b-col>
-          <b-col md="1" sm="12">
-            <b-form-group label="Quantidade:" label-for="venda-quantidade">
+          <b-col md="2" sm="12">
+            <b-form-group label="Qtd.:" label-for="venda-quantidade">
               <b-form-input
                 id="venda-quantidade"
                 type="number"
@@ -81,7 +81,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="3" sm="12">
+          <b-col md="2" sm="12">
             <b-form-group label="Valor Total:" label-for="venda-valor-total">
               <b-form-input
                 id="venda-valor-total"
@@ -92,7 +92,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="1" sm="12">
+          <b-col md="2" sm="12">
             <b-form-group label="Condição:" label-for="venda-condicao-pagamento">
               <b-form-select
                 id="venda-condicao-pagamento"
@@ -116,7 +116,7 @@
               </b-form-select>
             </b-form-group>
           </b-col>
-          <b-col md="1" sm="12">
+          <b-col md="2" sm="12">
             <b-form-group label="Forma:" label-for="venda-forma-pagamento">
               <b-form-select
                 id="venda-forma-pagamento"

@@ -12,7 +12,7 @@
                 id="cliente-nome"
                 name="cliente-nome"
                 type="text"
-                v-model="cliente.nomeCliente"
+                v-model="cliente.nome"
                 v-validate="{ required: true, min: 3 }"
                 :state="validateState('cliente-nome')"
               />

@@ -5,31 +5,33 @@
       <b-row>
         <b-input-group>
           <!--     <b-form-input v-model="filter" :placeholder="'Pesquise o ' + [[ tipoBusca ]]" /> -->
-
-          <b-col md="6" sm="12">
+          <b-col md="8" sm="12">
             <b-form-group label-for="venda-nome">
               <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nomeCliente" required/> -->
               <vue-bootstrap-typeahead
                 :data="dado"
                 v-model="dadoBusca"
-                :serializer="nome => nome.nomeCliente"
+                :serializer="nome => nome.nome"
                 @hit="dadoSelecionado = $event"
               />
             </b-form-group>
           </b-col>
-
-          <b-form-group label-for="tipo-busca">
-            <b-form-select id="tipo-busca" options v-model="tipoBusca">
-              <option value="clientes">Cliente</option>
-              <option value="fornecedores">Fornecedor</option>
-              <option value="vendedores">Vendedor</option>
-            </b-form-select>
-          </b-form-group>
-          <b-input-group-append>
-            <b-input-group-text>
-              <v-icon name="search"></v-icon>
-            </b-input-group-text>
-          </b-input-group-append>
+           <b-col md="1" sm="12">
+            <b-input-group-append>
+              <b-input-group-text>
+                <v-icon name="search"></v-icon>
+              </b-input-group-text>
+            </b-input-group-append>
+          </b-col>
+          <b-col md="3" sm="12">
+            <b-form-group label-for="tipo-busca">
+              <b-form-select id="tipo-busca" options v-model="tipoBusca">
+                <option value="clientes">Cliente</option>
+                <option value="fornecedores">Fornecedor</option>
+                <option value="vendedores">Vendedor</option>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
         </b-input-group>
       </b-row>
     </div>
@@ -73,7 +75,7 @@ export default {
       this.get(nome);
     }, 500)
   },
-  methods:{
+  methods: {
     async get(nome) {
       const url = `${baseApiUrl}/${this.tipoBusca}/nome/${nome}`;
       await axios.get(url).then(res => (this.dado = res.data));

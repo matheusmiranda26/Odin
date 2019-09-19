@@ -24,7 +24,7 @@
       <b-row class="titulo-card">
         <b-col md="11" sm="12">
           <p class="m-0 text-primary titulo text-uppercase">
-            {{ cliente.nomeCliente }}
+            {{ cliente.nome }}
             <span v-show="cliente.nomeFantasia">- {{cliente.nomeFantasia}}</span>
           </p>
         </b-col>

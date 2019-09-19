@@ -11,7 +11,7 @@
                 id="cliente-nome"
                 name="cliente-nome"
                 type="text"
-                v-model="cliente.nomeCliente"
+                v-model="cliente.nome"
                 v-validate="{ required: true, min: 3 }"
                 :state="validateState('cliente-nome')"
               />
@@ -255,7 +255,7 @@ export default {
   },
   methods: {
     save() {
-      // alert(this.cliente.nomeCliente)
+      // alert(this.cliente.nome)
       // const method = this.cliente.id ? "put" : "post";
       const id = this.cliente.id; //? `/${this.cliente.id}` : "";
       axios
@@ -273,10 +273,10 @@ export default {
           vendedor => vendedor.status != "1"
         );
         vendedoresAtivos.sort(function(a, b) {
-          if (a.apelido > b.apelido) {
+          if (a.nome > b.nome) {
             return 1;
           }
-          if (a.apelido < b.apelido) {
+          if (a.nome < b.nome) {
             return -1;
           }
           // a must be equal to b

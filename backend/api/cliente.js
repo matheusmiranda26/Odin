@@ -12,7 +12,7 @@ module.exports = app => {
         if (req.params.id) cliente.id = req.params.id
 
         try {
-            existsOrError(cliente.nomeCliente, 'Nome Cliente não informado')
+            existsOrError(cliente.nome, 'Nome Cliente não informado')
             existsOrError(cliente.cnpj_cpf, 'CNPJ/CPF não informado')
             existsOrError(cliente.inscricaoEstadual_rg, 'Inscrição Estadual não informada')
             // existsOrError(cliente.email, 'E-mail não informado')
@@ -83,7 +83,7 @@ module.exports = app => {
     const getByName = (req, res) => {
         app.db('clientes')
             .select('*')
-            .where('nomeCliente', 'like', '%' + req.params.nome + '%'
+            .where('nome', 'like', '%' + req.params.nome + '%'
             )
             // .whereNull('deletedAt')
             // .first()

@@ -7,18 +7,18 @@
         <b-row>
           <b-col md="6" sm="12">
             <b-form-group label="Nome do cliente:" label-for="venda-nome">
-              <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nomeCliente" required/> -->
+              <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nome" required/> -->
               <vue-bootstrap-typeahead
                 :data="clientes"
                 v-model="clienteBusca"
-                :serializer="nome => nome.nomeCliente"
+                :serializer="nome => nome.nome"
                 @hit="clienteSelecionado = $event"
               />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
             <b-form-group label="Transportadora:" label-for="venda-transportadora">
-              <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nomeCliente" required/> -->
+              <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nome" required/> -->
               <vue-bootstrap-typeahead
                 :data="transportadoras"
                 v-model="transportadoraBusca"

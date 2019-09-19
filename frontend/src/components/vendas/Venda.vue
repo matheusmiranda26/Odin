@@ -25,7 +25,7 @@
         <b-col md="11" sm="12">
           <p class="m-0 text-primary titulo text-uppercase">
             <span>{{venda[0].numeroPedido}}</span>
-            <span>- {{venda[0].nomeCliente}}</span>
+            <span>- {{venda[0].nome}}</span>
             <span v-show="venda[0].nomeFantasia != null">- {{venda[0].nomeFantasia}}</span>
           </p>
         </b-col>
