@@ -88,12 +88,23 @@ module.exports = app => {
             .then(user => res.json(user))
             .catch(err => res.status(500).send(err))
     }
-
+    const getByName = (req, res) => {
+        
+        app.db('vendedores')
+            .select('*')
+            .where('nome', 'like', '%' + req.params.nome + '%'
+            )
+            // .whereNull('deletedAt')
+            // .first()
+            .then(vendedor => res.json(vendedor))
+            .catch(err => res.status(500).send(err))
+    }
 
     return {
         save,
         remove,
         get,
-        getById
+        getById,
+        getByName
     }
 }
