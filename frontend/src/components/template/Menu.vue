@@ -53,9 +53,6 @@
 import { mapState } from "vuex";
 // import { mdbListGroup, mdbListGroupItem } from "mdbvue";
 
-import { baseApiUrl } from "@/global";
-import axios from "axios";
-
 export default {
   name: "Menu",
   // components: { mdbListGroup, mdbListGroupItem },

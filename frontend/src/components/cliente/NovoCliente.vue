@@ -228,8 +228,6 @@
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
-import cep from "cep-promise";
-import _ from "underscore";
 // var buscaCep = require("busca-ce p");
 // import BootstrapToggle from "vue-bootstrap-toggle";
 
