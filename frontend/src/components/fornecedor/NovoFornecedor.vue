@@ -209,6 +209,7 @@
       <hr />
       <b-row>
         <b-col xs="12">
+          {{fornecedor}}
           <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
           <router-link to="/fornecedores">
             <b-button variant="secondary" class="ml-2 white-text">Cancelar</b-button>
@@ -229,7 +230,7 @@ import _ from "underscore";
 // import BootstrapToggle from "vue-bootstrap-toggle";
 
 export default {
-  name: "NovoCliente",
+  name: "NovoFornecedor",
   //   components: { BootstrapToggle },
   data: function() {
     return {
