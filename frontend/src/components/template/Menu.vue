@@ -5,7 +5,7 @@
       <p class="text-default">ODIN</p>
     </a> -->
     <b-list-group class="list-group-flush mt-3">
-      <router-link to="/dashboard" @click.native="activeItem = 1">
+      <router-link to="/" @click.native="activeItem = 1">
         <b-list-group-item :action="true" :class="activeItem === 1 && 'active'">Dashboard</b-list-group-item>
       </router-link>
       <router-link to="/clientes" @click.native="activeItem = 2">
