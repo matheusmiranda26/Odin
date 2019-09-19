@@ -1,6 +1,6 @@
 <template>
     <div class="auth-content">
-        <div class="auth-modal">
+        <div class="auth-modal" v-on:keyup.enter="signin">
             <!-- <img src="@/assets/logo.png" width="200" alt="Logo" /> -->
             
             <hr>
