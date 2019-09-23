@@ -15,7 +15,7 @@
             </b-input-group-append>
           </b-input-group>
         </b-col>
-        <b-col md="3" sm="3">
+        <b-col md="4" sm="3">
           <router-link to="/novaTransportadora">
             <b-button variant="success">
               Nova Transportadora
