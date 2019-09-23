@@ -16,7 +16,7 @@
               />
             </b-form-group>
           </b-col>
-           <b-col md="1" sm="12">
+          <b-col md="1" sm="12">
             <b-input-group-append>
               <b-input-group-text>
                 <v-icon name="search"></v-icon>
@@ -40,7 +40,10 @@
       <Stat title="Vendas" icon="fas fa-receipt" color="#3bc480" tabela="Vendas" />
       <Stat title="Despesas" icon="fa fa-file" color="#3bc480" tabela="Despesas" />
       <!-- <Stat title="Usuários" :value="stat.users"
-      icon="fa fa-user" color="#3282cd" />-->
+      icon="fa fa-user" color="#3282cd"-->
+      <div class="container">
+        <line-chart v-if="loaded" :chartdata="vendas" :options="options" />
+      </div>
     </div>
   </div>
 </template>
@@ -52,13 +55,15 @@ import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import axios from "axios";
 import { baseApiUrl } from "@/global";
 import _ from "underscore";
+import LineChart from "./LineChart";
 
 export default {
   name: "Home",
   components: {
     PageTitle,
     Stat,
-    "vue-bootstrap-typeahead": VueBootstrapTypeahead
+    "vue-bootstrap-typeahead": VueBootstrapTypeahead,
+    LineChart
   },
   data: function() {
     return {
@@ -67,18 +72,44 @@ export default {
       dadoBusca: "",
       dadoSelecionado: null,
       stat: {},
-      vendas: {}
+      loaded: true,
+      vendas: null,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     };
   },
   watch: {
     dadoBusca: _.debounce(function(nome) {
+      //  var busca = this.tipoBusca.substring(0,(this.tipoBusca.toLowerCase() -1))
+      //  this.$router.push(`/busca/${this.dadoSelecionado.id}`);
       this.get(nome);
-    }, 500)
+    }, 500),
+    dadoSelecionado: _.debounce(function(nome) {
+      if (this.tipoBusca === "clientes") {
+        var busca = this.tipoBusca.substring(0, this.tipoBusca.length - 1);
+      } else {
+        var busca = this.tipoBusca.substring(0, this.tipoBusca.length - 2);
+      }
+      this.$router.push(`/${busca}/${this.dadoSelecionado.id}`);
+    }, 200)
   },
   methods: {
     async get(nome) {
       const url = `${baseApiUrl}/${this.tipoBusca}/nome/${nome}`;
       await axios.get(url).then(res => (this.dado = res.data));
+    }
+  },
+  async mounted() {
+    this.loaded = false;
+    try {
+      await axios
+        .get(`${baseApiUrl}/vendas`)
+        .then(res => (this.vendas = res.data));
+      this.loaded = true;
+    } catch (error) {
+      console.log(error);
     }
   }
 };
