@@ -1,6 +1,6 @@
 const queries = require('./queries')
 const pagamentos = require('./pagamentosVendas')
-import moment from "moment";
+//import moment from "moment";
 module.exports = app => {
     const {
         existsOrError
@@ -84,7 +84,7 @@ module.exports = app => {
         // const result = await app.db('vendas').count('id').first()
         // const count = parseInt(result.count)
         app.db('vendas')
-            .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nomeCliente as nomeCliente')
+            .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nome as nomeCliente')
             .whereNull('vendas.deletedAt')
             .then(vendas => {
                 res.json(vendas) //.then(v => vendatotal = v)
