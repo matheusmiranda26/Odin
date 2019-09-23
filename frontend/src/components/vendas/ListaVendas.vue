@@ -123,7 +123,7 @@ export default {
       // this.isLoading = true;
       const url = `${baseApiUrl}/vendas`;
       axios.get(url).then(res => {
-        this.vendas = res.data;
+        this.vendas = res.data; 
         // this.isLoading = false;
       });
     },
