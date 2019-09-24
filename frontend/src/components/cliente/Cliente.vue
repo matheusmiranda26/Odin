@@ -6,21 +6,19 @@
         <b-col cols="auto" class="mr-auto">
           <router-link :to="{ name: 'editarCliente', params: { id: cliente.id }}">
             <b-button variant="warning">
-              Editar
-              <v-icon name="pen"></v-icon>
+              <v-icon name="pen" class="mr-3" />Editar
             </b-button>
           </router-link>
         </b-col>
         <b-col cols="auto">
           <b-button variant="danger">
-            Excluir
-            <v-icon name="trash"></v-icon>
+            <v-icon name="trash" class="mr-3" /> Excluir
           </b-button>
         </b-col>
       </b-row>
     </b-card>
     <b-card class="p-4 m-3">
-      <input id="cliente-id" type="hidden" v-model="cliente.id">
+      <input id="cliente-id" type="hidden" v-model="cliente.id" />
       <b-row class="titulo-card">
         <b-col md="11" sm="12">
           <p class="m-0 text-primary titulo text-uppercase">
@@ -45,7 +43,7 @@
           >CNPJ: {{ cliente.cnpj_cpf }}</p>
           <p v-else class="text-black-50 dado">CPF: {{ cliente.cnpj_cpf }}</p>
         </b-col>
-      </b-row >
+      </b-row>
       <b-row class="titulo-card">
         <b-col md="12" sm="12">
           <p
@@ -55,7 +53,7 @@
           <p v-else class="text-black-50 dado">RG: {{ cliente.inscricaoEstadual_rg }}</p>
         </b-col>
       </b-row>
-      <hr>
+      <hr />
       <b-row>
         <b-col md="4" sm="12">
           <b-row>
@@ -90,7 +88,9 @@
           <b-row>
             <p class="dado text-muted">
               {{ cliente.endereco }}, {{ cliente.numero }},
-              <span v-show="cliente.complemento !== null">{{ cliente.complemento }},</span>
+              <span
+                v-show="cliente.complemento !== null"
+              >{{ cliente.complemento }},</span>
               {{ cliente.cep }}
             </p>
           </b-row>
@@ -130,8 +130,8 @@
         <b-col cols="auto" class="mr-auto">
           <router-link to="/clientes">
             <b-button variant="secondary">
-              Voltar
-              <v-icon name="long-arrow-alt-left"></v-icon>
+               <v-icon name="long-arrow-alt-left" class="mr-3"/>Voltar
+             
             </b-button>
           </router-link>
         </b-col>
@@ -185,10 +185,9 @@ export default {
 .titulo {
   font-size: 1.9em;
 }
-.titulo-card{
+.titulo-card {
   margin: 0;
   padding: 0;
-
 }
 .cliente {
   width: 80%;
