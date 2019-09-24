@@ -41,9 +41,13 @@
       <Stat title="Despesas" icon="fa fa-file" color="#3bc480" tabela="Despesas" />
       <!-- <Stat title="Usuários" :value="stat.users"
       icon="fa fa-user" color="#3282cd"-->
-      <div class="container">
-        <line-chart v-if="loaded" :chartdata="vendas" :options="options" />
-      </div>
+      <b-container>
+        <div class="col-12">
+          <div class="box">
+            <canvas id="vendas"></canvas>
+          </div>
+        </div>
+      </b-container>
     </div>
   </div>
 </template>
@@ -55,7 +59,9 @@ import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import axios from "axios";
 import { baseApiUrl } from "@/global";
 import _ from "underscore";
-import LineChart from "./LineChart";
+//import Chart from "./Chart.vue";
+import Chart from "chart.js";
+import Chartist from "chartist";
 
 export default {
   name: "Home",
@@ -63,7 +69,7 @@ export default {
     PageTitle,
     Stat,
     "vue-bootstrap-typeahead": VueBootstrapTypeahead,
-    LineChart
+    Chart
   },
   data: function() {
     return {
@@ -87,10 +93,11 @@ export default {
       this.get(nome);
     }, 500),
     dadoSelecionado: _.debounce(function(nome) {
+      var busca;
       if (this.tipoBusca === "clientes") {
-        var busca = this.tipoBusca.substring(0, this.tipoBusca.length - 1);
+        busca = this.tipoBusca.substring(0, this.tipoBusca.length - 1);
       } else {
-        var busca = this.tipoBusca.substring(0, this.tipoBusca.length - 2);
+        busca = this.tipoBusca.substring(0, this.tipoBusca.length - 2);
       }
       this.$router.push(`/${busca}/${this.dadoSelecionado.id}`);
     }, 200)
@@ -99,18 +106,76 @@ export default {
     async get(nome) {
       const url = `${baseApiUrl}/${this.tipoBusca}/nome/${nome}`;
       await axios.get(url).then(res => (this.dado = res.data));
-    }
-  },
-  async mounted() {
-    this.loaded = false;
+    },
+    getVendas(){
+       this.loaded = false;
     try {
-      await axios
+      axios
         .get(`${baseApiUrl}/vendas`)
         .then(res => (this.vendas = res.data));
       this.loaded = true;
     } catch (error) {
       console.log(error);
     }
+    
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      var ctx = document.getElementById("vendas").getContext("2d");
+      var config = {
+        type: "line",
+        data: {
+          labels: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+          ],
+          datasets: [
+            {
+              label: "CoPilot",
+              fill: false,
+              borderColor: "#284184",
+              pointBackgroundColor: "#284184",
+              backgroundColor: "rgba(0, 0, 0, 0)",
+              data: this.getVendas()
+            },
+            {
+              label: "Personal Site",
+              borderColor: "#4BC0C0",
+              pointBackgroundColor: "#4BC0C0",
+              backgroundColor: "rgba(0, 0, 0, 0)",
+              data: this.personalNumbers
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: !this.isMobile,
+          legend: {
+            position: "bottom",
+            display: true
+          },
+          tooltips: {
+            mode: "label",
+            xPadding: 10,
+            yPadding: 10,
+            bodySpacing: 10
+          }
+        }
+      };
+
+      new Chart(ctx, config);
+    });
   }
 };
 </script>
