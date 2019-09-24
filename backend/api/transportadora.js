@@ -77,7 +77,7 @@ module.exports = app => {
             // });
 
             // console.log(transportadoras)
-            return res.json(transportadoras)
+           // return res.json(transportadoras)
     }
 
     const getByName = (req, res) => {
