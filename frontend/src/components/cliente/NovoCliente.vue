@@ -1,5 +1,5 @@
 <template>
-  <div class="new-client">
+  <div class="cliente">
     <!-- <b-container align-self="center"> -->
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card border-variant="primary">
@@ -7,7 +7,7 @@
         <input id="cliente-id" type="hidden" v-model="cliente.id" />
         <b-row>
           <b-col md="6" sm="12">
-            <b-form-group label="Nome do cliente:" label-for="cliente-nome">
+            <b-form-group label="Nome do cliente:" label-for="cliente-nome"  label-size="lg" label-class="font-weight-bold">
               <b-form-input
                 id="cliente-nome"
                 name="cliente-nome"
@@ -15,12 +15,13 @@
                 v-model="cliente.nome"
                 v-validate="{ required: true, min: 3 }"
                 :state="validateState('cliente-nome')"
+
               />
             </b-form-group>
           </b-col>
 
           <b-col md="3" sm="12">
-            <b-form-group label="Tipo Cliente:" label-for="cliente-tipo-cliente">
+            <b-form-group label="Tipo Cliente:" label-for="cliente-tipo-cliente" label-size="lg" label-class="font-weight-bold">
               <b-form-select
                 id="cliente-tipo-cliente"
                 options
@@ -34,7 +35,7 @@
           </b-col>
 
           <b-col md="3" sm="12">
-            <b-form-group label="Vendedor:" label-for="cliente-vendedor">
+            <b-form-group label="Vendedor:" label-for="cliente-vendedor" label-size="lg" label-class="font-weight-bold">
               <b-form-select
                 id="cliente-vendedor"
                 :options="vendedores"
@@ -49,6 +50,8 @@
               v-if="cliente.tipoCliente === 'fisica'"
               label="CPF:"
               label-for="cliente-cpf"
+              label-size="lg"
+              label-class="font-weight-bold"
             >
               <b-form-input
                 id="cliente-cpf"
@@ -61,7 +64,7 @@
                 required
               />
             </b-form-group>
-            <b-form-group v-else label="CNPJ:" label-for="cliente-cnpj">
+            <b-form-group v-else label="CNPJ:" label-for="cliente-cnpj" label-size="lg" label-class="font-weight-bold">
               <b-form-input
                 id="cliente-cnpj"
                 v-validate="{cnpj}"
@@ -75,7 +78,7 @@
             </b-form-group>
           </b-col>
           <b-col md="6" sm="12">
-            <b-form-group label="Nome Fantasia:" label-for="cliente-fantasia">
+            <b-form-group label="Nome Fantasia:" label-for="cliente-fantasia" label-size="lg">
               <b-form-input
                 id="cliente-fantasia"
                 type="text"
@@ -85,8 +88,8 @@
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
-            <b-form-group label="Data Fundação:" label-for="cliente-data">
-              <b-form-input id="cliente-data" type="date" v-model="cliente.dataFundacao" required />
+            <b-form-group label="Data Fundação:" label-for="cliente-data" label-size="lg">
+              <b-form-input id="cliente-data" type="date" v-model="cliente.dataFundacao"/>
             </b-form-group>
           </b-col>
         </b-row>
@@ -96,21 +99,24 @@
               v-if="cliente.tipoCliente === 'fisica'"
               label="RG:"
               label-for="cliente-rg"
+              label-size="lg"
+              label-class="font-weight-bold"
             >
               <b-form-input id="cliente-rg" type="text" v-model="cliente.inscricaoEstadual_rg" />
             </b-form-group>
-            <b-form-group v-else label="Inscrição Estadual:" label-for="cliente-inscricao-estadual">
+            <b-form-group v-else label="Inscrição Estadual:" label-for="cliente-inscricao-estadual" label-size="lg"  label-class="font-weight-bold">
               <b-form-input
                 id="cliente-inscricao-estadual"
                 type="text"
                 v-model="cliente.inscricaoEstadual_rg"
-                required
+                label-size="lg"
+                 label-class="font-weight-bold"
               />
             </b-form-group>
           </b-col>
 
           <b-col md="3" sm="12">
-            <b-form-group label="Telefone Comercial:" label-for="cliente-telefone-comercial">
+            <b-form-group label="Telefone Comercial:" label-for="cliente-telefone-comercial" label-size="lg">
               <b-form-input
                 id="cliente-telefone-comercial"
                 v-model="cliente.telefoneComercial"
@@ -120,7 +126,7 @@
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
-            <b-form-group label="Telefone Celular:" label-for="cliente-telefone-celular">
+            <b-form-group label="Telefone Celular:" label-for="cliente-telefone-celular" label-size="lg">
               <b-form-input
                 id="cliente-telefone-celular"
                 v-model="cliente.telefoneCelular"
@@ -130,7 +136,7 @@
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
-            <b-form-group label="Email:" label-for="cliente-email">
+            <b-form-group label="Email:" label-for="cliente-email" label-size="lg">
               <b-form-input
                 v-validate="{email}"
                 name="cliente-email"
@@ -144,7 +150,7 @@
         </b-row>
         <b-row>
           <b-col md="12" sm="12">
-            <b-form-group label="Observações:" label-for="cliente-observacoes">
+            <b-form-group label="Observações:" label-for="cliente-observacoes" label-size="lg">
               <b-form-input id="cliente-observacoes" type="text" v-model="cliente.observacoes" />
             </b-form-group>
           </b-col>
@@ -160,7 +166,7 @@
         <hr />
         <b-row>
           <b-col md="4" sm="12">
-            <b-form-group label="CEP:" label-for="cliente-cep">
+            <b-form-group label="CEP:" label-for="cliente-cep" label-size="lg" label-class="font-weight-bold">
               <b-form-input
                 id="cliente-cep"
                 v-model="cliente.cep"
@@ -171,34 +177,34 @@
             </b-form-group>
           </b-col>
           <b-col md="5" sm="12">
-            <b-form-group label="Endereço:" label-for="cliente-endereco">
+            <b-form-group label="Endereço:" label-for="cliente-endereco" label-size="lg" label-class="font-weight-bold">
               <b-form-input id="cliente-endereco" type="text" v-model="cliente.endereco" required />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
-            <b-form-group label="Numero:" label-for="cliente-numero">
+            <b-form-group label="Numero:" label-for="cliente-numero" label-size="lg" label-class="font-weight-bold">
               <b-form-input id="cliente-numero" type="text" v-model="cliente.numero" required />
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
           <b-col md="4" sm="12">
-            <b-form-group label="Complemento:" label-for="cliente-complemento">
+            <b-form-group label="Complemento:" label-for="cliente-complemento" label-size="lg">
               <b-form-input id="cliente-complemento" type="text" v-model="cliente.complemento" />
             </b-form-group>
           </b-col>
           <b-col md="4" sm="12">
-            <b-form-group label="Bairro:" label-for="cliente-bairro">
+            <b-form-group label="Bairro:" label-for="cliente-bairro" label-size="lg" label-class="font-weight-bold">
               <b-form-input id="cliente-bairro" type="text" v-model="cliente.bairro" required />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
-            <b-form-group label="Cidade:" label-for="cliente-cidade">
+            <b-form-group label="Cidade:" label-for="cliente-cidade" label-size="lg" label-class="font-weight-bold">
               <b-form-input id="cliente-cidade" type="text" v-model="cliente.cidade" required />
             </b-form-group>
           </b-col>
           <b-col md="1" sm="12">
-            <b-form-group label="Estado:" label-for="cliente-estado">
+            <b-form-group label="Estado:" label-for="cliente-estado" label-size="lg" label-class="font-weight-bold">
               <b-form-input id="cliente-estado" type="text" v-model="cliente.estado" required />
             </b-form-group>
           </b-col>
@@ -217,7 +223,7 @@
           >Salvar</b-button>
           <router-link to="/clientes">
             <b-button variant="secondary" class="ml-2 white-text">Cancelar</b-button>
-          </router-link>
+          </router-link>label-class="font-weight-bold"
         </b-col>
       </b-row>
     </b-card>
