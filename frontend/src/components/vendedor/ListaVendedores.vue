@@ -7,7 +7,7 @@
       <b-row>
         <b-col md="4" sm="12">
           <b-input-group>
-            <b-form-input v-model="filter" placeholder="Pesquise"/>
+            <b-form-input v-model="filter" placeholder="Pesquise" />
             <b-input-group-append>
               <b-input-group-text>
                 <v-icon name="search"></v-icon>
@@ -23,6 +23,20 @@
             </b-button>
           </router-link>
         </b-col>
+        <b-col md="3" class="my-1">
+          <b-form-group
+            label-cols-sm="3"
+            label-align-sm="right"
+            label-size="sm"
+            class="mb-0"
+          >
+            <b-form-checkbox-group v-model="filterOn" class="mt-1">
+              <b-form-checkbox value="">Todos</b-form-checkbox>
+              <b-form-checkbox value="0">Ativo</b-form-checkbox>
+              <b-form-checkbox value="1">Inativo</b-form-checkbox>
+            </b-form-checkbox-group>
+          </b-form-group>
+        </b-col>
       </b-row>
     </b-card>
     <b-card no-body align="center">
@@ -35,6 +49,7 @@
         :current-page="currentPage"
         :per-page="perPage"
         @row-clicked="linhaClicada"
+        :filterIncludedFields="filterOn"
       >
         <div slot="actions" slot-scope="data">
           <router-link :to="{ name: 'editarVendedor', params: { id: data.item.id }}">
@@ -82,13 +97,18 @@ export default {
       vendedores: [],
       fields: [
         // { key: "id", label: "Código", sortable: true },
-        { key: "nome", label: "Nome", sortable: true, sortDirection: 'asc' },
+        { key: "nome", label: "Nome", sortable: true, sortDirection: "asc" },
         { key: "apelido", label: "Apelido", sortable: true },
         { key: "cidade", label: "Cidade", sortable: true },
         { key: "estado", label: "Estado", sortable: true },
-        { key: "status", label: "Status", sortable: true, formatter: value =>{
-          return value === '0' ? 'Ativo': 'Inativo'
-        }},
+        {
+          key: "status",
+          label: "Status",
+          sortable: true,
+          formatter: value => {
+            return value === "0" ? "Ativo" : "Inativo";
+          }
+        },
         // { key: "email", label: "E-mail", sortable: true },
         { key: "actions", label: "Ações" }
       ],
@@ -103,6 +123,7 @@ export default {
         }
       ],
       filter: null,
+      filterOn: [],
       currentPage: 1,
       perPage: 25,
       pageOptions: [25, 50, 100],
@@ -160,5 +181,4 @@ export default {
 </script>
 
 <style>
-
 </style>
