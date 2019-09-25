@@ -9,6 +9,7 @@
     "sass:compile": "node-sass --include-path sass variables.scss index.css"
   },
   "dependencies": {
+    "apexcharts": "^3.8.6",
     "axios": "0.18.0",
     "bootstrap-vue": "^2.0.0-rc.19",
     "busca-cep": "^0.5.0",
@@ -24,6 +25,7 @@
     "v-money": "^0.8.1",
     "vee-validate": "^2.2.15",
     "vue": "2.5.17",
+    "vue-apexcharts": "^1.5.0",
     "vue-awesome": "^3.5.2",
     "vue-bootstrap-typeahead": "^0.2.6",
     "vue-chartjs": "^3.4.2",
