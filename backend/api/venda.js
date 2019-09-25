@@ -23,7 +23,6 @@ module.exports = app => {
             existsOrError(venda.numeroPedido, 'Pedido não informado.')
             existsOrError(venda.idTransportadora, 'Transportadora não informada.')
             existsOrError(venda.valorTotal, 'Valor Total não informado.')
-            existsOrError(venda.desconto, 'Desconto não informado.')
 
         } catch (msg) {
             res.status(400).send(msg)
@@ -84,7 +83,7 @@ module.exports = app => {
         // const result = await app.db('vendas').count('id').first()
         // const count = parseInt(result.count)
         app.db('vendas')
-            .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nome as nomeCliente')
+            .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nome as nome')
             .whereNull('vendas.deletedAt')
             .then(vendas => {
                 res.json(vendas) //.then(v => vendatotal = v)
@@ -113,7 +112,7 @@ module.exports = app => {
             .where('vendas.id', '=', req.params.id)
             .join('clientes', 'vendas.idCliente', '=', 'clientes.id')
             .join('transportadoras', 'vendas.idTransportadora', '=', 'transportadoras.id')
-            .select('vendas.*', 'clientes.nomeCliente as nomeCliente', 'clientes.id as idCliente', 'clientes.nomeFantasia as nomeFantasia', 'transportadoras.nome as transportadora')
+            .select('vendas.*', 'clientes.nome as nome', 'clientes.id as idCliente', 'clientes.nomeFantasia as nomeFantasia', 'transportadoras.nome as transportadora')
             // .union(app.db('pagamentos_vendas')
             // .select('*')            
             // .where('pagamentos_vendas.idVendas','=', req.params.id))
@@ -133,9 +132,30 @@ module.exports = app => {
 
     const getPeriodo = (req, res) => {
         app.db('vendas')
-            .where('data','>=',req.params.data)
-            .where('data','<',req.params.data)
+            .where('data', '>=', req.params.data)
+            .where('data', '<', req.params.data)
             .then(venda => res.json(venda))
+            .catch(err => res.status(500).send(err))
+    }
+
+    const getQuantidadeVendasNoMes = (req, res) => {
+        app.db('vendas')
+            .count('* as quantidade')
+            .whereRaw('MONTH(data) = MONTH(NOW())')
+            .whereRaw('YEAR(data) = YEAR(NOW())')
+            .then(venda => res.json(venda))
+            .catch(err => res.status(500).send(err))
+    }
+
+    const getVendaPorDia = (req, res) => {
+        app.db('vendas')
+            .select('data')
+            .sum('quantidade as quantidade')
+            .whereRaw('MONTH(data) = MONTH(NOW())')
+            .whereRaw('YEAR(data) = YEAR(NOW())')
+            .groupBy('data')
+            .orderBy('data')
+            .then(vendas => res.json(vendas))
             .catch(err => res.status(500).send(err))
     }
 
@@ -147,6 +167,8 @@ module.exports = app => {
         getById,
         getLast,
         getQuantidade,
-        getPeriodo
+        getPeriodo,
+        getVendaPorDia,
+        getQuantidadeVendasNoMes
     }
 }
