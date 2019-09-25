@@ -73,6 +73,7 @@ module.exports = app => {
             .select('*')
             // .whereNot('status', '=', 1)
             // .limit(limit).offset(page * limit - limit)
+            //.orderBy('nome')
             .then(vendedores => res.json(vendedores))
             .catch(err => res.status(500).send(err))
     }
