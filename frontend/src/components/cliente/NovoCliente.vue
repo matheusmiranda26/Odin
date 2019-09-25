@@ -204,7 +204,7 @@
             </b-form-group>
           </b-col>
           <b-col md="1" sm="12">
-            <b-form-group label="Estado:" label-for="cliente-estado" label-size="lg" label-class="font-weight-bold">
+            <b-form-group label="UF:" label-for="cliente-estado" label-size="lg" label-class="font-weight-bold">
               <b-form-input id="cliente-estado" type="text" v-model="cliente.estado" required />
             </b-form-group>
           </b-col>
@@ -217,13 +217,12 @@
         <b-col xs="12">
           <b-button
             variant="primary"
-            v-if="mode === 'save'"
             @click="save"
             :disabled="veeErrors.any()"
           >Salvar</b-button>
           <router-link to="/clientes">
             <b-button variant="secondary" class="ml-2 white-text">Cancelar</b-button>
-          </router-link>label-class="font-weight-bold"
+          </router-link>
         </b-col>
       </b-row>
     </b-card>
