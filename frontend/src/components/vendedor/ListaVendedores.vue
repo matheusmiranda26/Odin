@@ -82,10 +82,13 @@ export default {
       vendedores: [],
       fields: [
         // { key: "id", label: "Código", sortable: true },
-        { key: "nome", label: "Nome", sortable: true },
+        { key: "nome", label: "Nome", sortable: true, sortDirection: 'asc' },
         { key: "apelido", label: "Apelido", sortable: true },
         { key: "cidade", label: "Cidade", sortable: true },
         { key: "estado", label: "Estado", sortable: true },
+        { key: "status", label: "Status", sortable: true, formatter: value =>{
+          return value === '0' ? 'Ativo': 'Inativo'
+        }},
         // { key: "email", label: "E-mail", sortable: true },
         { key: "actions", label: "Ações" }
       ],
