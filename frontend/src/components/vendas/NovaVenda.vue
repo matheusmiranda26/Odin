@@ -2,22 +2,36 @@
   <div class="nova-venda">
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card>
-      <b-form>
+      <b-form @submit.stop.prevent="onSubmit">
         <input id="venda-id" type="hidden" v-model="venda.id" />
         <b-row>
           <b-col md="6" sm="12">
-            <b-form-group label="Nome do cliente:" label-for="venda-nome">
+            <b-form-group
+              label="Nome do cliente:"
+              label-for="venda-nome"
+              label-size="lg"
+              label-class="font-weight-bold"
+            >
               <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nome" required/> -->
               <vue-bootstrap-typeahead
                 :data="clientes"
                 v-model="clienteBusca"
                 :serializer="nome => nome.nome"
                 @hit="clienteSelecionado = $event"
+                v-validate="{ required: true, min: 3}"
+                :state="validateState('cliente-nome')"
+                name="cliente-nome"
+                id="cliente-nome"
               />
             </b-form-group>
           </b-col>
-          <b-col md="3" sm="12">
-            <b-form-group label="Transportadora:" label-for="venda-transportadora">
+          <b-col md="2" sm="12">
+            <b-form-group
+              label="Transportadora:"
+              label-for="venda-transportadora"
+              label-size="lg"
+              label-class="font-weight-bold"
+            >
               <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nome" required/> -->
               <vue-bootstrap-typeahead
                 :data="transportadoras"
@@ -27,51 +41,106 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="3" sm="12">
-            <b-form-group label="Data:" label-for="venda-data">
+          <b-col md="2" sm="12">
+            <b-form-group
+              label="Data:"
+              label-for="venda-data"
+              label-size="lg"
+              label-class="font-weight-bold"
+            >
               <b-form-input id="venda-data" type="date" v-model="venda.data" required />
+            </b-form-group>
+          </b-col>
+          <b-col md="2" sm="12">
+            <b-form-group
+              label="Forma:"
+              label-for="venda-forma-pagamento"
+              label-size="lg"
+              label-class="font-weight-bold"
+            >
+              <b-form-select
+                id="venda-forma-pagamento"
+                options
+                v-model="venda.formaPagamento"
+                required
+              >
+                <option value="boleto">Boleto</option>
+                <option value="cheque">Cheque</option>
+              </b-form-select>
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
           <b-col md="2" sm="12">
-            <b-form-group label="Pedido:" label-for="venda-numero-pedido">
+            <b-form-group
+              label="Pedido:"
+              label-for="venda-numero-pedido"
+              label-size="lg"
+              label-class="font-weight-bold"
+            >
               <b-form-input
                 id="venda-numero-pedido"
                 type="text"
                 v-model="venda.numeroPedido"
-                required
+                v-validate="{ required: true, min: 1}"
+                :state="validateState('venda-numero-pedido')"
+                name="venda-numero-pedido"
               />
             </b-form-group>
           </b-col>
           <b-col md="2" sm="12">
-            <b-form-group label="N.F.:" label-for="venda-nota-fiscal">
-              <b-form-input id="venda-nota-fiscal" type="text" v-model="venda.numeroNF" required />
+            <b-form-group label="N.F.:" label-for="venda-nota-fiscal" label-size="lg">
+              <b-form-input
+                id="venda-nota-fiscal"
+                type="text"
+                v-model="venda.numeroNF"
+                v-validate="{ required: true, min: 1}"
+                :state="validateState('venda-nota-fiscal')"
+                name="venda-nota-fiscal"
+              />
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
-            <b-form-group label="Qtd.:" label-for="venda-quantidade">
+          <b-col md="1" sm="12">
+            <b-form-group
+              label="Qtd.:"
+              label-for="venda-quantidade"
+              label-size="lg"
+              label-class="font-weight-bold"
+            >
               <b-form-input
                 id="venda-quantidade"
                 type="number"
                 v-model="venda.quantidade"
-                required
+                v-validate="{ required: true, min: 1}"
+                :state="validateState('venda-quantidade')"
+                name="venda-quantidade"
               />
             </b-form-group>
           </b-col>
           <b-col md="2" sm="12">
-            <b-form-group label="Valor:" label-for="venda-valor">
+            <b-form-group
+              label="Valor:"
+              label-for="venda-valor"
+              label-size="lg"
+              label-class="font-weight-bold"
+            >
               <b-form-input
                 id="venda-valor-total"
                 v-model.lazy="venda.valor"
                 type="number"
                 @change="preencherPagamentos()"
-                required
+                v-validate="{ required: true, min: 1}"
+                :state="validateState('venda-valor-total')"
+                name="venda-valor-total"
               />
             </b-form-group>
           </b-col>
           <b-col md="2" sm="12">
-            <b-form-group label="Desconto:" label-for="venda-desconto">
+            <b-form-group
+              label="Desconto:"
+              label-for="venda-desconto"
+              label-size="lg"
+            >
               <b-form-input
                 id="venda-valor-total"
                 v-model="venda.desconto"
@@ -82,7 +151,12 @@
             </b-form-group>
           </b-col>
           <b-col md="2" sm="12">
-            <b-form-group label="Valor Total:" label-for="venda-valor-total">
+            <b-form-group
+              label="Valor Total:"
+              label-for="venda-valor-total"
+              label-size="lg"
+              label-class="font-weight-bold"
+            >
               <b-form-input
                 id="venda-valor-total"
                 v-model="venda.valorTotal"
@@ -92,8 +166,13 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
-            <b-form-group label="Condição:" label-for="venda-condicao-pagamento">
+          <b-col md="1" sm="12">
+            <b-form-group
+              label="Parc.:"
+              label-for="venda-condicao-pagamento"
+              label-size="lg"
+              label-class="font-weight-bold"
+            >
               <b-form-select
                 id="venda-condicao-pagamento"
                 options
@@ -116,28 +195,20 @@
               </b-form-select>
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
-            <b-form-group label="Forma:" label-for="venda-forma-pagamento">
-              <b-form-select
-                id="venda-forma-pagamento"
-                options
-                v-model="venda.formaPagamento"
-                required
-              >
-                <option value="boleto">Boleto</option>
-                <option value="cheque">Cheque</option>
-              </b-form-select>
-            </b-form-group>
-          </b-col>
         </b-row>
-
+        <hr />
         <b-row>
           <p class="p-3 dados-pagamento">Dados Pagamento</p>
         </b-row>
         <div v-for="item in pagamentosVendas" :key="item.id">
           <b-row>
             <b-col md="2" sm="12">
-              <b-form-group label="Data:" label-for="venda-data-pagamento">
+              <b-form-group
+                label="Data:"
+                label-for="venda-data-pagamento"
+                label-size="lg"
+                label-class="font-weight-bold"
+              >
                 <b-form-input id="venda-data-pagamento" type="date" v-model="item.data" required />
               </b-form-group>
             </b-col>
@@ -146,6 +217,7 @@
                 v-if="venda.formaPagamento == 'boleto'"
                 label="Número Boleto:"
                 label-for="venda-numero-boleto"
+                label-size="lg"
               >
                 <b-form-input
                   id="venda-numero-boleto"
@@ -154,7 +226,12 @@
                   required
                 />
               </b-form-group>
-              <b-form-group v-else label="Número Cheque:" label-for="venda-numero-boleto">
+              <b-form-group
+                v-else
+                label="Número Cheque:"
+                label-for="venda-numero-boleto"
+                label-size="lg"
+              >
                 <b-form-input
                   id="venda-numero-boleto"
                   type="text"
@@ -164,12 +241,17 @@
               </b-form-group>
             </b-col>
             <b-col md="4" sm="12">
-              <b-form-group label="Valor:" label-for="venda-valor">
+              <b-form-group
+                label="Valor:"
+                label-for="venda-valor"
+                label-size="lg"
+                label-class="font-weight-bold"
+              >
                 <b-form-input id="venda-valor" v-model="item.valor" required />
               </b-form-group>
             </b-col>
             <b-col md="2" sm="12">
-              <b-form-group label="Parcela:" label-for="venda-numero-parcela">
+              <b-form-group label="Parcela:" label-for="venda-numero-parcela" label-size="lg">
                 <b-form-input id="venda-numero-parcela" v-model="item.numeroParcela" disabled />
               </b-form-group>
             </b-col>
@@ -179,7 +261,7 @@
       </b-form>
       <b-row>
         <b-col xs="12">
-          <b-button variant="primary" @click="save()">Salvar</b-button>
+          <b-button variant="primary" @click="save" :disabled="veeErrors.any()">Salvar</b-button>
           <b-button variant="success" class="ml-2 white-text" @click="edit()">Imprimir</b-button>
           <router-link to="/vendas">
             <b-button variant="secondary" class="ml-2 white-text" @click="resetClient()">Cancelar</b-button>
@@ -209,7 +291,8 @@ export default {
       venda: {
         condicaoPagamento: 1,
         formaPagamento: "boleto",
-        data: ""
+        data: "",
+        desconto: 0
         // desconto:0
       },
       money: {
@@ -294,6 +377,23 @@ export default {
       }
       this.venda.pagamentosVendas = this.pagamentosVendas;
       this.venda.idCliente = this.clienteSelecionado.id;
+    },
+    validateState(ref) {
+      if (
+        this.veeFields[ref] &&
+        (this.veeFields[ref].dirty || this.veeFields[ref].validated)
+      ) {
+        return !this.veeErrors.has(ref);
+      }
+      return null;
+    },
+    onSubmit() {
+      this.$validator.validateAll().then(result => {
+        if (!result) {
+          return;
+        }
+        // this.save();
+      });
     }
   },
   watch: {
