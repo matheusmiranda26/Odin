@@ -58,11 +58,10 @@ import PageTitle from "../template/PageTitle";
 import Stat from "./Stat";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import axios from "axios";
-import { baseApiUrl } from "@/global";
+import { baseApiUrl, showError } from "@/global";
 import _ from "underscore";
 //import LineChart from "./Chart.vue";
 import Chart from "chart.js";
-import Chartist from "chartist";
 import VueApexCharts from "vue-apexcharts";
 import moment from "moment";
 
@@ -92,7 +91,7 @@ export default {
     dadoBusca: _.debounce(function(nome) {
       this.get(nome);
     }, 500),
-    dadoSelecionado: _.debounce(function(nome) {
+    dadoSelecionado: _.debounce(function() {
       var busca;
       if (this.tipoBusca === "clientes") {
         busca = this.tipoBusca.substring(0, this.tipoBusca.length - 1);
@@ -101,7 +100,7 @@ export default {
       }
       this.$router.push(`/${busca}/${this.dadoSelecionado.id}`);
     }, 200),
-    quantidadeVendas: _.debounce(function(qtd) {
+    quantidadeVendas: _.debounce(function() {
       var ctx = document.getElementById("grafico-vendas");
       this.chart = new Chart(ctx, {
         type: "bar",
@@ -150,7 +149,7 @@ export default {
       });
       this.loaded = true;
     } catch (error) {
-      console.log(error);
+      showError(error)
     }
   }
 };
