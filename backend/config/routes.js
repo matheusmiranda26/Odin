@@ -53,6 +53,9 @@ module.exports = app => {
     app.route('/quantidadeVendaMes')
         .get(app.api.venda.getQuantidadeVendasNoMes)
 
+    app.route('/vendaPorCliente/:id')
+        .get(app.api.venda.getPorCliente)
+
     app.route('/vendas/:id')
         .get(app.api.venda.getById)
         .put(app.api.venda.save)

@@ -99,26 +99,21 @@ module.exports = app => {
     }
 
     const getById = (req, res) => {
-
-        // let pagamento = app.db('pagamentos_vendas').where({
-        //     idVendas: req.params.idVendas
-        // })
-
-
-        // console.log(pagamento.json)
-
-        app.db('vendas')
-            // .select('*')            
+        app.db('vendas')       
             .where('vendas.id', '=', req.params.id)
             .join('clientes', 'vendas.idCliente', '=', 'clientes.id')
             .join('transportadoras', 'vendas.idTransportadora', '=', 'transportadoras.id')
             .select('vendas.*', 'clientes.nome as nome', 'clientes.id as idCliente', 'clientes.nomeFantasia as nomeFantasia', 'transportadoras.nome as transportadora')
-            // .union(app.db('pagamentos_vendas')
-            // .select('*')            
-            // .where('pagamentos_vendas.idVendas','=', req.params.id))
-            // .whereNull('deletedAt')
-            // .first()
-            // .then(vendas => app.db('pagamentos_vendas').where('idVendas','=', req.params.id))
+            .then(vendas => res.json(vendas))
+            .catch(err => res.status(500).send(err))
+    }
+
+    const getPorCliente = (req, res) => {
+        app.db('vendas')       
+            .where('vendas.idCliente', '=', req.params.id)
+            //.join('clientes', 'vendas.idCliente', '=', 'clientes.id')
+            .join('transportadoras', 'vendas.idTransportadora', '=', 'transportadoras.id')
+            .select('vendas.*','transportadoras.nome as transportadora')
             .then(vendas => res.json(vendas))
             .catch(err => res.status(500).send(err))
     }
@@ -169,6 +164,7 @@ module.exports = app => {
         getQuantidade,
         getPeriodo,
         getVendaPorDia,
-        getQuantidadeVendasNoMes
+        getQuantidadeVendasNoMes,
+        getPorCliente
     }
 }
