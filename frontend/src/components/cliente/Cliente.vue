@@ -179,7 +179,7 @@
         </b-col>
         <b-col md="1" sm="12" class="pr-2 pl-2">
           <b-row class="justify-content-md-center">
-            <p class="label text-secondary pr-5">Pedido:</p>
+            <p class="label text-secondary">Pedido:</p>
           </b-row>
           <b-row class="justify-content-md-center">
             <p class="dado text-black-50">{{item.numeroPedido }}</p>
