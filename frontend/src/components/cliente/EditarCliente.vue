@@ -278,12 +278,8 @@
       <hr />
       <b-row>
         <b-col xs="12">
-          <b-button
-            variant="primary"
-            v-if="mode === 'save'"
-            @click="save"
-            :disabled="veeErrors.any()"
-          >Salvar</b-button>
+          <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
+          <b-button variant="warning" v-if="mode === 'edit'" @click="save()">Salvar</b-button>
           <router-link to="/clientes">
             <b-button variant="secondary" class="ml-2 white-text">Cancelar</b-button>
           </router-link>
@@ -306,7 +302,6 @@ export default {
       isLoading: false,
       cliente: {},
       vendedores: [],
-      datat: "1995-02-26",
       items: [
         {
           text: "Inicio",
@@ -382,7 +377,6 @@ export default {
     axios.get(url).then(res => (this.cliente = res.data));
     // this.cliente.dataFundacao = this.cliente.dataFundacao.moment().format('DD-MM-YYYY')
     // this.cliente.dataFundacao = this.cliente.dataFundacao.date.toISOString().slice(0, 10)
-    
   }
 };
 </script>
