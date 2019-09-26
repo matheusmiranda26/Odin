@@ -1,50 +1,26 @@
 import Vue from 'vue'
 import VeeValidate from 'vee-validate'
+import { Validator } from 'vee-validate'
+import { validaCnpj } from '../utils/validadorCnpj.js'
+import { validaCpf } from '../utils/validadorCpf.js'
 
+Validator.extend('cnpj', {
+    validate (value) {
+      return validaCnpj(value);
+    },
+    getMessage (field) {
+      return 'CNPJ inválido';
+    }
+  });
 
-function valida(cnpj) {
-    alert('aqui')
-    cnpj = cnpj.replace(/[^\d]+/g, '')
-
-    let pesosDigito1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
-    let pesosDigito2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
-
-    return verificacaoGeral(cnpj) && verificarDigito(cnpj, pesosDigito1) && verificarDigito(cnpj, pesosDigito2)
-}
-
-function verificacaoGeral(cnpj) {
-    let excludeArray = [
-        '00000000000000',
-        '11111111111111',
-        '22222222222222',
-        '33333333333333',
-        '44444444444444',
-        '55555555555555',
-        '66666666666666',
-        '77777777777777',
-        '88888888888888',
-        '99999999999999'
-    ]
-
-    if (cnpj === '') return false
-    if (cnpj.length !== 14) return false
-    if (excludeArray.some(o => cnpj === o)) return false
-
-    return true
-}
-
-function verificarDigito(cnpj, pesos) {
-    let numbers = cnpj.split('').slice(0, pesos.length)
-    // Soma numeros do CNPJ baseado nos pesos
-    let acumuladora = numbers.reduce((anterior, atual, index) => {
-        return anterior + (atual * pesos[index])
-    }, 0)
-    let resto = acumuladora % 11
-    let digito = resto < 2 ? 0 : 11 - resto
-    return parseInt(cnpj[pesos.length]) === digito
-}
-
-
+  Validator.extend('cpf', {
+    validate (value) {
+      return validaCpf(value);
+    },
+    getMessage (field) {
+      return 'CPF inválido';
+    }
+  });
 
 Vue.use(VeeValidate, {
     // This is the default
@@ -52,13 +28,5 @@ Vue.use(VeeValidate, {
     // Important to name this something other than 'fields'
     fieldsBagName: 'veeFields',
     // This is not required but avoids possible naming conflicts
-    errorBagName: 'veeErrors',
-    extend:('cnpj', {
-        getMessage(field, args) { // will be added to default English messages.
-            return 'Invalid CNPJ'
-        },
-        validate(value, args) {
-            return valida(value)
-        }
-    })
+    errorBagName: 'veeErrors'
 })
