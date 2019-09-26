@@ -13,8 +13,7 @@
         </b-col>
         <b-col cols="auto">
           <b-button variant="danger">
-            Excluir
-            <v-icon name="trash"></v-icon>
+            <v-icon name="trash" class="mr-3" />Excluir
           </b-button>
         </b-col>
       </b-row>
@@ -31,41 +30,80 @@
         </b-col>
       </b-row>
       <b-row class="titulo-card">
-        <b-col md="3" sm="12">
-          <span class="text-black-50 label">Data:</span>
-          <span class="text-black-50 dado">{{venda[0].data | moment("DD/MM/YYYY")}}</span>
+        <b-col md="3" sm="12" align-self="center">
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary label">Data:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{venda[0].data | moment("DD/MM/YYYY")}}</span>
+          </b-row>
         </b-col>
         <b-col md="3" sm="12">
-          <span class="text-black-50 dado">Nota Fiscal: {{ venda[0].numeroNF }}</span>
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Nota Fiscal:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ venda[0].numeroNF }}</span>
+          </b-row>
         </b-col>
         <b-col md="3" sm="12">
-          <span class="text-black-50 dado">Forma: {{ venda[0].formaPagamento }}</span>
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Forma:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ venda[0].formaPagamento }}</span>
+          </b-row>
         </b-col>
         <b-col md="3" sm="12">
-          <span class="text-black-50 dado">Transportadora: {{ venda[0].transportadora }}</span>
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Transportadora:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ venda[0].transportadora }}</span>
+          </b-row>
         </b-col>
       </b-row>
       <b-row class="titulo-card">
         <b-col md="3" sm="12">
-          <span class="text-black-50 dado">Valor: {{ venda[0].valor | currency }}</span>
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Valor:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ venda[0].valor | currency }}</span>
+          </b-row>
         </b-col>
         <b-col md="3" sm="12">
-          <span class="text-black-50 dado">Quantidade: {{ venda[0].quantidade }}</span>
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Quantidade:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ venda[0].quantidade }}</span>
+          </b-row>
         </b-col>
         <b-col md="3" sm="12">
-          <span class="text-black-50 dado">Desconto: {{ venda[0].desconto | currency}}</span>
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Desconto:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ venda[0].desconto | currency}}</span>
+          </b-row>
         </b-col>
         <b-col md="3" sm="12">
-          <span class="text-black-50 dado">Valor Total: {{ venda[0].valorTotal | currency }}</span>
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Valor Total:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ venda[0].valorTotal | currency }}</span>
+          </b-row>
         </b-col>
       </b-row>
       <hr />
-      <b-container align-self="center" v-for="item in pagamentos" :key="item.id">
+      <b-container align-self="center" align-h="around" v-for="item in pagamentos" :key="item.id">
         <input id="venda-id" type="hidden" v-model="item.id" />
-        <b-row class="justify-content-md-center pt-4">
+        <b-row class="pt-4 pl-0" align-h="around">
           <b-col align-self="center" md="2" sm="12">
             <b-row class="justify-content-md-center">
-              <span class="text-black-50 dado">Data:</span>
+              <span class="text-secondary dado">Data:</span>
             </b-row>
             <b-row class="justify-content-md-center">
               <span class="text-black-50 dado">{{ item.data | moment("DD/MM/YYYY")}}</span>
@@ -73,7 +111,7 @@
           </b-col>
           <b-col md="2" sm="12">
             <b-row class="justify-content-md-center">
-              <span class="text-black-50 dado">Valor:</span>
+              <span class="text-secondary dado">Valor:</span>
             </b-row>
             <b-row class="justify-content-md-center">
               <span class="text-black-50 dado">{{item.valor | currency }}</span>
@@ -81,7 +119,7 @@
           </b-col>
           <b-col md="2" sm="12">
             <b-row class="justify-content-md-center">
-              <span class="text-black-50 dado">Numero:</span>
+              <span class="text-secondary dado">Numero:</span>
             </b-row>
             <b-row class="justify-content-md-center">
               <span class="text-black-50 dado">{{item.numeroPagamento}}</span>
@@ -89,17 +127,16 @@
           </b-col>
           <b-col md="2" sm="12">
             <b-row class="justify-content-md-center">
-              <span class="text-black-50 dado">Pagamento:</span>
+              <span class="text-secondary dado">Pagamento:</span>
             </b-row>
             <b-row class="justify-content-md-center">
-              <span class="text-black-50 dado">{{item.dataPagamento| moment("DD/MM/YYYY")}}</span>
+              <span v-if="item.dataPagamento != 'Invalid date'" class="text-black-50 dado">{{item.dataPagamento| moment("DD/MM/YYYY")}}</span>
             </b-row>
           </b-col>
           <b-col md="2" sm="12">
             <b-row class="justify-content-md-center">
               <b-button @click="preencherPagamento(item)" variant="success">
-                Editar
-                <v-icon name="pen"></v-icon>
+                <v-icon name="pen" class="mr-3" />Editar
               </b-button>
             </b-row>
           </b-col>
