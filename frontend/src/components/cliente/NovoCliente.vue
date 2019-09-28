@@ -70,16 +70,14 @@
               <b-form-input
                 id="cliente-cnpj"
                 v-validate="{cpf, min:11, required}"
-                name="cliente-cnpj"                
+                name="cliente-cnpj"
                 :state="validateState('cliente-cnpj')"
                 v-model="cliente.cnpj_cpf"
                 type="tel"
                 v-mask="'###.###.###-##'"
                 aria-describedby="cpf-feedback"
               />
-              <b-form-invalid-feedback
-                id="cpf-feedback"
-              >CPF inválido.</b-form-invalid-feedback>
+              <b-form-invalid-feedback id="cpf-feedback">CPF inválido.</b-form-invalid-feedback>
             </b-form-group>
             <b-form-group
               v-else
@@ -98,9 +96,7 @@
                 v-mask="'##.###.###/####-##'"
                 aria-describedby="cnpj-feedback"
               />
-              <b-form-invalid-feedback
-                id="cnpj-feedback"
-              >CNPJ inválido.</b-form-invalid-feedback>
+              <b-form-invalid-feedback id="cnpj-feedback">CNPJ inválido.</b-form-invalid-feedback>
             </b-form-group>
           </b-col>
           <b-col md="6" sm="12">
@@ -217,7 +213,10 @@
                 v-model="cliente.cep"
                 type="tel"
                 v-mask="'#####-###'"
-                required
+                v-validate="{ required: true, min: 9 }"
+                :state="validateState('cliente-cep')"
+                name="cliente-cep"
+                v-on:keyup="buscarCep"
               />
             </b-form-group>
           </b-col>
@@ -299,8 +298,7 @@
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
-// var buscaCep = require("busca-ce p");
-// import BootstrapToggle from "vue-bootstrap-toggle";
+import cep from "cep-promise";
 
 export default {
   name: "NovoCliente",
@@ -311,7 +309,11 @@ export default {
       isLoading: false,
       cliente: {
         status: 1,
-        tipoCliente: "juridica"
+        tipoCliente: "juridica",
+        endereco: '',
+        cidade: '',
+        estado:'',
+        bairro: ''
       },
       vendedores: [],
       //   status: 'ativo',
@@ -364,7 +366,14 @@ export default {
         });
       });
     },
-    buscarCep() {},
+    buscarCep() {
+      cep(this.cliente.cep).then(cep => {
+        this.cliente.endereco = cep.street;
+        this.cliente.cidade = cep.city
+        this.cliente.estado = cep.state
+        this.cliente.bairro = cep.neighborhood
+      });
+    },
     validateState(ref) {
       if (
         this.veeFields[ref] &&
