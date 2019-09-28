@@ -60,9 +60,7 @@ import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import axios from "axios";
 import { baseApiUrl, showError } from "@/global";
 import _ from "underscore";
-//import LineChart from "./Chart.vue";
 import Chart from "chart.js";
-import VueApexCharts from "vue-apexcharts";
 import moment from "moment";
 
 export default {
@@ -70,8 +68,7 @@ export default {
   components: {
     PageTitle,
     Stat,
-    "vue-bootstrap-typeahead": VueBootstrapTypeahead,
-    apexchart: VueApexCharts
+    "vue-bootstrap-typeahead": VueBootstrapTypeahead
     //  LineChart
   },
   data: function() {

@@ -135,7 +135,7 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
-    linhaClicada(item, index, event) {
+    linhaClicada(item) {
       this.$router.push({ name: "transportadora", params: { id: item.id } });
     }
   },

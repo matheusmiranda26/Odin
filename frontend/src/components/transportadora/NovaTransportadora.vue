@@ -249,9 +249,6 @@
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 import cep from "cep-promise";
-import _ from "underscore";
-// var buscaCep = require("busca-ce p");
-// import BootstrapToggle from "vue-bootstrap-toggle";
 
 export default {
   name: "NovoCliente",
@@ -293,14 +290,6 @@ export default {
           this.$router.push("/transportadoras");
         })
         .catch(showError);
-    },
-    buscarCep() {
-      if (this.cep.length == 8) {
-        axios
-          .get(`https://viacep.com.br/ws/${this.cep}/json/`)
-          .then(response => (this.transportadora.endereco = response.data))
-          .catch(error => console.log(error));
-      }
     },
     mounted() {
       this.carregarVendedores();

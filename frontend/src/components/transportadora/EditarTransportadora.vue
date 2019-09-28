@@ -239,7 +239,6 @@
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
-var moment = require("moment");
 
 export default {
   name: "EditarTransportadora",

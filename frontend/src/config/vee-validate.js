@@ -8,7 +8,7 @@ Validator.extend('cnpj', {
     validate (value) {
       return validaCnpj(value);
     },
-    getMessage (field) {
+    getMessage () {
       return 'CNPJ inválido';
     }
   });
@@ -17,7 +17,7 @@ Validator.extend('cnpj', {
     validate (value) {
       return validaCpf(value);
     },
-    getMessage (field) {
+    getMessage () {
       return 'CPF inválido';
     }
   });
