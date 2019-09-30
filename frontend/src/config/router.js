@@ -24,6 +24,10 @@ import ListaTransportadora from '@/components/transportadora/ListaTransportadora
 import NovaTransportadora from '@/components/transportadora/NovaTransportadora'
 import EditarTransportadora from '@/components/transportadora/EditarTransportadora'
 import Transportadora from '@/components/transportadora/Transportadora'
+import ListaInsumo from '@/components/insumos/ListaInsumo'
+import NovoInsumo from '@/components/insumos/NovoInsumo'
+import EditarInsumo from '@/components/insumos/EditarInsumo'
+import Insumo from '@/components/insumos/Insumo'
 
 
 import {
@@ -125,6 +129,22 @@ const routes = [{
     name: 'editarTransportadora',
     path: '/editarTransportadora/:id',
     component: EditarTransportadora
+},{
+    name: 'insumo',
+    path: '/insumo/:id',
+    component: Insumo
+},{
+    name: 'listaInsumo',
+    path: '/insumos',
+    component: ListaInsumo
+},{
+    name: 'novoInsumo',
+    path: '/novoInsumo',
+    component: NovoInsumo
+},{
+    name: 'editarInsumo',
+    path: '/editarInsumo/:id',
+    component: EditarInsumo
 }]
 
 const router = new VueRouter({
