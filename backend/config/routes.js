@@ -106,15 +106,14 @@ module.exports = app => {
     app.route('/fornecedores/nome/:nome')
         .get(app.api.fornecedor.getByName)
 
-    //    app.route('/vendas')
-    //        .get(app.api.venda.get)
-    //        .post(app.api.venda.save)
-
-    //    app.route('/vendas/:id')
-    //        .get(app.api.venda.getById)
-    //        .put(app.api.venda.save)
-    //        .delete(app.api.venda.remove)
-
     app.route('/quantidadeDespesas')
         .get(app.api.despesa.getQuantidade)
+
+    app.route('/insumos')
+        .get(app.api.insumo.get)
+        .post(app.api.insumo.save)
+
+    app.route('/insumos/:id')
+        .get(app.api.insumo.getById)
+        .post(app.api.insumo.save)
 }
