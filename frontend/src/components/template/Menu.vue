@@ -24,10 +24,10 @@
         <b-list-group-item :action="true" :class="activeItem === 6 && 'active'">Transportadoras</b-list-group-item>
       </router-link>
       
-      <!-- <router-link to="/tables" @click.native="activeItem = 4">
-        <b-list-group-item :action="true" :class="activeItem === 4 && 'active'">Tables</b-list-group-item>
+      <router-link to="/insumos" @click.native="activeItem = 7">
+        <b-list-group-item :action="true" :class="activeItem === 7 && 'active'">Insumos</b-list-group-item>
       </router-link>
-      <router-link to="/admin" @click.native="activeItem = 5">
+      <!-- <router-link to="/admin" @click.native="activeItem = 5">
         <b-list-group-item :action="true" :class="activeItem === 5 && 'active'">Admin</b-list-group-item>
       </router-link>
       <router-link to="/404" @click.native="activeItem = 6">
