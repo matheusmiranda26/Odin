@@ -145,7 +145,7 @@
 
           <b-col md="3" sm="12">
             <b-form-group
-              label="Telefone Comercial:"
+              label="Tel. Comercial:"
               label-for="cliente-telefone-comercial"
               label-size="lg"
             >
@@ -302,7 +302,7 @@ import cep from "cep-promise";
 
 export default {
   name: "NovoCliente",
-  //   components: { BootstrapToggle },
+
   data: function() {
     return {
       mode: "save",
@@ -312,7 +312,7 @@ export default {
         tipoCliente: "juridica",
         endereco: '',
         cidade: '',
-        estado:'',
+        estado: '',
         bairro: ''
       },
       vendedores: [],
@@ -368,11 +368,12 @@ export default {
     },
     buscarCep() {
       cep(this.cliente.cep).then(cep => {
+        alert(cep.state);
         this.cliente.endereco = cep.street;
-        this.cliente.cidade = cep.city
-        this.cliente.estado = cep.state
-        this.cliente.bairro = cep.neighborhood
-      });
+        this.cliente.cidade = cep.city;
+        this.cliente.estado = cep.state;
+        this.cliente.bairro = cep.neighborhood;
+      }).catch(e => console.log(e))
     },
     validateState(ref) {
       if (

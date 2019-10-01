@@ -83,10 +83,8 @@ export default {
       fields: [
         // { key: "id", label: "Código", sortable: true },
         { key: "nome", label: "Nome", sortable: true },
-        { key: "apelido", label: "Apelido", sortable: true },
-        { key: "cidade", label: "Cidade", sortable: true },
-        { key: "estado", label: "Estado", sortable: true },
-        // { key: "email", label: "E-mail", sortable: true },
+        { key: "nomeFantasia", label: "Fantasia", sortable: true },
+        { key: "nomeVendedor", label: "Vendedor", sortable: true },
         { key: "actions", label: "Ações" }
       ],
       items: [

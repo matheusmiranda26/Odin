@@ -1,5 +1,5 @@
 <template>
-  <div class="new-client">
+  <div class="fornecedor">
     <!-- <b-container align-self="center"> -->
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card border-variant="primary">
@@ -198,7 +198,7 @@
             </b-form-group>
           </b-col>
           <b-col md="1" sm="12">
-            <b-form-group label="Estado:" label-for="fornecedor-estado">
+            <b-form-group label="UF:" label-for="fornecedor-estado">
               <b-form-input id="fornecedor-estado" type="text" v-model="fornecedor.estado" required />
             </b-form-group>
           </b-col>
@@ -209,7 +209,6 @@
       <hr />
       <b-row>
         <b-col xs="12">
-          {{fornecedor}}
           <b-button variant="primary" v-if="mode === 'save'" @click="save()">Salvar</b-button>
           <router-link to="/fornecedores">
             <b-button variant="secondary" class="ml-2 white-text">Cancelar</b-button>
