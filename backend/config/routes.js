@@ -98,6 +98,9 @@ module.exports = app => {
         .get(app.api.fornecedor.get)
         .post(app.api.fornecedor.save)
 
+    app.route('/fornecedoresNome')
+        .get(app.api.fornecedor.getFornecedor)
+
     app.route('/fornecedores/:id')
         .get(app.api.fornecedor.getById)
         .put(app.api.fornecedor.save)
@@ -115,5 +118,17 @@ module.exports = app => {
 
     app.route('/insumos/:id')
         .get(app.api.insumo.getById)
+        .post(app.api.insumo.save)
+
+    app.route('/insumosHistorico')
+        .get(app.api.insumoHistorico.get)
+        .post(app.api.insumo.save)
+
+    app.route('/insumosHistorico/:id')
+        .get(app.api.insumoHistorico.getById)
+        .post(app.api.insumo.save)
+
+    app.route('/insumosFornecedor/:id')
+        .get(app.api.insumo.getPorFornecedor)
         .post(app.api.insumo.save)
 }
