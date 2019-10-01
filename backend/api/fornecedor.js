@@ -7,6 +7,7 @@ module.exports = app => {
         const fornecedor = {
             ...req.body
         }
+
         if (req.params.id) fornecedor.id = req.params.id
 
         try {
@@ -84,11 +85,20 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
+    const getFornecedor = (req, res) => {
+        app.db('fornecedores')
+            .distinct('id','nome')
+            .then(fornecedor => res.json(fornecedor))
+            .catch(err => res.status(500).send(err))
+    }
+
+
     return {
         save,
         remove,
         get,
         getById,
-        getByName
+        getByName,
+        getFornecedor
     }
 }
