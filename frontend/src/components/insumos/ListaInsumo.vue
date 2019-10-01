@@ -26,43 +26,92 @@
       </b-row>
     </b-card>
     <b-card no-body align="center">
-      <b-table
-        hover
-        striped
-        :items="insumos"
-        :fields="fields"
-        :filter="filter"
-        :current-page="currentPage"
-        :per-page="perPage"
-        @row-clicked="linhaClicada"
-      >
-        <div slot="actions" slot-scope="data">
-          <router-link :to="{ name: 'editarInsumo', params: { id: data.item.id }}">
-            <b-button variant="warning" class="mr-2">
-              <v-icon name="pen"></v-icon>
-            </b-button>
-          </router-link>
+      <b-card no-body>
+        <b-tabs card>
+          <b-tab title="Todos" active>
+            <b-table
+              hover
+              striped
+              :items="insumos"
+              :fields="fields"
+              :filter="filter"
+              :current-page="currentPage"
+              :per-page="perPage"
+              @row-clicked="linhaClicada"
+            >
+              <div slot="actions" slot-scope="data">
+                <router-link :to="{ name: 'editarInsumo', params: { id: data.item.id }}">
+                  <b-button variant="warning" class="mr-2">
+                    <v-icon name="pen"></v-icon>
+                  </b-button>
+                </router-link>
 
-          <b-button variant="danger" @click="remover(data.item.id)">
-            <v-icon name="trash"></v-icon>
-          </b-button>
-        </div>
-      </b-table>
-      <b-row>
-        <b-col md="9" class="my-1">
-          <b-pagination
-            v-model="currentPage"
-            :total-rows="totalRows"
-            :per-page="perPage"
-            class="my-0 p-3"
-          ></b-pagination>
-        </b-col>
-        <b-col md="3" sm="12" class="my-0 p-3">
-          <b-form-group label-cols-sm="6" label="Por página" class="m-0">
-            <b-form-select style="max-width:50%;" v-model="perPage" :options="pageOptions"></b-form-select>
-          </b-form-group>
-        </b-col>
-      </b-row>
+                <b-button variant="danger" @click="remover(data.item.id)">
+                  <v-icon name="trash"></v-icon>
+                </b-button>
+              </div>
+            </b-table>
+            <b-row>
+              <b-col md="9" class="my-1">
+                <b-pagination
+                  v-model="currentPage"
+                  :total-rows="totalRows"
+                  :per-page="perPage"
+                  class="my-0 p-3"
+                ></b-pagination>
+              </b-col>
+              <b-col md="3" sm="12" class="my-0 p-3">
+                <b-form-group label-cols-sm="6" label="Por página" class="m-0">
+                  <b-form-select style="max-width:50%;" v-model="perPage" :options="pageOptions"></b-form-select>
+                </b-form-group>
+              </b-col>
+            </b-row>
+          </b-tab>
+          <b-tab
+            v-for="fornecedor in fornecedores"
+            v-bind:key="fornecedor.id"
+            :title="fornecedor.nome"
+          >
+            <b-table
+              hover
+              striped
+              :items="insumos"
+              :fields="fields"
+              :filter="fornecedor.nome"
+              :current-page="currentPage"
+              :per-page="perPage"
+              @row-clicked="linhaClicada"
+            >
+              <div slot="actions" slot-scope="data">
+                <router-link :to="{ name: 'editarInsumo', params: { id: data.item.id }}">
+                  <b-button variant="warning" class="mr-2">
+                    <v-icon name="pen"></v-icon>
+                  </b-button>
+                </router-link>
+
+                <b-button variant="danger" @click="remover(data.item.id)">
+                  <v-icon name="trash"></v-icon>
+                </b-button>
+              </div>
+            </b-table>
+            <b-row>
+              <b-col md="9" class="my-1">
+                <b-pagination
+                  v-model="currentPage"
+                  :total-rows="totalRows"
+                  :per-page="perPage"
+                  class="my-0 p-3"
+                ></b-pagination>
+              </b-col>
+              <b-col md="3" sm="12" class="my-0 p-3">
+                <b-form-group label-cols-sm="6" label="Por página" class="m-0">
+                  <b-form-select style="max-width:50%;" v-model="perPage" :options="pageOptions"></b-form-select>
+                </b-form-group>
+              </b-col>
+            </b-row>
+          </b-tab>
+        </b-tabs>
+      </b-card>
     </b-card>
   </div>
 </template>
@@ -80,13 +129,14 @@ export default {
       mode: "save",
       isLoading: false,
       insumos: [],
+      fornecedores: [],
       fields: [
         { key: "nome", label: "Nome", sortable: true },
         { key: "quantidade", label: "Quantidade", sortable: true },
         { key: "preco", label: "Preço", sortable: true },
         { key: "fornecedor", label: "Fornecedor", sortable: true },
         { key: "codigo", label: "Código", sortable: true },
-         { key: "cor", label: "Cor", sortable: true },
+        { key: "cor", label: "Cor", sortable: true },
         { key: "actions", label: "Ações" }
       ],
       items: [
@@ -109,11 +159,20 @@ export default {
   methods: {
     formatter() {},
     carregarInsumos() {
-      // this.isLoading = true;
       const url = `${baseApiUrl}/insumos`;
       axios.get(url).then(res => {
         this.insumos = res.data;
-        // this.isLoading = false;
+      });
+      
+      this.insumos.sort(function(a, b) {
+        if (a.nome > b.nome) {
+          return 1;
+        }
+        if (a.nome < b.nome) {
+          return -1;
+        }
+        // a must be equal to b
+        return 0;
       });
     },
     reset() {
@@ -150,8 +209,11 @@ export default {
     }
   },
   mounted() {
+    const url = `${baseApiUrl}/fornecedoresNome`;
+    axios.get(url).then(res => {
+      this.fornecedores = res.data;
+    });
     this.carregarInsumos();
-    this.$store.commit("setClient", null);
     this.totalRows = this.items.length + 1;
   }
 };
