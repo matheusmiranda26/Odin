@@ -40,3 +40,11 @@
     ALTER TABLE `odin`.`insumo` 
     ADD COLUMN `cor` VARCHAR(45) NULL DEFAULT NULL AFTER `deletedAt`,
     CHANGE COLUMN `codigo` `codigo` VARCHAR(45) NULL DEFAULT NULL ;
+
+* 
+    ALTER TABLE `odin`.`fornecedores` 
+    CHANGE COLUMN `inscricaoEstadual` `inscricaoEstadual_rg` VARCHAR(20) NULL DEFAULT NULL ;
+
+*   
+    ALTER TABLE `odin`.`fornecedores` 
+    CHANGE COLUMN `fornecedorescol` `nomeFantasia` VARCHAR(45) NULL DEFAULT NULL ;
