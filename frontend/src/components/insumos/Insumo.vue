@@ -4,12 +4,12 @@
     <b-card class="m-3">
       <b-row>
         <b-col cols="auto" class="mr-auto">
-          <!-- <router-link :to="{ name: 'editarCliente', params: { id: insumo.id }}">
+           <router-link :to="{ name: 'editarInsumo', params: { id: insumo.id }}">
               <b-button variant="warning">
                 Editar
                 <v-icon name="pen"></v-icon>
               </b-button>
-          </router-link>-->
+          </router-link>
         </b-col>
         <b-col cols="auto">
           <b-button variant="danger">
@@ -22,14 +22,14 @@
       <input id="insumo-id" type="hidden" v-model="insumo.id" />
       <b-row class="titulo-card">
         <b-col md="11" sm="12">
-          <p class="m-0 text-primary titulo text-uppercase">
+          <p class="m-0 p-0 text-primary titulo text-uppercase">
             <span>{{insumo.nome}}</span>
             <span>- {{insumo.fornecedor}}</span>
           </p>
         </b-col>
       </b-row>
       <b-row class="titulo-card">
-        <b-col md="3" sm="12" align-self="center">
+        <b-col v-show="insumo.codigo ==! null" md="3" sm="12" align-self="center">
           <b-row class="justify-content-md-center">
             <span class="text-secondary label">Código:</span>
           </b-row>
@@ -53,7 +53,7 @@
             <span class="text-black-50 dado">{{ insumo.quantidade }}</span>
           </b-row>
         </b-col>
-        <b-col md="3" sm="12">
+        <b-col v-show="insumo.cor ==! null" md="3" sm="12">
           <b-row class="justify-content-md-center">
             <span class="text-secondary dado">Cor:</span>
           </b-row>
@@ -61,59 +61,46 @@
             <span class="text-black-50 dado">{{ insumo.cor }}</span>
           </b-row>
         </b-col>
-      </b-row>      
+      </b-row>
+      <b-row class="pb-2">
+        <b-col md="4" sm="12">
+          <b-input-group>
+            <b-form-input v-model="filter" placeholder="Pesquise" />
+            <b-input-group-append>
+              <b-input-group-text>
+                <v-icon name="search"></v-icon>
+              </b-input-group-text>
+            </b-input-group-append>
+          </b-input-group>
+        </b-col>
+      </b-row>
+
+      <b-table
+        hover
+        striped
+        :items="historico"
+        :fields="fields"
+        :filter="filter"
+        :current-page="currentPage"
+        :per-page="perPage"
+      ></b-table>
+      <b-row>
+        <b-col md="7" class="my-1">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            class="my-0 p-3"
+          ></b-pagination>
+        </b-col>
+        <b-col md="5" sm="12" class="my-0 p-3">
+          <b-form-group label-cols-sm="6" label="Por página" class="m-0">
+            <b-form-select style="max-width:50%;" v-model="perPage" :options="pageOptions"></b-form-select>
+          </b-form-group>
+        </b-col>
+      </b-row>
     </b-card>
-    <div>
-      <b-modal
-        id="modal-center"
-        size="xl"
-        centered
-        title="Cadastrar Pagamento"
-        ref="modal"
-        @ok="cadastrarPagamento"
-      >
-        <b-row class="pl-5 pr-5 p-3">
-          <b-col md="3" sm="12">
-            <b-row>
-              <span class="text-black-50 dado">Vencimento:</span>
-            </b-row>
-            <b-row>
-              <span class="text-black-50 dado">{{pagamentoVenda.data | moment("DD/MM/YYYY") }}</span>
-            </b-row>
-          </b-col>
-          <b-col md="3" sm="12">
-            <b-row>
-              <span class="text-black-50 dado">Numero:</span>
-            </b-row>
-            <b-row class="pr-2">
-              <!-- <span class="text-black-50 dado">{{pagamentoVenda.numeroPagamento}}</span> -->
-              <b-form-input
-                id="pagamento-numero"
-                type="text"
-                v-model="pagamentoVenda.numeroPagamento"
-              />
-            </b-row>
-          </b-col>
-          <b-col md="3" sm="12">
-            <b-row>
-              <span class="text-black-50 dado">Valor:</span>
-            </b-row>
-            <b-row class="pr-2">
-              <!-- <span class="text-black-50 dado">{{pagamentoVenda.valor | currency }}</span> -->
-              <b-form-input id="pagamento-valor" type="text" v-model="pagamentoVenda.valor" />
-            </b-row>
-          </b-col>
-          <b-col md="3" sm="12">
-            <b-row>
-              <span class="text-black-50 dado">Data de pagamento:</span>
-            </b-row>
-            <b-row>
-              <b-form-input id="pagamento-data" type="date" v-model="pagamentoVenda.dataPagamento" />
-            </b-row>
-          </b-col>
-        </b-row>
-      </b-modal>
-    </div>
+
     <b-card class="bg-transparent border-0">
       <b-row>
         <b-col cols="auto" class="mr-auto">
@@ -137,9 +124,13 @@ export default {
   name: "Insumo",
   data: function() {
     return {
-      pagamentoVenda: {},
       insumo: {},
-      pagamentos: {},
+      historico: {},
+      filter: null,
+      currentPage: 1,
+      perPage: 25,
+      pageOptions: [25, 50, 100],
+      totalRows: 1,
       money: {
         decimal: ",",
         thousands: ".",
@@ -148,6 +139,13 @@ export default {
         precision: 2,
         masked: false /* doesn't work with directive */
       },
+      fields: [
+        { key: "data", label: "Data", sortable: true },
+        { key: "tipo", label: "Tipo", sortable: true },
+        { key: "quantidadePecas", label: "Quantidade", sortable: true },
+        { key: "media", label: "Média", sortable: true },
+        { key: "referencia", label: "Referencia", sortable: true }
+      ],
       items: [
         {
           text: "Inicio",
@@ -164,22 +162,13 @@ export default {
       ]
     };
   },
-  methods: {
-    cadastrarPagamento() {
-      // this.pagamentoVenda.valor = this.pagamentoVenda.valor.split("R$ ")[1].replace(',','.')
-      axios
-        .put(
-          `${baseApiUrl}/pagamentosVendas/${this.pagamentoVenda.id}`,
-          this.pagamentoVenda
-        )
-        .then(this.$toasted.global.defaultSuccess())
-        .catch(showError);
-      this.pagamentoVenda = {};
-    }
-  },
+  methods: {},
   mounted() {
     const url = `${baseApiUrl}/insumos/${this.$route.params.id}`;
     axios.get(url).then(res => (this.insumo = res.data));
+    const urlHistorico = `${baseApiUrl}/insumosHistorico/${this.$route.params.id}`;
+    axios.get(urlHistorico).then(res => (this.historico = res.data));
+    this.totalRows = this.items.length + 1;
   }
 };
 </script>
