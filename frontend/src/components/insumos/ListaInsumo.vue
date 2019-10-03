@@ -23,6 +23,12 @@
             </b-button>
           </router-link>
         </b-col>
+        <b-col md="3" sm="3">         
+            <b-button variant="success" @click="aparecerModal()">
+              Entrada
+              <v-icon name="plus"></v-icon>
+            </b-button>       
+        </b-col>
       </b-row>
     </b-card>
     <b-card no-body align="center">
@@ -109,10 +115,24 @@
                 </b-form-group>
               </b-col>
             </b-row>
-          </b-tab>
+          </b-tab>s
         </b-tabs>
       </b-card>
     </b-card>
+    <div>
+      <b-modal
+        id="modal-center"
+        size="xl"
+        centered
+        title="Entrada"
+        ref="modal"
+        @ok="entradaInsumo"
+      >
+        <b-row class="pl-5 pr-5 p-3">
+         Teste
+        </b-row>
+      </b-modal>
+    </div>
   </div>
 </template>
 
@@ -129,6 +149,8 @@ export default {
       mode: "save",
       isLoading: false,
       insumos: [],
+      insumoEntrada: null,
+      insumoSaida: null,
       fornecedores: [],
       fields: [
         { key: "nome", label: "Nome", sortable: true },
@@ -197,6 +219,12 @@ export default {
     },
     linhaClicada(item) {
       this.$router.push({ name: "insumo", params: { id: item.id } });
+    },
+    aparecerModal(){
+      this.$refs["modal"].show();
+    },
+    entradaInsumo(){
+      
     }
   },
   computed: {

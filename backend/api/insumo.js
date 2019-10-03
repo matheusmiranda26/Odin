@@ -7,11 +7,14 @@ module.exports = app => {
     } = app.api.validation
 
     const save = (req, res) => {
-        
+
         // alert('aqui')
         const insumo = {
             ...req.body
         }
+
+        const insumoHistorico = insumo.historico
+
         console.log(insumo)
         if (req.params.id) insumo.id = req.params.id
 
@@ -20,16 +23,28 @@ module.exports = app => {
             existsOrError(insumo.idFornecedor, 'Fornecedor não informado')
             //existsOrError(insumo.preco, 'Preço não informado')
             existsOrError(insumo.quantidade, 'Quantidade não informada')
-           
+
 
         } catch (msg) {
             res.status(400).send(msg)
         }
 
+        delete insumo.historico
         delete insumo.fornecedor
         delete insumo.deletedAt
 
         if (insumo.id) {
+            let estoque
+
+            app.db('insumo')
+                .select('quantidade')
+                .where('insumo.id', '=', req.params.id)
+                .whereNull('insumo.deletedAt')
+                .then(res => {
+                    this.estoque = res.data;
+                })
+                .catch(err => res.status(500).send(err))
+
             app.db('insumo')
                 .update(insumo)
                 .where({
@@ -39,11 +54,11 @@ module.exports = app => {
                 .catch(err => res.status(500).send(err))
         } else {
             app.db('insumo')
-               // .returning('id')
+                // .returning('id')
                 .insert(insumo)
-               // .then(function (response) {
-               //     app.api.pagamentosinsumos.savePagamentos(response[0], pagamentos)
-               // })
+                // .then(function (response) {
+                //     app.api.pagamentosinsumos.savePagamentos(response[0], pagamentos)
+                // })
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         }
@@ -77,17 +92,18 @@ module.exports = app => {
         const page = req.query.page || 1
 
         app.db('insumo')
-        .join('fornecedores', 'insumo.idFornecedor', '=', 'fornecedores.id')
-            .select('insumo.*','fornecedores.nome as fornecedor')
+            .join('fornecedores', 'insumo.idFornecedor', '=', 'fornecedores.id')
+            .select('insumo.*', 'fornecedores.nome as fornecedor')
             .whereNull('insumo.deletedAt')
             .orderBy('insumo.nome')
             .then(vendas => {
-                res.json(vendas)             })
+                res.json(vendas)
+            })
             .catch(err => res.status(500).send(err))
     }
 
     const getById = (req, res) => {
-        app.db('insumo')       
+        app.db('insumo')
             .where('insumo.id', '=', req.params.id)
             .join('fornecedores', 'insumo.idFornecedor', '=', 'fornecedores.id')
             .select('insumo.*', 'fornecedores.nome as fornecedor')
@@ -97,12 +113,48 @@ module.exports = app => {
     }
 
     const getPorFornecedor = (req, res) => {
-        app.db('insumo')       
+        app.db('insumo')
             .where('insumo.idFornecedor', '=', req.params.id)
             //.join('clientes', 'vendas.idCliente', '=', 'clientes.id')
             .join('fornecedores', 'insumo.idFornecedor', '=', 'fornecedores.id')
-            .select('insumo.*','fornecedores.nome as fornecedor')
+            .select('insumo.*', 'fornecedores.nome as fornecedor')
             .then(vendas => res.json(vendas))
+            .catch(err => res.status(500).send(err))
+    }
+
+    const updateEntradaSaida = (req, res) => {
+
+        const historico = {
+            ...req.body
+        }
+
+        let estoque
+        let estoqueAtual
+        app.db('insumo')
+            .select('quantidade')
+            .where('insumo.id', '=', historico.idInsumo)
+            .whereNull('insumo.deletedAt')
+            .then(this.estoque = res.data)
+            .catch(err => res.status(500).send(err))
+
+        if (historico.tipo == 'entrada') {
+            this.estoque += historico.quantidade
+        } else {
+            this.estoque -= historico.quantidade
+        }
+
+        app.db('insumo')
+        .where('id','=',historico.idInsumo)
+        .update({
+            quantidade: this.estoque
+        })
+
+        app.db('insumo')
+            .update(insumo)
+            .where({
+                id: insumo.id
+            })
+            .then(_ => res.status(204).send())
             .catch(err => res.status(500).send(err))
     }
 
@@ -111,6 +163,7 @@ module.exports = app => {
         remove,
         get,
         getById,
-        getPorFornecedor
+        getPorFornecedor,
+        updateEntradaSaida
     }
 }

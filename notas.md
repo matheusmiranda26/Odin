@@ -48,3 +48,7 @@
 *   
     ALTER TABLE `odin`.`fornecedores` 
     CHANGE COLUMN `fornecedorescol` `nomeFantasia` VARCHAR(45) NULL DEFAULT NULL ;
+
+*   
+    ALTER TABLE `odin`.`insumo_historico` 
+    ADD COLUMN `estoqueAtual` DECIMAL(5,2) NULL AFTER `referencia`;
