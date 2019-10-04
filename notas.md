@@ -52,3 +52,7 @@
 *   
     ALTER TABLE `odin`.`insumo_historico` 
     ADD COLUMN `estoqueAtual` DECIMAL(5,2) NULL AFTER `referencia`;
+
+*   
+    ALTER TABLE `odin`.`insumo_historico` 
+    CHANGE COLUMN `estoqueAtual` `estoqueAtual` DECIMAL(10,2) NULL DEFAULT NULL ;

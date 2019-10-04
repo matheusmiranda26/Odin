@@ -122,13 +122,17 @@ module.exports = app => {
 
     app.route('/insumosHistorico')
         .get(app.api.insumoHistorico.get)
-        .post(app.api.insumo.save)
+        //.post(app.api.insumo.updateEntradaSaida)
+        .post(app.api.insumoHistorico.save)
 
     app.route('/insumosHistorico/:id')
         .get(app.api.insumoHistorico.getById)
-        .post(app.api.insumo.save)
+        .post(app.api.insumoHistorico.save)
 
     app.route('/insumosFornecedor/:id')
         .get(app.api.insumo.getPorFornecedor)
         .post(app.api.insumo.save)
+
+    app.route('/insumo/nome/:nome')
+        .get(app.api.insumo.getByName)
 }

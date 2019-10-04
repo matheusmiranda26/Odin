@@ -2,7 +2,6 @@
   <div class="insumo">
     <!-- <PageTitle icon="fas fa-user-ninja" main="Insumos"/> -->
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
-
     <b-card class="mb-3">
       <b-row>
         <b-col md="4" sm="12">
@@ -15,7 +14,7 @@
             </b-input-group-append>
           </b-input-group>
         </b-col>
-        <b-col md="3" sm="3">
+        <b-col md="3" sm="3" class="pr-0 mr-0">
           <router-link to="/novoInsumo">
             <b-button variant="success">
               Novo Insumo
@@ -23,11 +22,11 @@
             </b-button>
           </router-link>
         </b-col>
-        <b-col md="3" sm="3">         
-            <b-button variant="success" @click="aparecerModal()">
-              Entrada
-              <v-icon name="plus"></v-icon>
-            </b-button>       
+        <b-col md="3" sm="3" class="pl-0 ml-0">
+          <b-button variant="info" @click="aparecerModal()">
+            Entrada/Saída
+            <v-icon name="plus"></v-icon>
+          </b-button>
         </b-col>
       </b-row>
     </b-card>
@@ -124,12 +123,78 @@
         id="modal-center"
         size="xl"
         centered
-        title="Entrada"
+        title="Entrada/Saída"
         ref="modal"
+        class="text-secondary"
         @ok="entradaInsumo"
+        @cancel="resetHistorico"
+        @close="resetHistorico"
       >
-        <b-row class="pl-5 pr-5 p-3">
-         Teste
+        <b-row class="pl-5 pr-5 p-3" align-h="around">
+          <b-col md="2" sm="12">
+            <b-row class="justify-content-md-center">
+              <span class="text-secondary dado">Tipo:</span>
+            </b-row>
+            <b-form-select
+              id="insumo-historico-tipo"
+              options
+              v-model="insumoHistorico.tipo"
+              required
+            >
+              <option value="entrada">Entrada</option>
+              <option value="saida">Saída</option>
+            </b-form-select>
+          </b-col>
+           <b-col md="2" sm="12" class="ml-3">
+            <b-row class="justify-content-md-center">
+              <span class="text-secondary dado">Data:</span>
+            </b-row>
+            <b-row class="justify-content-md-center">
+              <b-form-input id="pagamento-data" type="date" v-model="insumoHistorico.data" />
+            </b-row>
+          </b-col>
+          <b-col md="2" sm="12">
+            <b-row class="justify-content-md-center">
+              <span class="text-secondary dado">Insumo:</span>
+            </b-row>
+            <b-row class="justify-content-md-center">
+              <vue-bootstrap-typeahead
+                :data="insumosBusca"
+                v-model="insumoBusca"
+                :serializer="nome => nome.nome"
+                @hit="insumoSelecionado = $event"
+                id="insumo-nome"
+              />
+            </b-row>
+          </b-col>
+          <b-col md="2" sm="12" class="ml-3">
+            <b-row class="justify-content-md-center">
+              <span class="text-secondary dado">Quantidade:</span>
+            </b-row>
+            <b-row class="justify-content-md-center">
+              <b-form-input id="pagamento-numero" type="number" v-model="insumoHistorico.quantidade" />
+            </b-row>
+          </b-col>
+          <b-col md="2" sm="12" v-show="insumoHistorico.tipo =='saida'" class="ml-3">
+            <b-row class="justify-content-md-center">
+              <span class="text-secondary dado">Qtd. Peças:</span>
+            </b-row>
+            <b-row class="justify-content-md-center">
+              <b-form-input
+                id="pagamento-numero"
+                type="number"
+                v-model="insumoHistorico.quantidadePecas"
+              />
+            </b-row>
+          </b-col>
+          <b-col md="2" sm="12" v-show="insumoHistorico.tipo =='saida'" class="ml-3">
+            <b-row class="justify-content-md-center">
+              <span class="text-secondary dado">Referencia:</span>
+            </b-row>
+            <b-row class="justify-content-md-center">
+              <b-form-input id="pagamento-numero" type="text" v-model="insumoHistorico.referencia" />
+            </b-row>
+          </b-col>
         </b-row>
       </b-modal>
     </div>
@@ -140,17 +205,23 @@
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 import PageTitle from "../template/PageTitle";
+import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
+import _ from "underscore";
 
 export default {
   name: "ListaInsumos",
-  components: { PageTitle },
+  components: { PageTitle, "vue-bootstrap-typeahead": VueBootstrapTypeahead },
   data: function() {
     return {
       mode: "save",
       isLoading: false,
       insumos: [],
-      insumoEntrada: null,
-      insumoSaida: null,
+      insumoHistorico: {
+        tipo: "entrada"
+      },
+      insumoBusca: {},
+      insumosBusca: {},
+      insumoSelecionado: {},
       fornecedores: [],
       fields: [
         { key: "nome", label: "Nome", sortable: true },
@@ -185,7 +256,7 @@ export default {
       axios.get(url).then(res => {
         this.insumos = res.data;
       });
-      
+
       this.insumos.sort(function(a, b) {
         if (a.nome > b.nome) {
           return 1;
@@ -202,7 +273,7 @@ export default {
       this.insumo = {};
       this.carregarInsumos();
     },
-    remover(id_Insumo) {
+    remover(id_insumo) {
       // alert(id_insumo)
       const id = id_insumo;
       axios
@@ -220,11 +291,30 @@ export default {
     linhaClicada(item) {
       this.$router.push({ name: "insumo", params: { id: item.id } });
     },
-    aparecerModal(){
+    aparecerModal() {
       this.$refs["modal"].show();
     },
-    entradaInsumo(){
-      
+    entradaInsumo() {
+      this.insumoHistorico.idInsumo = this.insumoSelecionado.id;
+      this.insumoHistorico.estoqueAtual = this.insumoSelecionado.quantidade
+      axios
+        .post(`${baseApiUrl}/insumosHistorico`, this.insumoHistorico)
+        .then(() => {
+          this.$toasted.global.defaultSuccess();
+          this.resetHistorico()
+          this.carregarInsumos();
+        })
+        .catch(showError);
+    },
+    resetHistorico() {
+      this.insumoHistorico = { tipo: "entrada" };
+      this.insumoSelecionado = {};
+      this.insumoBusca = {};
+      this.insumosBusca = {}
+    },
+    async getInsumos(nome) {
+      const url = `${baseApiUrl}/insumo/nome/${nome}`;
+      await axios.get(url).then(res => (this.insumosBusca = res.data));
     }
   },
   computed: {
@@ -243,6 +333,11 @@ export default {
     });
     this.carregarInsumos();
     this.totalRows = this.items.length + 1;
+  },
+  watch: {
+    insumoBusca: _.debounce(function(nome) {
+      this.getInsumos(nome);
+    }, 500)
   }
 };
 </script>

@@ -4,30 +4,51 @@ module.exports = app => {
     } = app.api.validation
 
     const save = (req, res) => {
-
-        // alert('aqui')
+        console.log(req.body)
         const insumoHistorico = {
             ...req.body
         }
-        console.log(insumoHistorico)
+
+        insumoHistorico.quantidade = parseFloat(insumoHistorico.quantidade)
+        
         if (req.params.id) insumoHistorico.id = req.params.id
 
         try {
-            existsOrError(insumoHistorico.nome, 'Nome não informado')
-            existsOrError(insumoHistorico.idFornecedor, 'Fornecedor não informado')
+           // existsOrError(insumoHistorico.nome, 'Nome não informado')
+            //existsOrError(insumoHistorico.idFornecedor, 'Fornecedor não informado')
             //existsOrError(insumoHistorico.preco, 'Preço não informado')
-            existsOrError(insumoHistorico.quantidade, 'Quantidade não informada')
+            //existsOrError(insumoHistorico.quantidade, 'Quantidade não informada')
 
 
         } catch (msg) {
             res.status(400).send(msg)
         }
 
-        delete insumoHistorico.fornecedor
-        delete insumoHistorico.deletedAt
+        if(insumoHistorico.tipo == 'entrada'){
+            console.log('entrada')
+            insumoHistorico.quantidadePecas = Number(insumoHistorico.quantidadePecas)
+
+            let estoqueAtual = insumoHistorico.estoqueAtual + Number(insumoHistorico.quantidade)
+
+            app.db('insumo')
+            .where('id', '=', insumoHistorico.idInsumo)
+            .update({
+                quantidade: estoqueAtual
+            })
+            .catch(console.log)
+        }else{
+            console.log('saida')
+            estoqueAtual = insumoHistorico.estoqueAtual - Number(insumoHistorico.quantidade)
+        console.log(estoqueAtual)
+            app.db('insumo')
+            .where('id', '=', insumoHistorico.idInsumo)
+            .update({
+                quantidade: estoqueAtual
+            }).then(_ => res.status(204).send())
+        }
 
         if (insumoHistorico.id) {
-            app.db('insumo_Historico')
+            app.db('insumo_historico')
                 .update(insumo_historico)
                 .where({
                     id: insumoHistorico.id
@@ -35,14 +56,16 @@ module.exports = app => {
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
+            if(insumoHistorico.tipo == 'entrada') {
+
+                delete insumoHistorico.quantidadePecas
+            }
             app.db('insumo_historico')
-                // .returning('id')
                 .insert(insumoHistorico)
-                // .then(function (response) {
-                //     app.api.pagamentosinsumos.savePagamentos(response[0], pagamentos)
-                // })
+                .then(console.log)
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
+               // .catch(console.log)
         }
 
     }

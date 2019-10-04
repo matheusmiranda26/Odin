@@ -4,11 +4,11 @@
     <b-card class="m-3">
       <b-row>
         <b-col cols="auto" class="mr-auto">
-           <router-link :to="{ name: 'editarInsumo', params: { id: insumo.id }}">
-              <b-button variant="warning">
-                Editar
-                <v-icon name="pen"></v-icon>
-              </b-button>
+          <router-link :to="{ name: 'editarInsumo', params: { id: insumo.id }}">
+            <b-button variant="warning">
+              Editar
+              <v-icon name="pen"></v-icon>
+            </b-button>
           </router-link>
         </b-col>
         <b-col cols="auto">
@@ -140,11 +140,23 @@ export default {
         masked: false /* doesn't work with directive */
       },
       fields: [
-        { key: "data", label: "Data", sortable: true },
+        {
+          key: "data",
+          label: "Data",
+          sortable: true,
+          formatter: value => {
+            let data = new Date(value);
+            return (
+              data.getDay() + "/" + data.getMonth() + "/" + data.getFullYear()
+            );
+          }
+        },
         { key: "tipo", label: "Tipo", sortable: true },
-        { key: "quantidadePecas", label: "Quantidade", sortable: true },
+        { key: "quantidade", label: "Quantidade", sortable: true },
+        { key: "quantidadePecas", label: "Qtd. Peças", sortable: true },
         { key: "media", label: "Média", sortable: true },
-        { key: "referencia", label: "Referencia", sortable: true }
+        { key: "referencia", label: "Referencia", sortable: true },
+        { key: "estoqueAtual", label: "Estoque Atual", sortable: true }
       ],
       items: [
         {
