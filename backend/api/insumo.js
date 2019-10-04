@@ -34,16 +34,6 @@ module.exports = app => {
         delete insumo.deletedAt
 
         if (insumo.id) {
-            let estoque
-
-            app.db('insumo')
-                .select('quantidade')
-                .where('insumo.id', '=', req.params.id)
-                .whereNull('insumo.deletedAt')
-                .then(res => {
-                    this.estoque = res.data;
-                })
-                .catch(err => res.status(500).send(err))
 
             app.db('insumo')
                 .update(insumo)
@@ -128,33 +118,45 @@ module.exports = app => {
             ...req.body
         }
 
-        let estoque
+        console.log(historico)
+        let estoque = {}
         let estoqueAtual
+
+        console.log('1' + estoque)
         app.db('insumo')
-            .select('quantidade')
+            .select('*')
             .where('insumo.id', '=', historico.idInsumo)
             .whereNull('insumo.deletedAt')
-            .then(this.estoque = res.data)
+            .first()
+            .then(estoque => estoque)
             .catch(err => res.status(500).send(err))
 
+            console.log('3' + estoque)
         if (historico.tipo == 'entrada') {
-            this.estoque += historico.quantidade
+            console.log('aqui')
+            estoque = estoque + historico.quantidade
         } else {
             this.estoque -= historico.quantidade
         }
-
+        console.log(this.estoque)
         app.db('insumo')
-        .where('id','=',historico.idInsumo)
-        .update({
-            quantidade: this.estoque
-        })
-
-        app.db('insumo')
-            .update(insumo)
-            .where({
-                id: insumo.id
+            .where('id', '=', historico.idInsumo)
+            .update({
+                quantidade: this.estoque
             })
+
+        app.db('insumo_historico')
+            .insert(historico)
             .then(_ => res.status(204).send())
+            .catch(err => res.status(500).send(err))
+    }
+
+    const getByName = (req, res) => {
+        app.db('insumo')
+            .select('*')
+            .where('nome', 'like', '%' + req.params.nome + '%'
+            )        
+            .then(insumo => res.json(insumo))
             .catch(err => res.status(500).send(err))
     }
 
@@ -164,6 +166,7 @@ module.exports = app => {
         get,
         getById,
         getPorFornecedor,
-        updateEntradaSaida
+        updateEntradaSaida,
+        getByName
     }
 }
