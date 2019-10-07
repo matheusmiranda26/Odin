@@ -50,6 +50,42 @@
         </div>
       </b-container>
     </div>
+    <b-modal ref="modal" id="modal-center" centered title="Insumos Acabando" size="xl">
+      <b-row v-for="insumo in insumos" :key="insumo.id">
+        <b-col md="3" sm="12">
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Nome:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ insumo.nome }}</span>
+          </b-row>
+        </b-col>
+         <b-col md="3" sm="12">
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Quantidade:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ insumo.quantidade }}</span>
+          </b-row>
+        </b-col>
+         <b-col md="3" sm="12">
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Qtd. Minima:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ insumo.quantidadeMinima }}</span>
+          </b-row>
+        </b-col>
+        <b-col>
+          <router-link :to="{ name: 'insumo', params: { id: insumo.id }}">
+            <b-button variant="danger">
+              Ver
+              <v-icon name="eye"></v-icon>
+            </b-button>
+          </router-link>
+        </b-col>
+      </b-row>
+    </b-modal>
   </div>
 </template>
 
@@ -81,7 +117,8 @@ export default {
       loaded: false,
       vendas: [],
       dataVendas: [],
-      quantidadeVendas: []
+      quantidadeVendas: [],
+      insumos: {}
     };
   },
   watch: {
@@ -130,9 +167,21 @@ export default {
     async get(nome) {
       const url = `${baseApiUrl}/${this.tipoBusca}/nome/${nome}`;
       await axios.get(url).then(res => (this.dado = res.data));
+    },
+    async verificarInsumos() {
+      const url = `${baseApiUrl}/insumosAcabando`;
+      await axios
+        .get(url)
+        .then(res => (this.insumos = res.data))
+        .then(() => {
+          if (this.insumos.length > 0) {
+            this.$refs["modal"].show();
+          }
+        });
     }
   },
   mounted() {
+    this.verificarInsumos();
     this.loaded = false;
     try {
       axios.get(`${baseApiUrl}/vendaPorDia`).then(res => {
@@ -146,7 +195,7 @@ export default {
       });
       this.loaded = true;
     } catch (error) {
-      showError(error)
+      showError(error);
     }
   }
 };

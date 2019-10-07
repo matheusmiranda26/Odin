@@ -105,10 +105,18 @@ module.exports = app => {
     const getPorFornecedor = (req, res) => {
         app.db('insumo')
             .where('insumo.idFornecedor', '=', req.params.id)
-            //.join('clientes', 'vendas.idCliente', '=', 'clientes.id')
             .join('fornecedores', 'insumo.idFornecedor', '=', 'fornecedores.id')
             .select('insumo.*', 'fornecedores.nome as fornecedor')
             .then(vendas => res.json(vendas))
+            .catch(err => res.status(500).send(err))
+    }
+
+    const getInsumoAcabando = async (req, res) => {
+        app.db('insumo')
+            .whereRaw('quantidadeMinima > quantidade')
+            .then(insumos => {
+                res.json(insumos)
+            })
             .catch(err => res.status(500).send(err))
     }
 
@@ -131,7 +139,7 @@ module.exports = app => {
             .then(estoque => estoque)
             .catch(err => res.status(500).send(err))
 
-            console.log('3' + estoque)
+        console.log('3' + estoque)
         if (historico.tipo == 'entrada') {
             console.log('aqui')
             estoque = estoque + historico.quantidade
@@ -155,7 +163,7 @@ module.exports = app => {
         app.db('insumo')
             .select('*')
             .where('nome', 'like', '%' + req.params.nome + '%'
-            )        
+            )
             .then(insumo => res.json(insumo))
             .catch(err => res.status(500).send(err))
     }
@@ -167,6 +175,7 @@ module.exports = app => {
         getById,
         getPorFornecedor,
         updateEntradaSaida,
-        getByName
+        getByName,
+        getInsumoAcabando
     }
 }

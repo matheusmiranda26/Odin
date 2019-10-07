@@ -120,6 +120,9 @@ module.exports = app => {
         .get(app.api.insumo.getById)
         .post(app.api.insumo.save)
 
+    app.route('/insumosAcabando')
+        .get(app.api.insumo.getInsumoAcabando)
+
     app.route('/insumosHistorico')
         .get(app.api.insumoHistorico.get)
         //.post(app.api.insumo.updateEntradaSaida)

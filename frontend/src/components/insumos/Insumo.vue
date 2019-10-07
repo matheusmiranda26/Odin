@@ -50,7 +50,15 @@
             <span class="text-secondary dado">Quantidade:</span>
           </b-row>
           <b-row class="justify-content-md-center">
-            <span class="text-black-50 dado">{{ insumo.quantidade }}</span>
+            <span class="text-black-50 dado">{{ insumo.quantidade }} metros</span>
+          </b-row>
+        </b-col>
+         <b-col md="3" sm="12">
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Qtd. Minima:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ insumo.quantidadeMinima }} metros</span>
           </b-row>
         </b-col>
         <b-col v-show="insumo.cor ==! null" md="3" sm="12">
