@@ -312,6 +312,7 @@ export default {
       this.insumoSelecionado = {};
       this.insumoBusca = {};
       this.insumosBusca = {}
+      this.insumoHistorico.data = moment().format("YYYY-MM-DD")
     },
     async getInsumos(nome) {
       const url = `${baseApiUrl}/insumo/nome/${nome}`;
@@ -328,7 +329,7 @@ export default {
     }
   },
   mounted() {
-    this.insumoHistorico.data = moment().format("YYYY-MM-DD");
+    this.insumoHistorico.data = moment().format("YYYY-MM-DD")
     const url = `${baseApiUrl}/fornecedoresNome`;
     axios.get(url).then(res => {
       this.fornecedores = res.data;
