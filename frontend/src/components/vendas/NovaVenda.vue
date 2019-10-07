@@ -1,5 +1,5 @@
 <template>
-  <div class="nova-venda">
+  <div class="venda">
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card>
       <b-form @submit.stop.prevent="onSubmit">
@@ -25,7 +25,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
+          <b-col md="3" sm="12">
             <b-form-group
               label="Transportadora:"
               label-for="venda-transportadora"
@@ -41,7 +41,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
+          <b-col md="3" sm="12">
             <b-form-group
               label="Data:"
               label-for="venda-data"
@@ -50,8 +50,10 @@
             >
               <b-form-input id="venda-data" type="date" v-model="venda.data" required />
             </b-form-group>
-          </b-col>
-          <b-col md="2" sm="12">
+          </b-col>   
+        </b-row>
+        <b-row>
+           <b-col md="3" sm="12">
             <b-form-group
               label="Forma:"
               label-for="venda-forma-pagamento"
@@ -69,9 +71,7 @@
               </b-form-select>
             </b-form-group>
           </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="2" sm="12">
+          <b-col md="3" sm="12">
             <b-form-group
               label="Pedido:"
               label-for="venda-numero-pedido"
@@ -88,8 +88,8 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
-            <b-form-group label="N.F.:" label-for="venda-nota-fiscal" label-size="lg">
+          <b-col md="3" sm="12">
+            <b-form-group label="Nota Fiscal:" label-for="venda-nota-fiscal" label-size="lg">
               <b-form-input
                 id="venda-nota-fiscal"
                 type="text"
@@ -100,9 +100,9 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="1" sm="12">
+          <b-col md="3" sm="12">
             <b-form-group
-              label="Qtd.:"
+              label="Quantidade:"
               label-for="venda-quantidade"
               label-size="lg"
               label-class="font-weight-bold"
@@ -117,7 +117,9 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
+        </b-row>
+        <b-row>
+          <b-col md="3" sm="12">
             <b-form-group
               label="Valor:"
               label-for="venda-valor"
@@ -135,7 +137,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
+          <b-col md="3" sm="12">
             <b-form-group
               label="Desconto:"
               label-for="venda-desconto"
@@ -150,7 +152,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="2" sm="12">
+          <b-col md="3" sm="12">
             <b-form-group
               label="Valor Total:"
               label-for="venda-valor-total"
@@ -166,9 +168,9 @@
               />
             </b-form-group>
           </b-col>
-          <b-col md="1" sm="12">
+          <b-col md="3" sm="12">
             <b-form-group
-              label="Parc.:"
+              label="Parcelamento:"
               label-for="venda-condicao-pagamento"
               label-size="lg"
               label-class="font-weight-bold"
@@ -180,7 +182,7 @@
                 required
                 @change="preencherPagamentos()"
               >
-                <option value="1">1x</option>
+                <option value="1">À Vista</option>
                 <option value="2">2x</option>
                 <option value="3">3x</option>
                 <option value="4">4x</option>
