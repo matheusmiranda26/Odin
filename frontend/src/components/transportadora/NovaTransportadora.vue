@@ -251,7 +251,7 @@ import axios from "axios";
 import cep from "cep-promise";
 
 export default {
-  name: "NovoCliente",
+  name: "NovaTransportadora",
   //   components: { BootstrapToggle },
   data: function() {
     return {

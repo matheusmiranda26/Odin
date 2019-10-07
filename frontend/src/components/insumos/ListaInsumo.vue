@@ -145,7 +145,7 @@
               <option value="saida">Saída</option>
             </b-form-select>
           </b-col>
-           <b-col md="2" sm="12" class="ml-3">
+           <b-col md="2" sm="12">
             <b-row class="justify-content-md-center">
               <span class="text-secondary dado">Data:</span>
             </b-row>
@@ -153,8 +153,8 @@
               <b-form-input id="pagamento-data" type="date" v-model="insumoHistorico.data" />
             </b-row>
           </b-col>
-          <b-col md="2" sm="12">
-            <b-row class="justify-content-md-center">
+          <b-col md="2" sm="12" class="ml-3">
+            <b-row class="justify-content-md-center" >
               <span class="text-secondary dado">Insumo:</span>
             </b-row>
             <b-row class="justify-content-md-center">
@@ -187,7 +187,7 @@
               />
             </b-row>
           </b-col>
-          <b-col md="2" sm="12" v-show="insumoHistorico.tipo =='saida'" class="ml-3">
+          <b-col md="1" sm="12" v-show="insumoHistorico.tipo =='saida'" class="ml-3">
             <b-row class="justify-content-md-center">
               <span class="text-secondary dado">Referencia:</span>
             </b-row>
@@ -207,6 +207,7 @@ import axios from "axios";
 import PageTitle from "../template/PageTitle";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import _ from "underscore";
+import moment from "moment";
 
 export default {
   name: "ListaInsumos",
@@ -327,6 +328,7 @@ export default {
     }
   },
   mounted() {
+    this.insumoHistorico.data = moment().format("YYYY-MM-DD");
     const url = `${baseApiUrl}/fornecedoresNome`;
     axios.get(url).then(res => {
       this.fornecedores = res.data;

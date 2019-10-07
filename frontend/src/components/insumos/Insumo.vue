@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { baseApiUrl, showError } from "@/global";
+import { baseApiUrl } from "@/global";
 import axios from "axios";
 
 export default {

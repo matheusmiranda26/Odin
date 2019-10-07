@@ -373,7 +373,7 @@ export default {
         this.cliente.cidade = cep.city;
         this.cliente.estado = cep.state;
         this.cliente.bairro = cep.neighborhood;
-      }).catch(e => console.log(e))
+      }).catch(showError)
     },
     validateState(ref) {
       if (

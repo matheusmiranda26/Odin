@@ -126,10 +126,6 @@
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
-import _ from "underscore";
-import moment from "moment";
-
-// import BootstrapToggle from "vue-bootstrap-toggle";
 
 export default {
   name: "NovoInsumo",
