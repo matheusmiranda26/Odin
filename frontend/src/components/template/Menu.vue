@@ -27,6 +27,9 @@
       <router-link to="/insumos" @click.native="activeItem = 7">
         <b-list-group-item :action="true" :class="activeItem === 7 && 'active'">Insumos</b-list-group-item>
       </router-link>
+      <router-link to="/despesas" @click.native="activeItem = 8">
+        <b-list-group-item :action="true" :class="activeItem === 8 && 'active'">Despesas</b-list-group-item>
+      </router-link>
       <!-- <router-link to="/admin" @click.native="activeItem = 5">
         <b-list-group-item :action="true" :class="activeItem === 5 && 'active'">Admin</b-list-group-item>
       </router-link>
