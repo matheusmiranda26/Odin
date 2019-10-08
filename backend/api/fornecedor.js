@@ -73,6 +73,7 @@ module.exports = app => {
             .then(fornecedor => res.json(fornecedor))
             .catch(err => res.status(500).send(err))
     }
+    
     const getById = (req, res) => {
         app.db('fornecedores')
             .select('*')

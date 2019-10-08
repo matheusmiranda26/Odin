@@ -18,12 +18,12 @@
         <b-col md="3" sm="3">
           <router-link to="/novoCliente">
             <b-button variant="success">
-              Novo Vendedor
-              <v-icon name="plus"></v-icon>
+              <v-icon name="plus" class="mr-3"/>
+              Novo Vendedor              
             </b-button>
           </router-link>
         </b-col>
-        <b-col md="3" class="my-1">
+        <!--<b-col md="3" class="my-1">
           <b-form-group
             label-cols-sm="3"
             label-align-sm="right"
@@ -36,7 +36,7 @@
               <b-form-checkbox value="1">Inativo</b-form-checkbox>
             </b-form-checkbox-group>
           </b-form-group>
-        </b-col>
+        </b-col>-->
       </b-row>
     </b-card>
     <b-card no-body align="center">
@@ -98,7 +98,7 @@ export default {
       fields: [
         // { key: "id", label: "Código", sortable: true },
         { key: "nome", label: "Nome", sortable: true, sortDirection: "asc" },
-        { key: "apelido", label: "Apelido", sortable: true },
+       // { key: "apelido", label: "Apelido", sortable: true },
         { key: "cidade", label: "Cidade", sortable: true },
         { key: "estado", label: "Estado", sortable: true },
         {
@@ -106,7 +106,7 @@ export default {
           label: "Status",
           sortable: true,
           formatter: value => {
-            return value === "0" ? "Ativo" : "Inativo";
+            return value === "1" ? "Ativo" : "Inativo";
           }
         },
         // { key: "email", label: "E-mail", sortable: true },

@@ -17,15 +17,13 @@
         <b-col md="3" sm="3" class="pr-0 mr-0">
           <router-link to="/novoInsumo">
             <b-button variant="success">
-              Novo Insumo
-              <v-icon name="plus"></v-icon>
+              <v-icon name="plus" class="mr-3" />Novo Insumo
             </b-button>
           </router-link>
         </b-col>
         <b-col md="3" sm="3" class="pl-0 ml-0">
           <b-button variant="info" @click="aparecerModal()">
-            Entrada/Saída
-            <v-icon name="plus"></v-icon>
+            <v-icon name="plus" class="mr-3" />Entrada/Saída
           </b-button>
         </b-col>
       </b-row>
@@ -145,7 +143,7 @@
               <option value="saida">Saída</option>
             </b-form-select>
           </b-col>
-           <b-col md="2" sm="12">
+          <b-col md="2" sm="12">
             <b-row class="justify-content-md-center">
               <span class="text-secondary dado">Data:</span>
             </b-row>
@@ -154,7 +152,7 @@
             </b-row>
           </b-col>
           <b-col md="2" sm="12" class="ml-3">
-            <b-row class="justify-content-md-center" >
+            <b-row class="justify-content-md-center">
               <span class="text-secondary dado">Insumo:</span>
             </b-row>
             <b-row class="justify-content-md-center">
@@ -172,7 +170,12 @@
               <span class="text-secondary dado">Quantidade:</span>
             </b-row>
             <b-row class="justify-content-md-center">
-              <b-form-input id="pagamento-numero" type="number" v-model="insumoHistorico.quantidade" />
+              <b-form-input
+                placeholder="metros"
+                id="pagamento-numero"
+                type="number"
+                v-model="insumoHistorico.quantidade"
+              />
             </b-row>
           </b-col>
           <b-col md="2" sm="12" v-show="insumoHistorico.tipo =='saida'" class="ml-3">
@@ -226,11 +229,26 @@ export default {
       fornecedores: [],
       fields: [
         { key: "nome", label: "Nome", sortable: true },
-        { key: "quantidade", label: "Quantidade", sortable: true },
-        { key: "preco", label: "Preço", sortable: true },
+        { key: "cor", label: "Cor", sortable: true },
+        {
+          key: "quantidade",
+          label: "Quantidade",
+          sortable: true,
+          formatter: value => {
+            return value + " metros";
+          }
+        },
+        {
+          key: "preco",
+          label: "Preço",
+          sortable: true,
+          formatter: value => {
+            //value.replace('.',',')
+            return "R$ " + value;
+          }
+        },
         { key: "fornecedor", label: "Fornecedor", sortable: true },
         { key: "codigo", label: "Código", sortable: true },
-        { key: "cor", label: "Cor", sortable: true },
         { key: "actions", label: "Ações" }
       ],
       items: [
@@ -297,12 +315,12 @@ export default {
     },
     entradaInsumo() {
       this.insumoHistorico.idInsumo = this.insumoSelecionado.id;
-      this.insumoHistorico.estoqueAtual = this.insumoSelecionado.quantidade
+      this.insumoHistorico.estoqueAtual = this.insumoSelecionado.quantidade;
       axios
         .post(`${baseApiUrl}/insumosHistorico`, this.insumoHistorico)
         .then(() => {
           this.$toasted.global.defaultSuccess();
-          this.resetHistorico()
+          this.resetHistorico();
           this.carregarInsumos();
         })
         .catch(showError);
@@ -311,8 +329,8 @@ export default {
       this.insumoHistorico = { tipo: "entrada" };
       this.insumoSelecionado = {};
       this.insumoBusca = {};
-      this.insumosBusca = {}
-      this.insumoHistorico.data = moment().format("YYYY-MM-DD")
+      this.insumosBusca = {};
+      this.insumoHistorico.data = moment().format("YYYY-MM-DD");
     },
     async getInsumos(nome) {
       const url = `${baseApiUrl}/insumo/nome/${nome}`;
@@ -329,7 +347,7 @@ export default {
     }
   },
   mounted() {
-    this.insumoHistorico.data = moment().format("YYYY-MM-DD")
+    this.insumoHistorico.data = moment().format("YYYY-MM-DD");
     const url = `${baseApiUrl}/fornecedoresNome`;
     axios.get(url).then(res => {
       this.fornecedores = res.data;

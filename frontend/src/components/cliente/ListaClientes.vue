@@ -7,7 +7,7 @@
       <b-row>
         <b-col md="4" sm="12">
           <b-input-group>
-            <b-form-input v-model="filter" placeholder="Pesquise"/>
+            <b-form-input v-model="filter" placeholder="Pesquise" />
             <b-input-group-append>
               <b-input-group-text>
                 <v-icon name="search"></v-icon>
@@ -84,10 +84,18 @@ export default {
         // { key: "id", label: "Código", sortable: true },
         { key: "nome", label: "Nome", sortable: true },
         { key: "nomeFantasia", label: "Nome Fantasia", sortable: true },
-         { key: "nomeVendedor", label: "Vendedor", sortable: true },
+        { key: "nomeVendedor", label: "Vendedor", sortable: true },
         { key: "cidade", label: "Cidade", sortable: true },
         { key: "estado", label: "Estado", sortable: true },
         // { key: "email", label: "E-mail", sortable: true },
+        {
+          key: "status",
+          label: "Status",
+          sortable: true,
+          formatter: value => {
+            return value === "1" ? "Ativo" : "Inativo";
+          }
+        },
         { key: "actions", label: "Ações" }
       ],
       items: [
@@ -117,7 +125,9 @@ export default {
       });
 
       const urlVendedor = `${baseApiUrl}/vendedores/${this.clientes.idVendedor}`;
-      axios.get(urlVendedor).then(res => (this.clientes.nomeVendedor = res.data.apelido));
+      axios
+        .get(urlVendedor)
+        .then(res => (this.clientes.nomeVendedor = res.data.apelido));
     },
     reset() {
       this.mode = "save";
