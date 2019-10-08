@@ -8,44 +8,44 @@ module.exports = app => {
 
     const save = (req, res) => {
         // alert('aqui')
-        const venda = {
+        const despesa = {
             ...req.body
         }
-        if (req.params.id) venda.id = req.params.id
+        if (req.params.id) despesa.id = req.params.id
 
         try {
-            existsOrError(venda.valor, 'Valor total não informado')
-            existsOrError(venda.data, 'Data não informado')
-            existsOrError(venda.quantidade, 'Quantidade total não informada')
-            existsOrError(venda.idCliente, 'Cliente não informado')
-            existsOrError(venda.formaPagamento, 'Forma de Pagamento não informado')
-            existsOrError(venda.condicaoPagamento, 'Condição de Pagamento não informada.')
-            existsOrError(venda.numeroPedido, 'Pedido não informado.')
-            existsOrError(venda.idTransportadora, 'Transportadora não informada.')
-            existsOrError(venda.valorTotal, 'Valor Total não informado.')
-            existsOrError(venda.desconto, 'Desconto não informado.')
+            existsOrError(despesa.valor, 'Valor total não informado')
+            existsOrError(despesa.data, 'Data não informado')
+            existsOrError(despesa.quantidade, 'Quantidade total não informada')
+            existsOrError(despesa.idCliente, 'Cliente não informado')
+            existsOrError(despesa.formaPagamento, 'Forma de Pagamento não informado')
+            existsOrError(despesa.condicaoPagamento, 'Condição de Pagamento não informada.')
+            existsOrError(despesa.numeroPedido, 'Pedido não informado.')
+            existsOrError(despesa.idTransportadora, 'Transportadora não informada.')
+            existsOrError(despesa.valorTotal, 'Valor Total não informado.')
+            existsOrError(despesa.desconto, 'Desconto não informado.')
 
         } catch (msg) {
             res.status(400).send(msg)
         }
-        // console.log(venda.pagamentosVendas)
+        // console.log(despesa.pagamentosVendas)
         let pagamentos = {
-            ...venda.pagamentosVendas,
+            ...despesa.pagamentosVendas,
         }
 
-        delete venda.pagamentosVendas
-        if (venda.id) {
-            app.db('vendas')
-                .update(venda)
+        delete despesa.pagamentosVendas
+        if (despesa.id) {
+            app.db('despesas')
+                .update(despesa)
                 .where({
-                    id: venda.id
+                    id: despesa.id
                 })
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
-            app.db('vendas')
+            app.db('despesas')
                 .returning('id')
-                .insert(venda)
+                .insert(despesa)
                 .then(function (response) {
                     app.api.pagamentosVendas.savePagamentos(response[0], pagamentos)
                 }).then(_ => res.status(204).send())
@@ -57,7 +57,7 @@ module.exports = app => {
 
     const remove = async (req, res) => {
         try {
-            const rowsDeleted = await app.db('vendas')
+            const rowsDeleted = await app.db('despesas')
                 .update({
                     deletedAt: new Date()
                 })
@@ -66,7 +66,7 @@ module.exports = app => {
                 })
 
             try {
-                existsOrError(rowsDeleted, 'Venda não foi encontrada.')
+                existsOrError(rowsDeleted, 'Despesa não foi encontrada.')
             } catch (msg) {
                 return res.status(400).send(msg)
             }
@@ -77,24 +77,20 @@ module.exports = app => {
         }
     }
 
-    // const limit = 10 // usado para paginação
     const get = async (req, res) => {
-        const page = req.query.page || 1
 
-        // const result = await app.db('vendas').count('id').first()
-        // const count = parseInt(result.count)
-        app.db('vendas')
-            .join('clientes', 'vendas.idCliente', '=', 'clientes.id').select('vendas.*', 'clientes.nomeCliente as nomeCliente')
-            .whereNull('vendas.deletedAt')
-            .then(vendas => {
-                res.json(vendas) //.then(v => vendatotal = v)
+        app.db('despesas')
+           // .join('clientes', 'despesas.idCliente', '=', 'clientes.id').select('despesas.*', 'clientes.nomeCliente as nomeCliente')
+            .whereNull('despesas.deletedAt')
+            .then(despesas => {
+                res.json(despesas) //.then(v => vendatotal = v)
                 // vendatotal = "2"
             })
             .catch(err => res.status(500).send(err))
     }
 
     const getLast = async (req, res) => {
-        app.db('vendas').max('id as ultimoIdVenda')
+        app.db('despesas').max('id as ultimoIdVenda')
             .then(idVenda => res.json(idVenda))
             .catch(err => res.status(500).send(err))
     }
@@ -108,26 +104,26 @@ module.exports = app => {
 
         // console.log(pagamento.json)
 
-        app.db('vendas')
+        app.db('despesas')
             // .select('*')            
-            .where('vendas.id', '=', req.params.id)
-            .join('clientes', 'vendas.idCliente', '=', 'clientes.id')
-            .join('transportadoras', 'vendas.idTransportadora', '=', 'transportadoras.id')
-            .select('vendas.*', 'clientes.nomeCliente as nomeCliente', 'clientes.id as idCliente', 'clientes.nomeFantasia as nomeFantasia', 'transportadoras.nome as transportadora')
+            .where('despesas.id', '=', req.params.id)
+            .join('clientes', 'despesas.idCliente', '=', 'clientes.id')
+            .join('transportadoras', 'despesas.idTransportadora', '=', 'transportadoras.id')
+            .select('despesas.*', 'clientes.nomeCliente as nomeCliente', 'clientes.id as idCliente', 'clientes.nomeFantasia as nomeFantasia', 'transportadoras.nome as transportadora')
             // .union(app.db('pagamentos_vendas')
             // .select('*')            
             // .where('pagamentos_vendas.idVendas','=', req.params.id))
             // .whereNull('deletedAt')
             // .first()
-            // .then(vendas => app.db('pagamentos_vendas').where('idVendas','=', req.params.id))
-            .then(vendas => res.json(vendas))
+            // .then(despesas => app.db('pagamentos_vendas').where('idVendas','=', req.params.id))
+            .then(despesas => res.json(despesas))
             .catch(err => res.status(500).send(err))
     }
 
     const getQuantidade = (req, res) => {
         app.db('despesas')
             .count('* as quantidade')
-            .then(venda => res.json(venda))
+            .then(despesa => res.json(despesa))
             .catch(err => res.status(500).send(err))
     }
 

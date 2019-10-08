@@ -28,6 +28,10 @@ import ListaInsumo from '@/components/insumos/ListaInsumo'
 import NovoInsumo from '@/components/insumos/NovoInsumo'
 import EditarInsumo from '@/components/insumos/EditarInsumo'
 import Insumo from '@/components/insumos/Insumo'
+import ListaDespesas from '@/components/despesas/ListaDespesas'
+import NovaDespesa from '@/components/despesas/NovaDespesa'
+import EditarDespesa from '@/components/despesas/EditarDespesa'
+import Despesa from '@/components/despesas/Despesa'
 
 
 import {
@@ -145,6 +149,22 @@ const routes = [{
     name: 'editarInsumo',
     path: '/editarInsumo/:id',
     component: EditarInsumo
+},{
+    name: 'despesa',
+    path: '/despesa/:id',
+    component: Despesa
+},{
+    name: 'listaDespesa',
+    path: '/despesas',
+    component: ListaDespesas
+},{
+    name: 'novaDespesa',
+    path: '/novaDespesa',
+    component: NovaDespesa
+},{
+    name: 'editarDespesa',
+    path: '/editarDespesa/:id',
+    component: EditarDespesa
 }]
 
 const router = new VueRouter({

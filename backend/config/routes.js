@@ -109,9 +109,6 @@ module.exports = app => {
     app.route('/fornecedores/nome/:nome')
         .get(app.api.fornecedor.getByName)
 
-    app.route('/quantidadeDespesas')
-        .get(app.api.despesa.getQuantidade)
-
     app.route('/insumos')
         .get(app.api.insumo.get)
         .post(app.api.insumo.save)
@@ -138,4 +135,10 @@ module.exports = app => {
 
     app.route('/insumo/nome/:nome')
         .get(app.api.insumo.getByName)
+
+    app.route('/quantidadeDespesas')
+        .get(app.api.despesa.getQuantidade)
+
+    app.route('/despesas')
+        .get(app.api.despesa.get)
 }
