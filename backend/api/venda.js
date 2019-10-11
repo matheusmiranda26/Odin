@@ -133,9 +133,9 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    const getQuantidadeVendasNoMes = (req, res) => {
+    const getVendasNoMes = (req, res) => {
         app.db('vendas')
-            .count('* as quantidade')
+            .sum('valor as quantidade')
             .whereRaw('MONTH(data) = MONTH(NOW())')
             .whereRaw('YEAR(data) = YEAR(NOW())')
             .then(venda => res.json(venda))
@@ -164,7 +164,7 @@ module.exports = app => {
         getQuantidade,
         getPeriodo,
         getVendaPorDia,
-        getQuantidadeVendasNoMes,
+        getVendasNoMes,
         getPorCliente
     }
 }

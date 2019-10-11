@@ -9,11 +9,24 @@
             <b-form-group label-for="venda-nome">
               <!-- <b-form-input id="venda-nome" type="text" v-model="venda.nomeCliente" required/> -->
               <vue-bootstrap-typeahead
+                prepend="Pesquise"
                 :data="dado"
                 v-model="dadoBusca"
                 :serializer="nome => nome.nome"
                 @hit="dadoSelecionado = $event"
-              />
+                placeholder="Digite o nome"
+              >
+              <div slot="prepend">
+                <b-button disabled >
+                  Pesquise
+                </b-button>
+                </div>
+                <div slot="append">
+                  <button class="btn btn-primary" disabled >
+                    <v-icon name="search" />
+                  </button>
+                </div>
+              </vue-bootstrap-typeahead>
             </b-form-group>
           </b-col>
           <!--<b-col md="1" sm="12">
@@ -37,8 +50,8 @@
     </div>
     <div class="stats">
       <Stat title="Clientes" icon="fa fa-user" color="#d54d50" tabela="Clientes" />
-      <Stat title="Vendas mês atual" icon="fa fa-receipt" color="#3bc480" tabela="VendaMes" />
-      <Stat title="Despesas" icon="fa fa-file" color="#3bc480" tabela="Despesas" />
+      <Stat title="Vendas mês atual" icon="fa fa-receipt" color="#3bc480" tabela="vendaMes" />
+      <Stat title="Despesas mês atual" icon="fa fa-file" color="#3bc480" tabela="despesasMes" />
       <!-- <Stat title="Usuários" :value="stat.users"
       icon="fa fa-user" color="#3282cd"
       -->
@@ -60,7 +73,7 @@
             <span class="text-black-50 dado">{{ insumo.nome }}</span>
           </b-row>
         </b-col>
-         <b-col md="3" sm="12">
+        <b-col md="3" sm="12">
           <b-row class="justify-content-md-center">
             <span class="text-secondary dado">Quantidade:</span>
           </b-row>
@@ -68,7 +81,7 @@
             <span class="text-black-50 dado">{{ insumo.quantidade }}</span>
           </b-row>
         </b-col>
-         <b-col md="3" sm="12">
+        <b-col md="3" sm="12">
           <b-row class="justify-content-md-center">
             <span class="text-secondary dado">Qtd. Minima:</span>
           </b-row>

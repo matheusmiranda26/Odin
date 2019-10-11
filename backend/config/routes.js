@@ -50,8 +50,8 @@ module.exports = app => {
     app.route('/vendaPorDia')
         .get(app.api.venda.getVendaPorDia)
 
-    app.route('/quantidadeVendaMes')
-        .get(app.api.venda.getQuantidadeVendasNoMes)
+    app.route('/vendaMes')
+        .get(app.api.venda.getVendasNoMes)
 
     app.route('/vendaPorCliente/:id')
         .get(app.api.venda.getPorCliente)
@@ -63,7 +63,6 @@ module.exports = app => {
 
     app.route('/vendasPeriodo/:data')
         .get(app.api.venda.getPeriodo)
-
 
     app.route('/quantidadeVendas')
         .get(app.api.venda.getQuantidade)
@@ -136,8 +135,8 @@ module.exports = app => {
     app.route('/insumo/nome/:nome')
         .get(app.api.insumo.getByName)
 
-    app.route('/quantidadeDespesas')
-        .get(app.api.despesa.getQuantidade)
+    app.route('/despesasMes')
+        .get(app.api.despesa.getDespesasNoMes)
 
     app.route('/despesas')
         .get(app.api.despesa.get)
