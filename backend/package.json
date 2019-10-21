@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "eslint": "^6.5.1",
-    "knex": "^0.15.2",
+    "knex": "^0.19.5",
     "nodemon": "1.18.4"
   }
 }
