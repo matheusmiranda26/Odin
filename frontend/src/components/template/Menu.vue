@@ -6,50 +6,34 @@
     </a> -->
     <b-list-group class="list-group-flush mt-3">
       <router-link to="/" @click.native="activeItem = 1">
-        <b-list-group-item :action="true" :class="activeItem === 1 && 'active'">Dashboard</b-list-group-item>
+        <b-list-group-item :action="true" :class="activeItem === 1 && 'active'">Inicio</b-list-group-item>
       </router-link>
       <router-link to="/clientes" @click.native="activeItem = 2">
         <b-list-group-item :action="true" :class="activeItem === 2 && 'active'">Clientes</b-list-group-item>
       </router-link>
+      <router-link to="/despesas" @click.native="activeItem = 8">
+        <b-list-group-item :action="true" :class="activeItem === 8 && 'active'">Despesas</b-list-group-item>
+      </router-link>
       <router-link to="/fornecedores" @click.native="activeItem = 3">
         <b-list-group-item :action="true" :class="activeItem === 3 && 'active'">Fornecedores</b-list-group-item>
       </router-link>
+      <router-link to="/insumos" @click.native="activeItem = 7">
+        <b-list-group-item :action="true" :class="activeItem === 7 && 'active'">Insumos</b-list-group-item>
+      </router-link>
+      <router-link to="/transportadoras" @click.native="activeItem = 6">
+        <b-list-group-item :action="true" :class="activeItem === 6 && 'active'">Transportadoras</b-list-group-item>
+      </router-link>  
       <router-link to="/vendas" @click.native="activeItem = 4">
         <b-list-group-item :action="true" :class="activeItem === 4 && 'active'">Vendas</b-list-group-item>
       </router-link>
       <router-link to="/vendedores" @click.native="activeItem = 5">
         <b-list-group-item :action="true" :class="activeItem === 5 && 'active'">Vendedores</b-list-group-item>
       </router-link>
-      <router-link to="/transportadoras" @click.native="activeItem = 6">
-        <b-list-group-item :action="true" :class="activeItem === 6 && 'active'">Transportadoras</b-list-group-item>
-      </router-link>
+          
       
-      <router-link to="/insumos" @click.native="activeItem = 7">
-        <b-list-group-item :action="true" :class="activeItem === 7 && 'active'">Insumos</b-list-group-item>
-      </router-link>
-      <router-link to="/despesas" @click.native="activeItem = 8">
-        <b-list-group-item :action="true" :class="activeItem === 8 && 'active'">Despesas</b-list-group-item>
-      </router-link>
-      <!-- <router-link to="/admin" @click.native="activeItem = 5">
-        <b-list-group-item :action="true" :class="activeItem === 5 && 'active'">Admin</b-list-group-item>
-      </router-link>
-      <router-link to="/404" @click.native="activeItem = 6">
-        <b-list-group-item :action="true" :class="activeItem === 6 && 'active'">Teste</b-list-group-item>
-      </router-link>
-       <router-link to="/cliente" @click.native="activeItem = 7">
-        <b-list-group-item :action="true" :class="activeItem === 7 && 'active'">Client</b-list-group-item>
-      </router-link> -->
+      
     </b-list-group>
   </aside>
-  <!-- <aside class="menu z-depth-5" v-show="isMenuVisible">
-        <div class="menu-filter">
-            <i class="fa fa-search fa-lg"></i>
-            <input type="text" placeholder="Digite para filtrar..."
-                v-model="treeFilter" class="filter-field">
-        </div>
-        <Tree :data="treeData" :options="treeOptions"
-            :filter="treeFilter" ref="tree" />
-  </aside>-->
 </template>
 
 <script>
