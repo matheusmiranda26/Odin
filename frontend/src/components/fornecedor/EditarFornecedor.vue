@@ -1,5 +1,5 @@
 <template>
-  <div class="editar-fornecedor">
+  <div class="fornecedor">
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card>
       <b-form>

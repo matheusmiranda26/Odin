@@ -112,7 +112,7 @@
                 </b-form-group>
               </b-col>
             </b-row>
-          </b-tab>s
+          </b-tab>
         </b-tabs>
       </b-card>
     </b-card>

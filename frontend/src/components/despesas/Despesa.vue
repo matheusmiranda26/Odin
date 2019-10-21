@@ -4,7 +4,7 @@
     <b-card class="m-3">
       <b-row>
         <b-col cols="auto" class="mr-auto">
-          <!-- <router-link :to="{ name: 'editarCliente', params: { id: venda.id }}">
+          <!-- <router-link :to="{ name: 'editarCliente', params: { id: despesa.id }}">
               <b-button variant="warning">
                 Editar
                 <v-icon name="pen"></v-icon>
@@ -19,13 +19,11 @@
       </b-row>
     </b-card>
     <b-card class="p-4 m-3">
-      <input id="venda-id" type="hidden" v-model="venda.id" />
+      <input id="despesa-id" type="hidden" v-model="despesa.id" />
       <b-row class="titulo-card">
         <b-col md="11" sm="12">
           <p class="m-0 text-primary titulo text-uppercase">
-            <span>{{venda[0].numeroPedido}}</span>
-            <span>- {{venda[0].nome}}</span>
-            <span v-show="venda[0].nomeFantasia != null">- {{venda[0].nomeFantasia}}</span>
+            <span>{{despesa[0].nomeFornecedor}}</span>
           </p>
         </b-col>
       </b-row>
@@ -35,116 +33,61 @@
             <span class="text-secondary label">Data:</span>
           </b-row>
           <b-row class="justify-content-md-center">
-            <span class="text-black-50 dado">{{venda[0].data | moment("DD/MM/YYYY")}}</span>
+            <span class="text-black-50 dado">{{despesa[0].data | moment("DD/MM/YYYY")}}</span>
           </b-row>
         </b-col>
-        <b-col md="3" sm="12">
+        <b-col  v-show="despesa[0].numero != null" md="3" sm="12">
           <b-row class="justify-content-md-center">
-            <span class="text-secondary dado">Nota Fiscal:</span>
+            <span class="text-secondary dado">Número:</span>
           </b-row>
           <b-row class="justify-content-md-center">
-            <span class="text-black-50 dado">{{ venda[0].numeroNF }}</span>
+            <span class="text-black-50 dado">{{ despesa[0].numero }}</span>
           </b-row>
         </b-col>
-        <b-col md="3" sm="12">
+        <b-col  v-show="despesa[0].formaPagamento != null" md="3" sm="12">
           <b-row class="justify-content-md-center">
             <span class="text-secondary dado">Forma:</span>
           </b-row>
           <b-row class="justify-content-md-center">
-            <span class="text-black-50 dado">{{ venda[0].formaPagamento }}</span>
+            <span class="text-black-50 dado">{{ despesa[0].formaPagamento }}</span>
           </b-row>
         </b-col>
-        <b-col md="3" sm="12">
-          <b-row class="justify-content-md-center">
-            <span class="text-secondary dado">Transportadora:</span>
-          </b-row>
-          <b-row class="justify-content-md-center">
-            <span class="text-black-50 dado">{{ venda[0].transportadora }}</span>
-          </b-row>
-        </b-col>
-      </b-row>
-      <b-row class="titulo-card">
         <b-col md="3" sm="12">
           <b-row class="justify-content-md-center">
             <span class="text-secondary dado">Valor:</span>
           </b-row>
           <b-row class="justify-content-md-center">
-            <span class="text-black-50 dado">{{ venda[0].valor | currency }}</span>
+            <span class="text-black-50 dado">{{ despesa[0].valor | currency }}</span>
           </b-row>
         </b-col>
-        <b-col md="3" sm="12">
+      </b-row>
+      <b-row class="titulo-card">
+        <b-col v-show="despesa[0].conta != null" md="3" sm="12">
           <b-row class="justify-content-md-center">
-            <span class="text-secondary dado">Quantidade:</span>
+            <span class="text-secondary dado">Conta:</span>
           </b-row>
           <b-row class="justify-content-md-center">
-            <span class="text-black-50 dado">{{ venda[0].quantidade }}</span>
-          </b-row>
-        </b-col>
-        <b-col md="3" sm="12">
-          <b-row class="justify-content-md-center">
-            <span class="text-secondary dado">Desconto:</span>
-          </b-row>
-          <b-row class="justify-content-md-center">
-            <span class="text-black-50 dado">{{ venda[0].desconto | currency}}</span>
+            <span class="text-black-50 dado">{{ despesa[0].conta }}</span>
           </b-row>
         </b-col>
-        <b-col md="3" sm="12">
+        <b-col  v-show="despesa[0].agencia != null" md="3" sm="12">
           <b-row class="justify-content-md-center">
-            <span class="text-secondary dado">Valor Total:</span>
+            <span class="text-secondary dado">Agência:</span>
           </b-row>
           <b-row class="justify-content-md-center">
-            <span class="text-black-50 dado">{{ venda[0].valorTotal | currency }}</span>
+            <span class="text-black-50 dado">{{ despesa[0].agencia}}</span>
+          </b-row>
+        </b-col>
+          <b-col  v-show="despesa[0].observacao != null" md="3" sm="12">
+          <b-row class="justify-content-md-center">
+            <span class="text-secondary dado">Observacao:</span>
+          </b-row>
+          <b-row class="justify-content-md-center">
+            <span class="text-black-50 dado">{{ despesa[0].observacao}}</span>
           </b-row>
         </b-col>
       </b-row>
       <hr />
-      <b-container align-self="center" align-h="around" v-for="item in pagamentos" :key="item.id">
-        <input id="venda-id" type="hidden" v-model="item.id" />
-        <b-row class="pt-4 pl-0" align-h="around">
-          <b-col align-self="center" md="2" sm="12">
-            <b-row class="justify-content-md-center">
-              <span class="text-secondary dado">Data:</span>
-            </b-row>
-            <b-row class="justify-content-md-center">
-              <span class="text-black-50 dado">{{ item.data | moment("DD/MM/YYYY")}}</span>
-            </b-row>
-          </b-col>
-          <b-col md="2" sm="12">
-            <b-row class="justify-content-md-center">
-              <span class="text-secondary dado">Valor:</span>
-            </b-row>
-            <b-row class="justify-content-md-center">
-              <span class="text-black-50 dado">{{item.valor | currency }}</span>
-            </b-row>
-          </b-col>
-          <b-col md="2" sm="12">
-            <b-row class="justify-content-md-center">
-              <span class="text-secondary dado">Numero:</span>
-            </b-row>
-            <b-row class="justify-content-md-center">
-              <span class="text-black-50 dado">{{item.numeroPagamento}}</span>
-            </b-row>
-          </b-col>
-          <b-col md="2" sm="12">
-            <b-row class="justify-content-md-center">
-              <span class="text-secondary dado">Pagamento:</span>
-            </b-row>
-            <b-row class="justify-content-md-center">
-              <span v-if="item.dataPagamento != 'Invalid date'" class="text-black-50 dado">{{item.dataPagamento| moment("DD/MM/YYYY")}}</span>
-            </b-row>
-          </b-col>
-          <b-col md="2" sm="12">
-            <b-row class="justify-content-md-center">
-              <b-button @click="preencherPagamento(item)" variant="success">
-                <v-icon name="pen" class="mr-3" />Editar
-              </b-button>
-            </b-row>
-          </b-col>
-          <!-- <b-col md="2" sm="12">
-            <b-row><span class="text-black-50 dado">Parcela:</span></b-row><b-row><span class="text-black-50 dado">{{item.numeroParcela}}</span></b-row>
-          </b-col>-->
-        </b-row>
-      </b-container>
     </b-card>
     <div>
       <b-modal
@@ -200,7 +143,7 @@
     <b-card class="bg-transparent border-0">
       <b-row>
         <b-col cols="auto" class="mr-auto">
-          <router-link to="/vendas">
+          <router-link to="/despesas">
             <b-button variant="secondary">
               Voltar
               <v-icon name="long-arrow-alt-left"></v-icon>
@@ -217,11 +160,11 @@ import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 
 export default {
-  name: "Venda",
+  name: "Despesa",
   data: function() {
     return {
       pagamentoVenda: {},
-      venda: {},
+      despesa: {},
       pagamentos: {},
       money: {
         decimal: ",",
@@ -237,8 +180,8 @@ export default {
           to: "/"
         },
         {
-          text: "Vendas",
-          to: "/vendas"
+          text: "Despesas",
+          to: "/despesas"
         },
         {
           text: "Perfil",
@@ -248,10 +191,10 @@ export default {
     };
   },
   methods: {
-    preencherPagamento(venda) {
-      // alert(venda.data);
+    preencherPagamento(despesa) {
+      // alert(despesa.data);
 
-      this.pagamentoVenda = venda;
+      this.pagamentoVenda = despesa;
       this.$refs["modal"].show();
     },
     cadastrarPagamento() {
@@ -267,11 +210,11 @@ export default {
     }
   },
   mounted() {
-    const url = `${baseApiUrl}/vendas/${this.$route.params.id}`;
-    axios.get(url).then(res => (this.venda = res.data));
-    const urlPagamentos = `${baseApiUrl}/pagamentosVendas/vendas/${this.$route.params.id}`;
-    axios.get(urlPagamentos).then(res => (this.pagamentos = res.data));
-    // alert(moment(this.venda.dataCadastro).format('L'))
+    const url = `${baseApiUrl}/despesa/${this.$route.params.id}`;
+    axios.get(url).then(res => (this.despesa = res.data));
+    //const urlPagamentos = `${baseApiUrl}/pagamentosVendas/despesas/${this.$route.params.id}`;
+    //axios.get(urlPagamentos).then(res => (this.pagamentos = res.data));
+    // alert(moment(this.despesa.dataCadastro).format('L'))
   }
 };
 </script>

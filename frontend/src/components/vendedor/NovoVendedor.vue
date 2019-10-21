@@ -1,5 +1,5 @@
 <template>
-  <div class="new-client">
+  <div class="vendedor">
     <!-- <b-container align-self="center"> -->
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card border-variant="primary">
@@ -8,7 +8,7 @@
         <b-row>
           <b-col md="5" sm="12">
             <b-form-group label="Nome do vendedor:" label-for="vendedor-nome">
-              <b-form-input id="vendedor-nome" type="text" v-model="vendedor.nomeCliente" required />
+              <b-form-input id="vendedor-nome" type="text" v-model="vendedor.nome" required />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">

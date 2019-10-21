@@ -140,4 +140,8 @@ module.exports = app => {
 
     app.route('/despesas')
         .get(app.api.despesa.get)
+        .post(app.api.despesa.save)
+
+        app.route('/despesa/:id')
+        .get(app.api.despesa.getById)
 }

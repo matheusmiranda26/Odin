@@ -11,29 +11,29 @@ module.exports = app => {
         const despesa = {
             ...req.body
         }
+        despesa.valor = parseFloat(despesa.valor)
+        console.log(despesa)
         if (req.params.id) despesa.id = req.params.id
 
         try {
             existsOrError(despesa.valor, 'Valor total não informado')
             existsOrError(despesa.data, 'Data não informado')
-            existsOrError(despesa.quantidade, 'Quantidade total não informada')
-            existsOrError(despesa.idCliente, 'Cliente não informado')
             existsOrError(despesa.formaPagamento, 'Forma de Pagamento não informado')
             existsOrError(despesa.condicaoPagamento, 'Condição de Pagamento não informada.')
-            existsOrError(despesa.numeroPedido, 'Pedido não informado.')
-            existsOrError(despesa.idTransportadora, 'Transportadora não informada.')
+            existsOrError(despesa.idFornecedor, 'Transportadora não informada.')
             existsOrError(despesa.valorTotal, 'Valor Total não informado.')
-            existsOrError(despesa.desconto, 'Desconto não informado.')
+            //existsOrError(despesa.desconto, 'Desconto não informado.')
 
         } catch (msg) {
             res.status(400).send(msg)
         }
         // console.log(despesa.pagamentosVendas)
         let pagamentos = {
-            ...despesa.pagamentosVendas,
+            ...despesa.pagamentosDespesas,
         }
 
-        delete despesa.pagamentosVendas
+        delete despesa.pagamentosDespesas
+        console.log(despesa)
         if (despesa.id) {
             app.db('despesas')
                 .update(despesa)
@@ -44,11 +44,12 @@ module.exports = app => {
                 .catch(err => res.status(500).send(err))
         } else {
             app.db('despesas')
-                .returning('id')
+               // .returning('id')
                 .insert(despesa)
-                .then(function (response) {
-                    app.api.pagamentosVendas.savePagamentos(response[0], pagamentos)
-                }).then(_ => res.status(204).send())
+               // .then(function (response) {
+               //     app.api.pagamentosVendas.savePagamentos(response[0], pagamentos)
+               // })
+                .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         }
 
@@ -80,7 +81,8 @@ module.exports = app => {
     const get = async (req, res) => {
 
         app.db('despesas')
-           // .join('clientes', 'despesas.idCliente', '=', 'clientes.id').select('despesas.*', 'clientes.nomeCliente as nomeCliente')
+        .join('fornecedores', 'despesas.idFornecedor', '=', 'fornecedores.id')
+        .select('despesas.*', 'fornecedores.nome as nomeFornecedor', 'fornecedores.id as idFornecedor')
             .whereNull('despesas.deletedAt')
             .then(despesas => {
                 res.json(despesas) //.then(v => vendatotal = v)
@@ -96,26 +98,11 @@ module.exports = app => {
     }
 
     const getById = (req, res) => {
-
-        // let pagamento = app.db('pagamentos_vendas').where({
-        //     idVendas: req.params.idVendas
-        // })
-
-
-        // console.log(pagamento.json)
-
         app.db('despesas')
             // .select('*')            
             .where('despesas.id', '=', req.params.id)
-            .join('clientes', 'despesas.idCliente', '=', 'clientes.id')
-            .join('transportadoras', 'despesas.idTransportadora', '=', 'transportadoras.id')
-            .select('despesas.*', 'clientes.nomeCliente as nomeCliente', 'clientes.id as idCliente', 'clientes.nomeFantasia as nomeFantasia', 'transportadoras.nome as transportadora')
-            // .union(app.db('pagamentos_vendas')
-            // .select('*')            
-            // .where('pagamentos_vendas.idVendas','=', req.params.id))
-            // .whereNull('deletedAt')
-            // .first()
-            // .then(despesas => app.db('pagamentos_vendas').where('idVendas','=', req.params.id))
+            .join('fornecedores', 'despesas.idFornecedor', '=', 'fornecedores.id')
+            .select('despesas.*', 'fornecedores.nome as nomeFornecedor', 'fornecedores.id as idFornecedor')
             .then(despesas => res.json(despesas))
             .catch(err => res.status(500).send(err))
     }
