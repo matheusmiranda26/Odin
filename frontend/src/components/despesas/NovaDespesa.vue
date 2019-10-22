@@ -23,7 +23,7 @@
           </b-col>
           <b-col md="6" sm="12">
             <b-form-group label="Observação:" label-for="despesa-observacao" label-size="lg">
-              <b-form-input id="despesa-observacao" type="text" v-model="despesa.obervacao" />
+              <b-form-input id="despesa-observacao" type="text" v-model="despesa.observacao" />
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">

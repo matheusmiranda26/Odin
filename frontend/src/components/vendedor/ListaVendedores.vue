@@ -16,7 +16,7 @@
           </b-input-group>
         </b-col>
         <b-col md="3" sm="3">
-          <router-link to="/novoCliente">
+          <router-link to="/novoVendedor">
             <b-button variant="success">
               <v-icon name="plus" class="mr-3"/>
               Novo Vendedor              

@@ -5,7 +5,8 @@
     </div>
     <div class="stat-info">
       <span class="stat-title">{{ title }}</span>
-      <span class="stat-value">{{ this.qtd[0].quantidade }}</span>
+      <span v-show="tabela !== 'Clientes'" class="stat-value">{{ this.qtd[0].quantidade != null ? this.qtd[0].quantidade : 0 | currency}}</span>
+      <span v-show="tabela == 'Clientes'" class="stat-value">{{ this.qtd[0].quantidade != null ? this.qtd[0].quantidade : 0 }}</span>
     </div>
   </div>
 </template>
@@ -28,14 +29,19 @@ export default {
     }
   },
   methods: {
-    quantidade() {        
-      axios.get(`${baseApiUrl}/quantidade${this.tabela}`).then(res => {
-        this.qtd = res.data;
-      });
+    quantidade() {
+      if (this.tabela == "Clientes") {
+        axios.get(`${baseApiUrl}/quantidade${this.tabela}`).then(res => {
+          this.qtd = res.data;
+        });
+      } else {
+        axios.get(`${baseApiUrl}/${this.tabela}`).then(res => {
+          this.qtd = res.data.quantidade !== null ? res.data : 0;
+        });
+      }
     }
   },
   mounted() {
-    
     this.quantidade();
   }
 };

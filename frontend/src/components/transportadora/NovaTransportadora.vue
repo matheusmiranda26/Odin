@@ -1,5 +1,5 @@
 <template>
-  <div class="new-client">
+  <div class="transportadora">
     <!-- <b-container align-self="center"> -->
     <b-breadcrumb class="breadcrumb" :items="items"></b-breadcrumb>
     <b-card border-variant="primary">

@@ -32,8 +32,8 @@
           <b-row>
             <p
               class="dado"
-              :class="[vendedor.status == '1' ? 'text-danger' : 'text-success' ]"
-            >{{ vendedor.status == '1' ? 'Inativo' : 'Ativo' }}</p>
+              :class="[vendedor.status == '0' ? 'text-danger' : 'text-success' ]"
+            >{{ vendedor.status == '0' ? 'Inativo' : 'Ativo' }}</p>
           </b-row>
         </b-col>
       </b-row>
