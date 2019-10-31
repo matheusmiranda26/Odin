@@ -18,8 +18,9 @@
         <b-col md="4" sm="3">
           <router-link to="/novaTransportadora">
             <b-button variant="success">
+              <v-icon name="plus" class="mr-2" />
               Nova Transportadora
-              <v-icon name="plus"></v-icon>
+      
             </b-button>
           </router-link>
         </b-col>
