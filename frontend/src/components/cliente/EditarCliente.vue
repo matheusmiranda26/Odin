@@ -210,7 +210,7 @@
                 v-model="cliente.cep"
                 type="tel"
                 v-mask="'#####-###'"
-                required
+                v-on:keyup="buscarCep"
               />
             </b-form-group>
           </b-col>
@@ -293,6 +293,7 @@
 <script>
 import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
+import cep from "cep-promise";
 
 export default {
   name: "EditarCliente",
@@ -349,8 +350,18 @@ export default {
           return 0;
         });
         this.vendedores = vendedoresAtivos.map(vendedor => {
-          return { value: vendedor.id, text: vendedor.apelido };
+          return { value: vendedor.id, text: vendedor.nome };
         });
+      });
+    },
+    buscarCep() {
+      cep(this.cliente.cep).then(cep => {
+        
+        this.cliente.endereco = cep.street;
+        this.cliente.cidade = cep.city
+        this.cliente.estado = cep.state
+        this.cliente.bairro = cep.neighborhood
+        alert(this.cliente.endereco)  
       });
     },
     validateState(ref) {

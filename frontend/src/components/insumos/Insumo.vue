@@ -6,8 +6,9 @@
         <b-col cols="auto" class="mr-auto">
           <router-link :to="{ name: 'editarInsumo', params: { id: insumo.id }}">
             <b-button variant="warning">
+              <v-icon name="pen" class="mr-3"/>
               Editar
-              <v-icon name="pen"></v-icon>
+              
             </b-button>
           </router-link>
         </b-col>

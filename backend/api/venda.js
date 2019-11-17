@@ -1,6 +1,6 @@
 const queries = require('./queries')
 const pagamentos = require('./pagamentosVendas')
-//import moment from "moment";
+
 module.exports = app => {
     const {
         existsOrError
@@ -135,7 +135,7 @@ module.exports = app => {
 
     const getVendasNoMes = (req, res) => {
         app.db('vendas')
-            .sum('valor as quantidade')
+            .sum('valorTotal as quantidade')
             .whereRaw('MONTH(data) = MONTH(NOW())')
             .whereRaw('YEAR(data) = YEAR(NOW())')
             .then(venda => res.json(venda))
@@ -154,6 +154,31 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
+    const getVendaPorAno = (req, res) => {
+        app.db('vendas')
+            .select(app.db.raw('MONTH(data) as mes'))
+            //.raw('MONTH(vendas)')
+            .sum('quantidade as quantidade')
+            .whereRaw('YEAR(data) = YEAR(NOW())')
+            .orderByRaw('MONTH(data)')
+            .groupByRaw('MONTH(data)')            
+            .then(vendas => res.json((vendas)))
+            .catch(err => res.status(500).send(err))
+    }
+
+    const getVendaPorVendedor = (req, res) => {
+        app.db('vendas')
+            .select('vendas.data', 'vendedores.nome')
+            .sum('vendas.quantidade as quantidade')
+            .whereRaw('YEAR(vendas.data) = YEAR(NOW())')
+            .join('clientes','vendas.idCliente', '=', 'clientes.id')
+            .join('vendedores', 'clientes.idVendedor', '=', 'vendedores.id')
+            .groupBy('vendas.data', 'vendedores.nome')
+            .orderBy('vendedores.nome', 'vendas.data')
+            .then(vendas => res.json(vendas))
+            .catch(err => res.status(500).send(err))
+    }
+
 
     return {
         save,
@@ -165,6 +190,8 @@ module.exports = app => {
         getPeriodo,
         getVendaPorDia,
         getVendasNoMes,
-        getPorCliente
+        getPorCliente,
+        getVendaPorVendedor,
+        getVendaPorAno
     }
 }

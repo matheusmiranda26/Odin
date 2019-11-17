@@ -50,6 +50,13 @@ module.exports = app => {
     app.route('/vendaPorDia')
         .get(app.api.venda.getVendaPorDia)
 
+        app.route('/vendaPorAno')
+        .get(app.api.venda.getVendaPorAno)
+
+
+        app.route('/vendaPorVendedor')
+        .get(app.api.venda.getVendaPorVendedor)
+
     app.route('/vendaMes')
         .get(app.api.venda.getVendasNoMes)
 

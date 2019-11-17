@@ -20,7 +20,7 @@
                 v-model="cliente.nome"
                 v-validate="{ required: true, min: 3 }"
                 :state="validateState('cliente-nome')"
-              />
+              />cetoacidose ─────────────────
             </b-form-group>
           </b-col>
 
@@ -216,7 +216,7 @@
                 v-validate="{ required: true, min: 9 }"
                 :state="validateState('cliente-cep')"
                 name="cliente-cep"
-                v-on:keyup="buscarCep"
+                v-on:keyup="buscarCep()"
               />
             </b-form-group>
           </b-col>
@@ -368,12 +368,11 @@ export default {
     },
     buscarCep() {
       cep(this.cliente.cep).then(cep => {
-        alert(cep.state);
         this.cliente.endereco = cep.street;
         this.cliente.cidade = cep.city;
         this.cliente.estado = cep.state;
         this.cliente.bairro = cep.neighborhood;
-      }).catch(showError)
+      })//.catch(showError)
     },
     validateState(ref) {
       if (

@@ -62,6 +62,13 @@
           </div>
         </div>
       </b-container>
+       <b-container>
+        <div class="col-12">
+          <div class="box">
+            <canvas id="grafico-vendas-ano" width="100%" height="20%"></canvas>
+          </div>
+        </div>
+      </b-container>
     </div>
     <b-modal ref="modal" id="modal-center" centered title="Insumos Acabando" size="xl">
       <b-row v-for="insumo in insumos" :key="insumo.id">
@@ -131,6 +138,8 @@ export default {
       vendas: [],
       dataVendas: [],
       quantidadeVendas: [],
+      quantidadeVendasAno:[],
+      dataVendasAno:[],
       insumos: {}
     };
   },
@@ -174,6 +183,34 @@ export default {
           }
         }
       });
+    }),
+    quantidadeVendasAno: _.debounce(function() {
+      var ctx = document.getElementById("grafico-vendas-ano");
+      this.chart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: this.dataVendasAno,
+          datasets: [
+            {
+              label: "Vendas",
+              backgroundColor: "rgba(54, 162, 235, 0.5)",
+              borderColor: "rgb(54, 162, 235)",
+              fill: false,
+              data: this.quantidadeVendasAno
+            }
+          ]
+        },
+        options: {
+          title: {
+            display: true,
+            text: "Quantidade de Vendas Ano",
+            fontSize: 15
+          },
+          legend: {
+            display: false
+          }
+        }
+      });
     })
   },
   methods: {
@@ -202,6 +239,21 @@ export default {
           return moment(venda.data).format("DD/MM/YYYY");
         });
         this.quantidadeVendas = res.data.map(venda => {
+          return venda.quantidade;
+        });
+        this.vendas = res.data;
+      });
+      this.loaded = true;
+    } catch (error) {
+      showError(error);
+    }
+
+     try {
+      axios.get(`${baseApiUrl}/vendaPorAno`).then(res => {
+        this.dataVendasAno = res.data.map(venda => {          
+          return moment().month(venda.mes - 1).locale('pt-br').format('MMMM');
+        });
+        this.quantidadeVendasAno = res.data.map(venda => {
           return venda.quantidade;
         });
         this.vendas = res.data;
