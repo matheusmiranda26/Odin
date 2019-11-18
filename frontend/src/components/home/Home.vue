@@ -193,8 +193,8 @@ export default {
           datasets: [
             {
               label: "Vendas",
-              backgroundColor: "rgba(54, 162, 235, 0.5)",
-              borderColor: "rgb(54, 162, 235)",
+              backgroundColor: "rgba(255, 100, 0, 0.5)",
+              borderColor: "rgb(255, 100, 0)",
               fill: false,
               data: this.quantidadeVendasAno
             }
