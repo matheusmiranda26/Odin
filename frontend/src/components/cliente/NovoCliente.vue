@@ -20,7 +20,7 @@
                 v-model="cliente.nome"
                 v-validate="{ required: true, min: 3 }"
                 :state="validateState('cliente-nome')"
-              />cetoacidose ─────────────────
+              />
             </b-form-group>
           </b-col>
 
@@ -110,7 +110,15 @@
             </b-form-group>
           </b-col>
           <b-col md="3" sm="12">
-            <b-form-group label="Data Fundação:" label-for="cliente-data" label-size="lg">
+            <b-form-group
+              v-if="cliente.tipoCliente === 'fisica'"
+              label="Data de Nascimento:"
+              label-for="cliente-data"
+              label-size="lg"
+            >
+              <b-form-input id="cliente-data" type="date" v-model="cliente.dataFundacao" />
+            </b-form-group>
+            <b-form-group v-else label="Data Fundação:" label-for="cliente-data" label-size="lg">
               <b-form-input id="cliente-data" type="date" v-model="cliente.dataFundacao" />
             </b-form-group>
           </b-col>
@@ -310,10 +318,10 @@ export default {
       cliente: {
         status: 1,
         tipoCliente: "juridica",
-        endereco: '',
-        cidade: '',
-        estado: '',
-        bairro: ''
+        endereco: "",
+        cidade: "",
+        estado: "",
+        bairro: ""
       },
       vendedores: [],
       //   status: 'ativo',
@@ -367,12 +375,16 @@ export default {
       });
     },
     buscarCep() {
-      cep(this.cliente.cep).then(cep => {
-        this.cliente.endereco = cep.street;
-        this.cliente.cidade = cep.city;
-        this.cliente.estado = cep.state;
-        this.cliente.bairro = cep.neighborhood;
-      })//.catch(showError)
+      if (this.cliente.cep.length > 8) {
+        cep(this.cliente.cep)
+          .then(cep => {
+            this.cliente.endereco = cep.street;
+            this.cliente.cidade = cep.city;
+            this.cliente.estado = cep.state;
+            this.cliente.bairro = cep.neighborhood;
+          })
+          .catch(e => console.log(e));
+      }
     },
     validateState(ref) {
       if (
