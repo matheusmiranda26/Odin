@@ -279,6 +279,7 @@ import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import _ from "underscore";
+import moment from "moment"
 
 export default {
   name: "NovaVenda",
@@ -355,13 +356,10 @@ export default {
       await axios.get(url).then(res => (this.transportadoras = res.data));
     },
     preencherPagamentos() {
-      // this.venda.valor = this.venda.valor.replace(",", ".").split('R$ ')[1];
-      // alert(this.venda.condicaoPagamento)
       this.pagamentosVendas = [];
       this.venda.valorTotal = this.venda.valor - this.venda.desconto;
       let dataParcela = this.venda.data;
       for (let i = 0; i < parseInt(this.venda.condicaoPagamento); i++) {
-        // alert("aqui")
         dataParcela = moment(dataParcela)
           .add(1, "month")
           .format("YYYY-MM-DD");
