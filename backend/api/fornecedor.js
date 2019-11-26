@@ -88,7 +88,7 @@ module.exports = app => {
 
     const getFornecedor = (req, res) => {
         app.db('fornecedores')
-            .distinct('id','nome')
+            .distinct('id','nome','nomeFantasia')
             .then(fornecedor => res.json(fornecedor))
             .catch(err => res.status(500).send(err))
     }
