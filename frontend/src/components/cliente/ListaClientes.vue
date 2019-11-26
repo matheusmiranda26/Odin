@@ -18,8 +18,7 @@
         <b-col md="3" sm="3">
           <router-link to="/novoCliente">
             <b-button variant="success">
-              <v-icon name="plus" class="mr-2"/>
-              Novo Cliente              
+              <v-icon name="plus" class="mr-2" />Novo Cliente
             </b-button>
           </router-link>
         </b-col>
@@ -43,7 +42,7 @@
             </b-button>
           </router-link>
 
-          <b-button variant="danger" @click="remover(data.item.id)">
+          <b-button v-b-modal.modal-sm variant="danger" @click="clienteRemover = data.item">
             <v-icon name="trash"></v-icon>
           </b-button>
         </div>
@@ -64,6 +63,22 @@
         </b-col>
       </b-row>
     </b-card>
+    <b-modal centered id="modal-sm" title="Remover cliente" @ok="remover(clienteRemover.id)">
+      <div class="d-block text-center">Tem certeza que deseja excluir {{clienteRemover.nome}}?</div>
+       <template v-slot:modal-footer>
+        <div class="w-100">
+          <p class="float-left">Modal Footer Content</p>
+          <b-button
+            variant="danger"
+            size="sm"
+            class="float-right"
+            @click="remover(clienteRemover.id)"
+          >
+            Excluir
+          </b-button>
+        </div>
+      </template>
+    </b-modal>
   </div>
 </template>
 
@@ -80,6 +95,7 @@ export default {
       mode: "save",
       isLoading: false,
       clientes: [],
+      clienteRemover: {},
       fields: [
         // { key: "id", label: "Código", sortable: true },
         { key: "nome", label: "Nome", sortable: true },
