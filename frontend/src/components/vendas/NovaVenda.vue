@@ -264,7 +264,7 @@
       <b-row>
         <b-col xs="12">
           <b-button variant="primary" @click="save" :disabled="veeErrors.any()">Salvar</b-button>
-          <b-button variant="success" class="ml-2 white-text" @click="edit()">Imprimir</b-button>
+         <!-- <b-button variant="success" class="ml-2 white-text" @click="imprimir()">Imprimir</b-button> -->
           <router-link to="/vendas">
             <b-button variant="secondary" class="ml-2 white-text" @click="resetClient()">Cancelar</b-button>
           </router-link>
@@ -279,9 +279,6 @@ import { baseApiUrl, showError } from "@/global";
 import axios from "axios";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import _ from "underscore";
-import moment from "moment";
-
-// import BootstrapToggle from "vue-bootstrap-toggle";
 
 export default {
   name: "NovaVenda",
@@ -396,6 +393,8 @@ export default {
         }
         // this.save();
       });
+    },
+    imprimir(){     
     }
   },
   watch: {
