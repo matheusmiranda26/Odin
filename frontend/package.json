@@ -29,7 +29,7 @@
     "vue-currency-filter": "^3.4.2",
     "vue-gravatar": "1.2.1",
     "vue-loading": "^0.1.4",
-    "vue-moment": "^4.0.0",
+    "vue-moment": "^4.1.0",
     "vue-mq": "0.2.1",
     "vue-router": "3.0.1",
     "vue-sidebar-menu": "^4.2.3",
