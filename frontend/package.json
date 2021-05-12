@@ -14,7 +14,7 @@
     "axios": "^0.19.0",
     "bootstrap-vue": "^2.0.0-rc.19",
     "cep-promise": "^3.0.7",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "cls-bluebird": "^2.1.0",
     "fix": "0.0.6",
     "font-awesome": "^4.7.0",
